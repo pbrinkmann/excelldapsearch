@@ -1,0 +1,94 @@
+
+Remaining TODOs:
+
+-- code
+[ ] Make searches more effient by:
+	( ) Only requesting attributes that are required (right now ALL attributes are returned, but only certain ones are needed)
+	( ) For treeview searches, only request the DN or something, we don't actually need any attributes other than the name
+[ ] Add an option for search results to appear with a single selected cell as the top/left corner
+[ ] Provide a GUI to edit the config file
+[ ] Detect multiple versions of Excel installed on the computer and remind user they can manually install to the other versions
+[ ] Simplify CCollection code by automatically setting the GetNextItem() iterator to 0 and doing away with GetFirstItem()
+		Might have to add a resetCollection() method to manually set iterator back to 0 if someone wants to iterate a collection twice
+[ ] Experiment with making tree browser item operations asynchronous - fire up a search thread that posts messages back
+		as it find the items
+[ ] get some sort of INI file missing error instead of trying to use default values if there's no INI file or it's invalid
+		-I sorted did this by replacing the default values with an error messages, we'll see if this does anything useful
+[ ] Tell user they need to close/open (or add a refresh button?) if they edit the config file
+		
+-- install process
+[ ] Look at digitally signing the macro template (or find another way to avoid the "Enable Macros" annoyance)
+[ ] Automate the build steps (especially updating the version # in all the various locations)
+[ ] maybe install add-in in official location so it appears in the add-ins menu?
+
+
+-- documentation/other
+[ ] Add more screenshots to readme (maybe show some thumbnails w/links to larger pic) and upload to sourceforge
+[ ] Include version information in
+	( ) excel source/form - maybe have a ?   about box thingy with a link to homepage
+	(X) dll 
+	(X) install scripts/installer exe
+[ ] Test on various offices, 97, 2000, XP and on Windows 2000 and vista (use virtual PC OR VOLUNTEERs *hint hint* e-mail me: paul@paulb.org)
+[ ] Get an icon for the project
+
+
+
+Releases:
+
+Alpha 0_05
+2/XX/2008
+--new stuff
+
+[X] tree display for selecting basedn for searches
+[X] Add a "Are you sure you want to overwrite everything? [ ] show this box again" popup to the overwriting search
+[X] Open the GUI showing the last tab the user had open
+[X] License/file header in all source files
+
+--fixes
+[ ] FIX THE SVN LAYOUT so the stupid tags thing works properly
+
+Alpha 0_04a
+2/25/2008
+--fixes
+[X] Wouldn't install unless files already existed (Whoops)
+
+Alpha 0_04
+2/23/2008
+-- new stuff
+[X] try converting to an Excel add-in instead of using the .xlt file type
+[X] Allow returning of the entry DN
+[X] Check for installing when any of the files are locked
+[X] Check for uninstalling when any of the files are locked
+[X] Add a button to launch the config file in a text editor
+[X] Add/Remove programs item for installer
+[X] Implement using the rest of the config file, so users can decide which params to return
+[X] Make which attributes are available when searching for existing data a user configurable item
+
+-- fixed stuff
+[X] Fix bug where "Method 'Connection' of object 'ILdapSearch' failed" popup happens after repeatedly searching
+    with invalid searches  -- I haven't seen this in a while so I'm gonna call it fixed
+
+    
+Alpha 0_03
+2/20/2008
+-- new stuff
+[X] Put up some flash videos demoing the program
+[X] Return LDAP search error messages from search COM object
+[X] Have Query Builder remember its last search, so if user wants to make tweaks they don't have to rebuild entire search
+
+-- fixed stuff
+[X] Fix issue where givenname isn't returned (testing with U of Wash server, it was case sensitive)
+[X] Fix bug with "is not" in query builder
+[X] Fix bug with running AddToolsMenuItem Sub when not using the default install directory
+
+
+Alpha 0_02
+02/18/2008
+[X] Create an installer, instead of using the gawdawful vbs script
+[X] Create an uninstall process
+[X] Include contact information (e-mail in readme)
+
+
+Alpha 0_01
+2/10/2008
+[X] Release the damn thing to Sourceforge

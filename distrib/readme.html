@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title> Excel LDAP Search Version 0.04 README </title>
+<style type="text/css">
+<!--
+.imageleft, .imageright {
+	border: thin solid #000000;
+}
+
+.imageright {
+	float: right;
+	margin-left: 10px;
+}
+
+.imageleft {
+	float: left;
+	margin-right: 25px;
+}
+
+.imagerightheader, .imageleftheader {
+	background-color: #66CCFF;
+	text-align: left;
+	padding: 3px;
+	border-top-width: thin;
+	border-top-style: solid;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+	border-top-color: #333333;
+}
+
+.spacer {
+	clear: both;
+}
+-->
+</style>
+</head>
+<body>
+
+<div align="center">
+  <h1><a href="http://excelldapsearch.sourceforge.net">Excel LDAP Search</a></h1>
+    
+  <h2>Version 0.04<br>
+  </h2>
+  2/23/2008<br>
+  <br>
+  <a href="https://sourceforge.net/project/showfiles.php?group_id=216793">download</a> | <a href="TODO.txt">change log</a>
+  <br>
+  <br>
+  Author: <a href="mailto:paul@paulb.org">Paul Brinkmann</a>
+  
+</div>
+<p>&nbsp;</p>
+<h3>Overview</h3>
+<p>
+<div class="imageright">
+	 <img src="readme_images/per_row_results.png">
+	 <div class="imagerightheader">Figure 1. Row-by-row search</div>
+</div>
+<p>Excel LDAP Search (ELS) is an Excel add-in that allows LDAP searches
+ to be made from within Microsoft Excel. ELS can be used to add LDAP data
+ to existing data in an Excel document on a row-by-row basis (see Figure 1),
+ or populate a blank sheet based on a custom query.</p>
+  <p><i>Limitations:</i> ELS was designed for a fairly basic LDAP environment.  Some features that are (currently) not supported
+  are SSL, certificate authentication, and referral following.</p>
+<p>I put together a couple of flash demo movies that show typical ELS usage for a running a query to fill in a blank Excel sheet 
+  and for adding new row data to existing Excel entries:</p>
+
+<div class="imageleft">
+<a href="http://excelldapsearch.sourceforge.net/empty%20sheet%20LDAP%20search.swf.html"><img src="readme_images/blank_demo_thumb.png" width="300" height="249" border="0"></a>
+<div class="imageleftheader">Movie: Filling in a blank worksheet</div>
+</div>
+<div class="imageleft">
+   <a href="http://excelldapsearch.sourceforge.net/existing%20excel%20data%20demo.swf.html"><img src="readme_images/existing_demo_thumb.png" width="300" height="249" border="0"></a>
+   <div class="imageleftheader">Movie: Adding new row data from LDAP</div>
+ </div>
+<div class="spacer">&nbsp;</div>
+   
+<h3>Requirements</h3>
+<p>I've tested using OpenLDAP 2.0.27 on Windows XP and Excel 2003/2007. It uses the <a href="http://www.mozilla.org/directory/csdk-docs/">Mozilla 
+  LDAP SDK</a> so it should work with any LDAP-v3 compliant directory server, 
+  and Excel (97?)2000 to 2007.</p>If anyone's successfully used this on another config, or has had any problems, <a href="mailto:paul@paulb.org">send me an e-mail</a>!  There's a chance someone else out there's in the same position as you.
+<h3>Installation Instructions</h3>
+Make sure all instances of Excel are closed.
+<p> Run the <em>excelldapsearchinstall_x_y.exe</em> file. This will copy the necessary 
+  files, and register everything with the system. It also opens up the config 
+  file where you can specify your connection parameters. </p>
+<p>If you have multiple versions of Excel installed, only the latest will have 
+  the Tools menu item registered. To manually enable it in an older version, use 
+  that version to open the &quot;ldapquery_addin.xla&quot; document in the directory 
+  where Excel LDAP Search was installed. Press ALT-F11 to enter the macro editor and
+  select the &quot;ldapquery_addin.xla&quot; project from the project explorer (if the project explorer 
+  isn't displayed, look under the &quot;View&quot; menu).  Expand the &quot;Modules&quot; item and doubleclick
+  &quot;ldapQueryFormMacro&quot;.  Look for the &quot;Sub AddToolsMenuItem()&quot; line, click anywhere on it
+  with the mouse, then from the menu bar select "Run->Run Sub/User Form" or click the toolbar button with the play icon.</p>
+<h3>Uninstall Instructions</h3>
+Make sure all instances of Excel are closed<br>
+<p> Remove via Control Panel->Add/Remove Programs. </p>
+<p>If you manually added the Tools &quot;Run LDAP Search&quot; menu item to more 
+  than one version of Excel, you can remove it by clicking &quot;Tools-&gt;Customize...&quot;, 
+  then opening the Tools menu again and dragging the menu item off.</p>
+<h3>Usage</h3>
+<p>After install, fire up Excel and take a peek under the &quot;Tools&quot; menu. 
+  There should be a &quot;Run LDAP Search&quot; menu item now. Click that to bring 
+  up the search GUI. </p>
+  <p>
+Excel 2007 users - since there is no "Tools" menu in 2007, this ends up showing up in the 
+"Add Ins" ribbon bar thingy, but seems to work just fine.
+</p>
+
+<ul><li>Adding LDAP Data to Existing Excel Data</li></ul>
+<p>The default option is to &quot;Add LDAP data to existing rows&quot; which requires 
+  a column of data where each row has an item that uniquely identfies a user (ex., 
+  a column of user IDs or e-mail addresses). If you want to get more information 
+  (ex., a mailing address or the user's full name) for each row from your directory 
+  server, set the column as the &quot;data range&quot; in step 1)</p>
+<p> <img src="readme_images/data_range.png" width="397" height="72"></p>
+<p>Make sure the correct attribute is selected in step 2), the &quot;User ID&quot; 
+  in this case:</p>
+<p><img src="readme_images/search_attribute.png" width="316" height="48"></p>
+<p>By default, the results will be added one column to the right of the data range. 
+  If you want to place them further to the right, increase the column offset</p>
+<p><img src="readme_images/column_offset.png" width="373" height="47"></p>
+<p>Select whatever attribute(s) you want returned. In this example, two new columns 
+  will be added, one for the users' full names and another for their e-mails</p>
+<p><img src="readme_images/return_attributes.png" width="298" height="100"></p>
+<p>Click the search button to run the search.</p>
+<p>&nbsp;</p>
+
+<ul><li>Add LDAP Search Results to Empty Excel Sheet</li></ul>
+<p>The other option is to run a free-form LDAP query and <strong>replace all existing 
+  data on the sheet WITHOUT PROMPTING</strong> with results from the query. You can enter a query 
+  manually using the <a href="http://www.mozilla.org/directory/csdk-docs/search.htm#c6-specifying-a-search-filter">LDAP
+  filter syntax</a>, or click the &quot;&lt;&lt;&quot; button for help building 
+  the query filter. This example query will find all the Pauls:</p>
+<p><img src="readme_images/query_string.png" width="399" height="49"></p>
+<p>Select which attribute(s) you want returned and click the search button:</p>
+<p><img src="readme_images/return_attributes_freeform.png" width="235" height="104"></p>
+<p>&nbsp;</p>
+</body>
+</html>

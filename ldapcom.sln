@@ -1,0 +1,49 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ldaplib", "ldaplib\ldaplib.vcproj", "{6FE2BA7A-CB88-469D-BCB8-D0B6F801AC19}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ldaplibtest", "ldaplibtest\ldaplibtest.vcproj", "{1DF0DC00-A394-45A8-B3D9-3554888DEE24}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6FE2BA7A-CB88-469D-BCB8-D0B6F801AC19} = {6FE2BA7A-CB88-469D-BCB8-D0B6F801AC19}
+		{6FE2BA7A-CB88-469D-BCB8-D0B6F801AC19} = {6FE2BA7A-CB88-469D-BCB8-D0B6F801AC19}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LdapQuery", "LdapQuery\LdapQuery.vcproj", "{AA4DDCE1-7A42-43BA-AC0E-EB81AC1684EA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6FE2BA7A-CB88-469D-BCB8-D0B6F801AC19} = {6FE2BA7A-CB88-469D-BCB8-D0B6F801AC19}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LdapQueryPS", "LdapQuery\LdapQueryPS.vcproj", "{BF1C2BC1-4732-47D8-AD0A-286CE4C53E9F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AA4DDCE1-7A42-43BA-AC0E-EB81AC1684EA} = {AA4DDCE1-7A42-43BA-AC0E-EB81AC1684EA}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectDependencies) = postSolution
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{6FE2BA7A-CB88-469D-BCB8-D0B6F801AC19}.Debug.ActiveCfg = Debug|Win32
+		{6FE2BA7A-CB88-469D-BCB8-D0B6F801AC19}.Debug.Build.0 = Debug|Win32
+		{6FE2BA7A-CB88-469D-BCB8-D0B6F801AC19}.Release.ActiveCfg = Release|Win32
+		{6FE2BA7A-CB88-469D-BCB8-D0B6F801AC19}.Release.Build.0 = Release|Win32
+		{1DF0DC00-A394-45A8-B3D9-3554888DEE24}.Debug.ActiveCfg = Debug|Win32
+		{1DF0DC00-A394-45A8-B3D9-3554888DEE24}.Debug.Build.0 = Debug|Win32
+		{1DF0DC00-A394-45A8-B3D9-3554888DEE24}.Release.ActiveCfg = Release|Win32
+		{1DF0DC00-A394-45A8-B3D9-3554888DEE24}.Release.Build.0 = Release|Win32
+		{AA4DDCE1-7A42-43BA-AC0E-EB81AC1684EA}.Debug.ActiveCfg = Debug|Win32
+		{AA4DDCE1-7A42-43BA-AC0E-EB81AC1684EA}.Debug.Build.0 = Debug|Win32
+		{AA4DDCE1-7A42-43BA-AC0E-EB81AC1684EA}.Release.ActiveCfg = Release|Win32
+		{AA4DDCE1-7A42-43BA-AC0E-EB81AC1684EA}.Release.Build.0 = Release|Win32
+		{BF1C2BC1-4732-47D8-AD0A-286CE4C53E9F}.Debug.ActiveCfg = Debug|Win32
+		{BF1C2BC1-4732-47D8-AD0A-286CE4C53E9F}.Release.ActiveCfg = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

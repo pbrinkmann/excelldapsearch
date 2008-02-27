@@ -1,0 +1,42 @@
+
+Build Instructions
+------------------------------------------------------------------------------------------------------------------
+
+PREREQS:
+
+A) Download the Mozilla C SDK from http://ftp.mozilla.org/pub/mozilla.org/directory/c-sdk/releases/v5.17/WINNT5.0_OPT.OBJ/
+and extract to "ldapsdk" directory.
+
+B) Download and install the NSIS installer from http://nsis.sourceforge.net/Download
+
+------------------------------------------------------------------------------------------------------------------
+Steps:
+
+++ CODE ++
+
+1) Compile the visual studio project, you should end up with an LdapQuery.dll that needs to be registered on the target system (regsvr32 LdapQuery.dll).
+
+2) To prepare the Excel macro file, the "MASTERCOPY.xls" in the "excel" dir contains the master copy of the Excel VB code.  Open it up, export to the same directory the two forms ("frmLdapQuery" and "frmQueryBuilder") and the module ("ldapQueryFormMacros").  Exporting these will update the .frx, .frm, and .bas files.  This isn't strictly necessary anymore, but it does put the code in an easily diff-able text format.
+
+3) Save a copy of the "MASTERCOPY.xls" document in the "distrib" directory as "ldapquery_addin.xla" with the filetype "Excel Add-in (97-2003)".  TIP: Beware that changing the filetype from .xls to .xla will change the current save-to directory (grrr), so it's easier to change the filetype to .xla FIRST, then pick the save-to directory
+
+++ DOCS ++
+
+4) Edit the TODO.txt file, change the version and make any other necessary changes
+
+5) Edit the readme.html file, change the version and make any other necessary changes
+
+6) Run the "copyfiles.bat" file in the "distrib" directory.  This'll prep it for uploading to the web server, as well as grab the latest "LdapQuery.dll" file and put it in the "distrib" directory.
+
+7) Upload distrib\WEB directory to the webserver
+
+++ INSTALLER ++
+
+8) Edit the installer script ("NSIS installer\install script.nsi"), change the versions and make any other necessary changes.  Be sure to include any new files in the delete section!
+
+9) Build the Nullsoft installer by opening the "NSIS installer" directory, right clicking the "install script.nsi" file and selecting "Compile NSIS Script".  If you don't have those options on the context menu, make sure you installed NSIS (prereq step B).  You should end up with a "excelldapsearchinstall_Y_XX.exe" file.
+
+++ SOURCEFORGE ++
+10) Create a new release named alpha_X_YY, add the two uploaded files (.zip and .exe), paste in the change notes and be sure to check the "preserve formatting" box.
+
+11) Set the default download to the latest .exe
