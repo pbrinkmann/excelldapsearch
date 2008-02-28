@@ -1,5 +1,28 @@
 
-Remaining TODOs:
+=============================
+-----[ Latest Release ] -----
+=============================
+
+Beta 0_10
+2/27/2008
+
+All of the critical features are in place as of now, and I haven't run across any surprise bugs in a while.
+Let's call this release a Beta release :)
+
+--new stuff
+
+[X] tree display for selecting basedn for searches
+[X] Add a "Are you sure you want to overwrite everything? [ ] show this box again" popup to the overwriting search
+[X] Open the GUI showing the last tab the user had open
+[X] GPL License in all source files
+
+--fixes
+[X] FIX THE SVN LAYOUT so the stupid tags thing works properly
+[X] Work around the "Compile error: Can't find project or library" error by handling unique attribute detection in the .dll
+
+==============================
+-----[ Remaining TODOs ] -----
+==============================
 
 -- code
 [ ] Make searches more effient by:
@@ -17,35 +40,23 @@ Remaining TODOs:
 [ ] Tell user they need to close/open (or add a refresh button?) if they edit the config file
 		
 -- install process
-[ ] Look at digitally signing the macro template (or find another way to avoid the "Enable Macros" annoyance)
+[ ] Look at digitally signing the addin macro file (or find another way to avoid the "Enable Macros" annoyance)
 [ ] Automate the build steps (especially updating the version # in all the various locations)
 [ ] maybe install add-in in official location so it appears in the add-ins menu?
 
-
 -- documentation/other
-[ ] Add more screenshots to readme (maybe show some thumbnails w/links to larger pic) and upload to sourceforge
+[ ] Add screenshots to sourceforge
 [ ] Include version information in
 	( ) excel source/form - maybe have a ?   about box thingy with a link to homepage
 	(X) dll 
 	(X) install scripts/installer exe
-[ ] Test on various offices, 97, 2000, XP and on Windows 2000 and vista (use virtual PC OR VOLUNTEERs *hint hint* e-mail me: paul@paulb.org)
+[ ] Test on Windows Vista
 [ ] Get an icon for the project
 
 
-
-Releases:
-
-Alpha 0_05
-2/XX/2008
---new stuff
-
-[X] tree display for selecting basedn for searches
-[X] Add a "Are you sure you want to overwrite everything? [ ] show this box again" popup to the overwriting search
-[X] Open the GUI showing the last tab the user had open
-[X] License/file header in all source files
-
---fixes
-[ ] FIX THE SVN LAYOUT so the stupid tags thing works properly
+================================
+-----[ Previous Releases ] -----
+================================
 
 Alpha 0_04a
 2/25/2008

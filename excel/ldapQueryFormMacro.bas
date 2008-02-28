@@ -1,4 +1,20 @@
 Attribute VB_Name = "ldapQueryFormMacro"
+' Excel LDAP Search
+' Copyright (C) 2008 Paul Brinkmann <paul@paulb.org>
+'
+' This program is free software; you can redistribute it and/or modify it under the terms
+' of the GNU General Public License as published by the Free Software Foundation; either
+' version 2 of the License, or (at your option) any later version.
+'
+' This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+' without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+' See the GNU General Public License for more details.
+'
+' You should have received a copy of the GNU General Public License along with this
+' program; if not, write to the
+' Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+'
+
 Option Explicit
 
 ' $Id$
@@ -11,7 +27,6 @@ Dim cKnownAttributes As Integer
 Dim arUniqueAttributes_() As String
 Dim cUniqueAttributes As Integer
 
-
 Sub ShowQueryForm()
     frmLdapQuery.Show
 End Sub
@@ -19,6 +34,7 @@ End Sub
 Sub AddToolsMenuItem()
     frmLdapQuery.AddToolsMenuItem
 End Sub
+
 
 Function NumAttributes()
     NumAttributes = cKnownAttributes
@@ -62,61 +78,38 @@ Sub initAttributeNames()
     Set oKnownAttributes = oLdapConfig.GetKnownAttributes()
     
     '
-    ' We can immediately resize the attribute name arrays to the proper size
+    ' Resize the attribute arrays now that we know the needed lengths
     '
     cKnownAttributes = oKnownAttributes.Count
-    
-    ReDim arHumanAttributes_(1 To cKnownAttributes)
-    ReDim arLdapAttributes_(1 To cKnownAttributes)
-    
-    '
-    ' It's a little trickier to get the # of unique attributes,
-    ' but doing a quick iteration through all attributes gets the job done
-    '
-    Dim i As Integer
-    cUniqueAttributes = 0
-
-    For i = 1 To cKnownAttributes
-        If InStr(oKnownAttributes.LdapName(0 + i), "*") = 1 Then
-            cUniqueAttributes = cUniqueAttributes + 1
-        End If
-    Next
+    cUniqueAttributes = oKnownAttributes.UniqueCount
     
     If cUniqueAttributes < 1 Then
         MsgBox "You need to mark at least one attribute as unique (using '*') in your ldap_params.ini file", vbCritical
         Exit Sub
     End If
     
+    ReDim arHumanAttributes_(1 To cKnownAttributes)
+    ReDim arLdapAttributes_(1 To cKnownAttributes)
     ReDim arUniqueAttributes_(1 To cUniqueAttributes)
-    
+
     '
     ' Finally, populate all the attribute arrays
     '
-    Dim uniqueIndex ' current index into unique attribute array
-    uniqueIndex = 1
+    Dim i As Integer
     For i = 1 To cKnownAttributes
-    
-        ' strip the leading * and add to unique attributes if needed
-        Dim ldapAttribute
-        ldapAttribute = oKnownAttributes.LdapName(0 + i)
-        
-        If InStr(ldapAttribute, "*") = 1 Then
-            ldapAttribute = Right(ldapAttribute, Len(ldapAttribute) - 1)
-            arUniqueAttributes_(uniqueIndex) = ldapAttribute
-            uniqueIndex = uniqueIndex + 1
-        End If
-        
-        
         arHumanAttributes_(i) = oKnownAttributes.HumanName(0 + i)
-        arLdapAttributes_(i) = ldapAttribute
-        
-        'MsgBox "just set: " & arHumanAttributes_(i) & " = " & arLdapAttributes_(i)
+        arLdapAttributes_(i) = oKnownAttributes.LdapName(0 + i)
+    Next
+    
+    For i = 1 To cUniqueAttributes
+        arUniqueAttributes_(i) = oKnownAttributes.UniqueLdapName(0 + i)
     Next
     
     '
     ' sneak in the baseDN thingy here
     '
     frmLdapQuery.lblBaseDN.Caption = oLdapConfig.BaseDN
+    frmLdapQuery.lblBaseDN.ControlTipText = oLdapConfig.BaseDN
     
 End Sub
 
@@ -173,6 +166,41 @@ Function LdapToHumanAttribute(attributeName As String)
 
 End Function
 
+Function ReadRegValue(RegKey As String, ByRef regValue)
+    Dim WshShell
+    Set WshShell = CreateObject("WScript.Shell")
+    
+    On Error Resume Next
+    Err.Clear
+    
+    regValue = WshShell.RegRead("HKLM\SOFTWARE\Excel LDAP Search\" & RegKey)
+    
+    If Err <> 0 Then
+        ReadRegValue = False
+    Else
+        ReadRegValue = True
+    End If
+    
+    On Error GoTo 0
+End Function
 
-
+' Takes three arguements - the key name, the value of the key,
+' and the type of key (ex, "REG_SZ", "REG_DWORD", "REG_BIN",...)
+Function WriteRegValue(RegKey As String, regValue, RegType As String)
+    Dim WshShell
+    Set WshShell = CreateObject("WScript.Shell")
+    
+    On Error Resume Next
+    Err.Clear
+    
+    WshShell.RegWrite "HKLM\SOFTWARE\Excel LDAP Search\" & RegKey, regValue, RegType
+    
+    If Err <> 0 Then
+        WriteRegValue = False
+    Else
+        WriteRegValue = True
+    End If
+    
+    On Error GoTo 0
+End Function
 

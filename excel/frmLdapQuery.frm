@@ -13,6 +13,23 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+' Excel LDAP Search
+' Copyright (C) 2008 Paul Brinkmann <paul@paulb.org>
+'
+' This program is free software; you can redistribute it and/or modify it under the terms
+' of the GNU General Public License as published by the Free Software Foundation; either
+' version 2 of the License, or (at your option) any later version.
+'
+' This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+' without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+' See the GNU General Public License for more details.
+'
+' You should have received a copy of the GNU General Public License along with this
+' program; if not, write to the
+' Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+'
+
+
 Option Explicit
 
 ' $Id$
@@ -158,6 +175,16 @@ endOfSelectLoop:
         MsgBox "Please select at least one attribute to return", vbExclamation
         Exit Sub
     End If
+    
+    '
+    ' See if the user needs a confirmation
+    '
+    If cbPromptOnOverwrite.Value = True Then
+        If MsgBox("Are you sure you want to replace all contents of this sheet?", vbYesNo) = vbNo Then
+            Exit Sub
+        End If
+    End If
+    
     
     ActiveSheet.Cells.Clear
     DoSearch tbQuery.Value, ActiveSheet.Range("A1")
@@ -347,26 +374,15 @@ Sub AddToolsMenuItem()
 End Sub
 
 Private Function GetInstallDir()
-    Dim WshShell
-    Set WshShell = CreateObject("WScript.Shell")
-    
-    Dim regKey, regValue
-    
-    On Error Resume Next
-    Err.Clear
-    
-    regKey = "HKLM\SOFTWARE\Excel LDAP Search\installDir"
-    regValue = WshShell.RegRead(regKey)
-    
-    If Err <> 0 Then
+
+    Dim installDir As String
+    If ReadRegValue("installDir", installDir) Then
+        GetInstallDir = installDir
+    Else
         MsgBox "Failed to read the installation directory from the registry, so I'm going to use the default install directory"
         GetInstallDir = "C:\Program Files\Excel LDAP Search"
-        Exit Function
     End If
-    
-    On Error GoTo 0
-    
-    GetInstallDir = regValue
+
     
 End Function
 
@@ -392,19 +408,32 @@ Private Sub Frame2_Click()
 
 End Sub
 
+Private Sub cbPromptOnOverwrite_Change()
+    Dim regValue As Integer
+    
+    If cbPromptOnOverwrite.Value = True Then
+        regValue = 1
+    Else
+        regValue = 0
+    End If
+    
+    WriteRegValue "promptOnOverwrite", regValue, "REG_DWORD"
+End Sub
+
+
+
+
 Private Sub lblBaseDN_Click()
     Unload frmBaseDNChooser ' reset it
     frmBaseDNChooser.Show
     
     If (frmBaseDNChooser.GetSelectedDN <> "") Then
         lblBaseDN.Caption = frmBaseDNChooser.GetSelectedDN
+        lblBaseDN.ControlTipText = frmBaseDNChooser.GetSelectedDN
+        
     End If
 End Sub
 
-' Keep the tooltip updated (is there a better way?)
-Private Sub lblBaseDN_MouseMove(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
-    lblBaseDN.ControlTipText = lblBaseDN.Caption
-End Sub
 
 Private Sub lblOpenConfigFile_Click()
     
@@ -439,6 +468,9 @@ Private Sub sbColOffset_SpinDown()
 End Sub
 
 Private Sub tsQueryType_Change()
+    
+    WriteRegValue "lastTabOpen", tsQueryType.Value, "REG_DWORD"
+    
     If tsQueryType.Value = 0 Then
         frmExistingDataQuery.Visible = True
         frmExistingDataQuery.Enabled = True
@@ -488,17 +520,38 @@ Private Sub UserForm_Initialize()
     
     
     '
-    ' position the tab pages and turn off the secondary page
+    ' position the tab pages and set the active page
     '
     frmBlankSheetQuery.Top = 42
     frmBlankSheetQuery.Left = 18
     frmExistingDataQuery.Top = 42
     frmExistingDataQuery.Left = 18
-    frmBlankSheetQuery.Visible = False
-    frmBlankSheetQuery.Enabled = False
     tsQueryType.Tabs(0).Caption = "Add LDAP data to existing rows"
     tsQueryType.Tabs(1).Caption = "Add LDAP entires to a blank sheet"
    
+    Dim LastTabOpen As Integer
+    
+    If ReadRegValue("lastTabOpen", LastTabOpen) Then
+        tsQueryType.Value = LastTabOpen
+    Else
+        tsQueryType.Value = 0
+    End If
+    
+    '
+    ' Set the overwrite checkbox value from the registry
+    '
+    Dim promptOrNot
+    If ReadRegValue("promptOnOverwrite", promptOrNot) Then
+        If promptOrNot = 1 Then
+            cbPromptOnOverwrite.Value = True
+        Else
+            cbPromptOnOverwrite.Value = False
+        End If
+        
+    End If
+        
+        
+    
 End Sub
 
 

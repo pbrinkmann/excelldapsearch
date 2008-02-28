@@ -23,14 +23,14 @@ SetCompressor /SOLID lzma
 Name "Excel LDAP Search"
 
 ; Version #
-VIProductVersion "0.0.0.5"
+VIProductVersion "0.0.5.0"
 VIAddVersionKey /LANG=${LANG_ENGLISH} "ProductName" "Excel LDAP Search"
 VIAddVersionKey /LANG=${LANG_ENGLISH} "Comments" "An Excel add-in to perform LDAP searches"
 VIAddVersionKey /LANG=${LANG_ENGLISH} "FileDescription" "Excel LDAP Search installer"
-VIAddVersionKey /LANG=${LANG_ENGLISH} "FileVersion" "0.0.0.5"
+VIAddVersionKey /LANG=${LANG_ENGLISH} "FileVersion" "0.0.5.0"
 
 ; The file to write
-OutFile "excelldapsearchinstall_0_05.exe"
+OutFile "excelldapsearchinstall_0_50.exe"
 
 
 ; The default installation directory
@@ -209,6 +209,7 @@ noFileInUseB:
   Delete $INSTDIR\remove_excel_menuitem.vbs
   Delete $INSTDIR\ldap_params.ini
   Delete $INSTDIR\license.txt
+  Delete $INSTDIR\COPYING
   Delete $INSTDIR\msvcp71.dll
   Delete $INSTDIR\msvcr71.dll
   Delete $INSTDIR\readme.html

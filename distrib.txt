@@ -9,6 +9,8 @@ and extract to "ldapsdk" directory.
 
 B) Download and install the NSIS installer from http://nsis.sourceforge.net/Download
 
+C) Visual Studio 2003
+
 ------------------------------------------------------------------------------------------------------------------
 Steps:
 
@@ -37,6 +39,6 @@ Steps:
 9) Build the Nullsoft installer by opening the "NSIS installer" directory, right clicking the "install script.nsi" file and selecting "Compile NSIS Script".  If you don't have those options on the context menu, make sure you installed NSIS (prereq step B).  You should end up with a "excelldapsearchinstall_Y_XX.exe" file.
 
 ++ SOURCEFORGE ++
-10) Create a new release named alpha_X_YY, add the two uploaded files (.zip and .exe), paste in the change notes and be sure to check the "preserve formatting" box.
+10) Create a new release named beta_X_YY, add the two uploaded files (.zip and .exe), paste in the change notes and be sure to check the "preserve formatting" box.
 
 11) Set the default download to the latest .exe

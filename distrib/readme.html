@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-<title> Excel LDAP Search Version 0.04 README </title>
+<title> Excel LDAP Search Version 0.50 README </title>
 <style type="text/css">
 <!--
 .imageleft, .imageright {
@@ -41,9 +41,9 @@
 <div align="center">
   <h1><a href="http://excelldapsearch.sourceforge.net">Excel LDAP Search</a></h1>
     
-  <h2>Version 0.04<br>
+  <h2>Version 0.50<br>
   </h2>
-  2/23/2008<br>
+  2/27/2008<br>
   <br>
   <a href="https://sourceforge.net/project/showfiles.php?group_id=216793">download</a> | <a href="TODO.txt">change log</a>
   <br>
@@ -78,10 +78,28 @@
 <div class="spacer">&nbsp;</div>
    
 <h3>Requirements</h3>
-<p>I've tested using OpenLDAP 2.0.27 on Windows XP and Excel 2003/2007. It uses the <a href="http://www.mozilla.org/directory/csdk-docs/">Mozilla 
+<p>I've tested using OpenLDAP and:<br>
+<ul>
+<li>Windows XP
+	<ul>
+	<li>Excel 2003</li>
+	<li>Excel 2007</li>
+	</ul>
+<li>Windows 2000</li>
+	<ul>
+	<li>Excel 2000</li>
+	</ul>
+<li>Windows Vista</li>
+	<ul>
+	<li>untested</li>
+	</ul>
+</ul>
+It uses the <a href="http://www.mozilla.org/directory/csdk-docs/">Mozilla 
   LDAP SDK</a> so it should work with any LDAP-v3 compliant directory server, 
-  and Excel (97?)2000 to 2007.</p>If anyone's successfully used this on another config, or has had any problems, <a href="mailto:paul@paulb.org">send me an e-mail</a>!  There's a chance someone else out there's in the same position as you.
-<h3>Installation Instructions</h3>
+  and Excel 2000 (97?) to 2007. If anyone's successfully used this on another config, or has had any problems, <a href="mailto:paul@paulb.org">send me an e-mail</a>!  There's a chance someone else out there's in the same position as you.
+</p>
+  
+  <h3>Installation Instructions</h3>
 Make sure all instances of Excel are closed.
 <p> Run the <em>excelldapsearchinstall_x_y.exe</em> file. This will copy the necessary 
   files, and register everything with the system. It also opens up the config 
@@ -94,7 +112,18 @@ Make sure all instances of Excel are closed.
   isn't displayed, look under the &quot;View&quot; menu).  Expand the &quot;Modules&quot; item and doubleclick
   &quot;ldapQueryFormMacro&quot;.  Look for the &quot;Sub AddToolsMenuItem()&quot; line, click anywhere on it
   with the mouse, then from the menu bar select "Run->Run Sub/User Form" or click the toolbar button with the play icon.</p>
-<h3>Uninstall Instructions</h3>
+ 
+ 
+ <h3>Known Issues</h3>
+ On some systems, the error message <b>"Compile error: Can't find project or library"</b> will be displayed.
+ This indicates Excel is referencing a module that doesn't exist.  The solution is to start the macro editor by pressing ALT-F11, then
+ open the "Tools" menu and select "References...".  If the "References..." item is greyed out, reset the project first by
+ click the stop icon on the toolbar, or under the "Run" menu there's a "reset" item. Look for any checked items in the list 
+ that start with "MISSING:" and uncheck them.  Click the "OK" button and close the macro editor.  This process is also described
+ in Microsoft <a href="http://support.microsoft.com/kb/q208218/">KB208218</a>.
+
+ 
+ <h3>Uninstall Instructions</h3>
 Make sure all instances of Excel are closed<br>
 <p> Remove via Control Panel->Add/Remove Programs. </p>
 <p>If you manually added the Tools &quot;Run LDAP Search&quot; menu item to more 
