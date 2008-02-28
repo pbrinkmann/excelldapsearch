@@ -30,7 +30,7 @@ VIAddVersionKey /LANG=${LANG_ENGLISH} "FileDescription" "Excel LDAP Search insta
 VIAddVersionKey /LANG=${LANG_ENGLISH} "FileVersion" "0.0.5.0"
 
 ; The file to write
-OutFile "excelldapsearchinstall_0_50.exe"
+OutFile "ExcelLdapSearchInstall_0_50.exe"
 
 
 ; The default installation directory

@@ -3,7 +3,7 @@
 -----[ Latest Release ] -----
 =============================
 
-Beta 0_10
+Beta 0_50
 2/27/2008
 
 All of the critical features are in place as of now, and I haven't run across any surprise bugs in a while.
@@ -17,8 +17,10 @@ Let's call this release a Beta release :)
 [X] GPL License in all source files
 
 --fixes
-[X] FIX THE SVN LAYOUT so the stupid tags thing works properly
-[X] Work around the "Compile error: Can't find project or library" error by handling unique attribute detection in the .dll
+[X] Work around some of the the "Compile error: Can't find project or library" errors by handling unique attribute
+		detection in the .dll
+[X] If user installs to a different location without uninstalling first, the tools menu item still points to the old location
+[X] Redid code repository to make marking releases work better
 
 ==============================
 -----[ Remaining TODOs ] -----
@@ -38,7 +40,9 @@ Let's call this release a Beta release :)
 [ ] get some sort of INI file missing error instead of trying to use default values if there's no INI file or it's invalid
 		-I sorted did this by replacing the default values with an error messages, we'll see if this does anything useful
 [ ] Tell user they need to close/open (or add a refresh button?) if they edit the config file
-		
+[ ] Open the tree view to the current basedn
+[ ] Have option to save current basedn to the config file (maybe roll this in with the config file GUI idea)
+	
 -- install process
 [ ] Look at digitally signing the addin macro file (or find another way to avoid the "Enable Macros" annoyance)
 [ ] Automate the build steps (especially updating the version # in all the various locations)

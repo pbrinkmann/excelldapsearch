@@ -142,7 +142,7 @@ Function AddToolsMenuItem()
     Set CmdBarMenu = CmdBar.Controls("Tools")
     
     '
-    ' See if we already have an item in there, and exit if we do
+    ' See if we already have an item in there, and nuke it if it's there
     '
 
 	Dim toolsMenu
@@ -151,10 +151,7 @@ Function AddToolsMenuItem()
 	set ldapMenuItem = toolsMenu.FindControl(,,"LdapQueryShowFormMenuItem")
 
 	if not ldapMenuItem is Nothing then
-		MsgBox "The Tools menu item was already installed.", vbOKOnly, "Installation Note"
-		excel.Quit		
-		AddToolsMenuItem = True
-		exit Function
+		ldapMenuItem.delete
 	end if
 
     
