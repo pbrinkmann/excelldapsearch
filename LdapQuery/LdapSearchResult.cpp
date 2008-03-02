@@ -45,8 +45,13 @@ STDMETHODIMP CLdapSearchResult::IsValid(SHORT* bValid)
 STDMETHODIMP CLdapSearchResult::GetFirstAttribute(ILdapAttribute** attribute)
 {
 	CComObject<CLdapAttribute>* pLdapAttribute;
-
 	CComObject<CLdapAttribute>::CreateInstance(&pLdapAttribute);
+
+	if(! pLdapAttribute) {
+		return E_UNEXPECTED;
+	}
+
+	pLdapAttribute->AddRef();
 
 	CEntry::ItemPtr pAttribute = m_entry.getFirstItem();
 	if(pAttribute.get() != NULL) {
@@ -61,8 +66,13 @@ STDMETHODIMP CLdapSearchResult::GetFirstAttribute(ILdapAttribute** attribute)
 STDMETHODIMP CLdapSearchResult::GetNextAttribute(ILdapAttribute** attribute)
 {
 	CComObject<CLdapAttribute>* pLdapAttribute;
-
 	CComObject<CLdapAttribute>::CreateInstance(&pLdapAttribute);
+
+	if(! pLdapAttribute) {
+		return E_UNEXPECTED;
+	}
+
+	pLdapAttribute->AddRef();
 
 	CEntry::ItemPtr pAttribute = m_entry.getNextItem();
 	if(pAttribute.get() != NULL) {
@@ -80,8 +90,13 @@ STDMETHODIMP CLdapSearchResult::GetAttributeByName(BSTR name, ILdapAttribute** a
 	CW2A szName( wstrName );
 
 	CComObject<CLdapAttribute>* pLdapAttribute;
-
 	CComObject<CLdapAttribute>::CreateInstance(&pLdapAttribute);
+
+	if(! pLdapAttribute) {
+		return E_UNEXPECTED;
+	}
+
+	pLdapAttribute->AddRef();
 
 	CEntry::ItemPtr pAttribute = m_entry.getItemByName((char*)szName);
 

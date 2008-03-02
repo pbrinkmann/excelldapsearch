@@ -3,6 +3,11 @@
 -----[ Latest Release ] -----
 =============================
 
+Beta 0_51
+3/1/2008
+--fixes
+[X] Memory corruption problems (memory for return value being freed as local object is removed from stack, and lack of AddReference() calls)
+
 Beta 0_50
 2/27/2008
 

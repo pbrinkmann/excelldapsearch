@@ -141,16 +141,15 @@ STDMETHODIMP CLdapConfig::GetKnownAttributes(IKnownAttributes** pKnownAttributes
 	CComObject<CKnownAttributes> *pKA;
 	CComObject<CKnownAttributes>::CreateInstance(&pKA);
 
+	if(!pKA) {
+		return E_UNEXPECTED;
+	}
 
-	pKA->AddRef();  // ugghhhhh, it seems I need this to prevent crashing?
-					// but I didn't have problems w/o it with the search results thing?
-					// when does it get released?
-					// I need to learn more about COM programming
+	pKA->AddRef();
 
 	pKA->initialize(m_iniFile);
 
 	*pKnownAttributes = pKA;
-
 	
 	return S_OK;
 }

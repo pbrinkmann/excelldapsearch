@@ -30,8 +30,13 @@
 STDMETHODIMP CLdapSearchResults::GetFirstResult(ILdapSearchResult** searchResult)
 {
 	CComObject<CLdapSearchResult>* pSearchResult;
-
 	CComObject<CLdapSearchResult>::CreateInstance(&pSearchResult);
+
+	if(! pSearchResult ) {
+		return E_UNEXPECTED;
+	}
+
+	pSearchResult->AddRef();
 
 	CSearchResults::ItemPtr pEntry = m_searchResults.getFirstItem();
 	if(pEntry.get() != NULL) {
@@ -46,8 +51,13 @@ STDMETHODIMP CLdapSearchResults::GetFirstResult(ILdapSearchResult** searchResult
 STDMETHODIMP CLdapSearchResults::GetNextResult(ILdapSearchResult** searchResult)
 {
 	CComObject<CLdapSearchResult>* pSearchResult;
-
 	CComObject<CLdapSearchResult>::CreateInstance(&pSearchResult);
+
+	if(! pSearchResult) {
+		return E_UNEXPECTED;
+	}
+
+	pSearchResult->AddRef();
 
 	CSearchResults::ItemPtr pEntry = m_searchResults.getNextItem();
 	if(pEntry.get() != NULL) {

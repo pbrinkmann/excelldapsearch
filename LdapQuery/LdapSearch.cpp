@@ -101,10 +101,15 @@ STDMETHODIMP CLdapSearch::GetSearchResults(ILdapSearchResults** searchResults)
 	CComObject<CLdapSearchResults>* myObj;
 	CComObject<CLdapSearchResults>::CreateInstance(&myObj);
 
+	if(!myObj) {
+		return E_UNEXPECTED;
+	}
+
+	myObj->AddRef();
+
 	myObj->setSearchResults(*m_pResults);
 	
 	*searchResults = myObj;
-
 
 	return S_OK;
 }

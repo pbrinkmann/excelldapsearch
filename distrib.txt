@@ -42,3 +42,5 @@ Steps:
 10) Create a new release named beta_X_YY, add the two uploaded files (.zip and .exe), paste in the change notes and be sure to check the "preserve formatting" box.
 
 11) Set the default download to the latest .exe
+
+12) News release

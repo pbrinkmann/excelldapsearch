@@ -36,6 +36,10 @@ void CLdapTreeBrowser::buildInitialTree()
 	CComObject<CLdapConfig> *pLdapConfig;
 	CComObject<CLdapConfig>::CreateInstance(&pLdapConfig);
 
+	if(! pLdapConfig) {
+		return;
+	}
+
 	pLdapConfig->AddRef();
 
 	SHORT success;
@@ -282,15 +286,13 @@ STDMETHODIMP CLdapTreeBrowser::get_SelectedDN(BSTR* pVal)
 
 		if(bSuccess) {
 			bstrSelectedName = itemEx.pszText;
-			*pVal = bstrSelectedName;
-			return S_OK;
+			return bstrSelectedName.CopyTo(pVal);
 		}
 	}
 
 	bstrSelectedName = "invalid selection";
-	*pVal = bstrSelectedName;
-
-	return S_OK;
+	
+	return bstrSelectedName.CopyTo(pVal);
 }
 
 
