@@ -3,10 +3,11 @@
 -----[ Latest Release ] -----
 =============================
 
-Beta 0_51
-3/1/2008
+Beta 0_52
+3/4/2008
 --fixes
-[X] Memory corruption problems (memory for return value being freed as local object is removed from stack, and lack of AddReference() calls)
+[X] Problems occurred with the "open ldap config file" option under certain configurations
+https://sourceforge.net/tracker/?func=detail&atid=1038344&aid=1906791&group_id=216793
 
 
 ==============================
@@ -20,8 +21,6 @@ Beta 0_51
 [ ] Add an option for search results to appear with a single selected cell as the top/left corner
 [ ] Provide a GUI to edit the config file
 [ ] Detect multiple versions of Excel installed on the computer and remind user they can manually install to the other versions
-[ ] Simplify CCollection code by automatically setting the GetNextItem() iterator to 0 and doing away with GetFirstItem()
-		Might have to add a resetCollection() method to manually set iterator back to 0 if someone wants to iterate a collection twice
 [ ] Experiment with making tree browser item operations asynchronous - fire up a search thread that posts messages back
 		as it find the items
 [ ] get some sort of INI file missing error instead of trying to use default values if there's no INI file or it's invalid
@@ -49,6 +48,13 @@ Beta 0_51
 -----[ Previous Releases ] -----
 ================================
 
+
+Beta 0_51
+3/1/2008
+--fixes
+[X] Memory corruption problems (memory for return value being freed as local object is removed from stack, and lack of AddReference() calls)
+
+
 Beta 0_50
 2/27/2008
 
@@ -56,7 +62,6 @@ All of the critical features are in place as of now, and I haven't run across an
 Let's call this release a Beta release :)
 
 --new stuff
-
 [X] tree display for selecting basedn for searches
 [X] Add a "Are you sure you want to overwrite everything? [ ] show this box again" popup to the overwriting search
 [X] Open the GUI showing the last tab the user had open
@@ -67,6 +72,7 @@ Let's call this release a Beta release :)
 		detection in the .dll
 [X] If user installs to a different location without uninstalling first, the tools menu item still points to the old location
 [X] Redid code repository to make marking releases work better
+
 
 Alpha 0_04a
 2/25/2008

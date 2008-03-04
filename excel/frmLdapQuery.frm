@@ -451,7 +451,10 @@ Private Sub lblOpenConfigFile_Click()
         installDir = "C:\program files\excel ldap search"
     End If
     
-    Shell Environ("windir") & "\notepad.exe """ & installDir & "\ldap_params.ini""", vbNormalFocus
+    Dim oEnv
+    Set oEnv = oWSH.Environment("process")
+    
+    Shell oEnv("SYSTEMROOT") & "\notepad.exe """ & installDir & "\ldap_params.ini""", vbNormalFocus
 End Sub
 
 Private Sub sbColOffset_SpinUp()

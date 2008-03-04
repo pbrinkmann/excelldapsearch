@@ -53,8 +53,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,0,5,1
- PRODUCTVERSION 0,0,5,1
+ FILEVERSION 0,0,5,2
+ PRODUCTVERSION 0,0,5,2
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -71,12 +71,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Paul Brinkmann"
             VALUE "FileDescription", "Ldap Query COM Object"
-            VALUE "FileVersion", "0.0.5.1"
+            VALUE "FileVersion", "0.0.5.2"
             VALUE "InternalName", "LdapQuery.dll"
             VALUE "LegalCopyright", "(c) Paul Brinkmann 2008. All rights reserved."
             VALUE "OriginalFilename", "LdapQuery.dll"
             VALUE "ProductName", "Ldap Query"
-            VALUE "ProductVersion", "0.0.5.1"
+            VALUE "ProductVersion", "0.0.5.2"
         END
     END
     BLOCK "VarFileInfo"
