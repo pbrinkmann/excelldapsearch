@@ -104,7 +104,7 @@ SearchResultsPtr CLdap::search(const CSearchParams& searchParams)
 			case LDAP_REFERRAL:
 				throw CLdapException("LDAP Referral received.  This is sometimes caused by Active Directory when given an invalid or not specific enough search basedn");
 			case LDAP_OPERATIONS_ERROR:
-				throw CLdapException("Operations error.  This is sometimes caused by Active Directory when attempting an anonymous search, try again with a valid binddn and bindpw in the ldap_params.ini file.");
+				throw CLdapException("Operations error.  This is sometimes caused by Active Directory when attempting an anonymous search (try with a binddn and bindpw) or with an invalid basedn.");
 			default:
 				throw CLdapException(ldap_err2string(rc));
 		}	

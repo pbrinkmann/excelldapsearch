@@ -28,7 +28,7 @@ Beta 0_53
 		as it find the items
 [ ] get some sort of INI file missing error instead of trying to use default values if there's no INI file or it's invalid
 		-I sorted did this by replacing the default values with an error messages, we'll see if this does anything useful
-[ ] Tell user they need to close/open (or add a refresh button?) if they edit the config file
+[ ] Detect if .ini file has been modified since last search and ask user to reload settings if it has
 [ ] Open the tree view to the current basedn
 [ ] Have option to save current basedn to the config file (maybe roll this in with the config file GUI idea)
 	
