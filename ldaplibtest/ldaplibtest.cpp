@@ -17,7 +17,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	try {
 
-		CIniFile config("..\\..\\distrib\\ldap_params.ini"); 
+		CIniFile config("ldap_params.ini"); 
 		
 		if( ! config.ReadFile() ) {
 			cout << "ERROR READING CONFIG FILE. hit enter to exit";
@@ -38,9 +38,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	
 		ldap.connect(connParams);	//CConnectionParams("localhost", "cn=Directory Manager,c=US", "password"));
 
-		CSearchParams mySearch("ou=People, o=University of Washington, c=US",    //config.GetValue("Search","basedn","CRAPPY_DEFAULT_VALUE", 
-			"(|(hasSubordinates=TRUE)(!(subordinateCount=0)))",
-			CSearchParams::SCOPE_ONELEVEL);
+		CSearchParams mySearch(config.GetValue("Search","basedn","CRAPPY_DEFAULT_VALUE"),"(cn=Paul*)",
+			CSearchParams::SCOPE_SUBTREE);
 
 		SearchResultsPtr pResults = ldap.search(mySearch);
 

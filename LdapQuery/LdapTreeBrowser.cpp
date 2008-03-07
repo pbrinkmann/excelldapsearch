@@ -24,7 +24,7 @@
 
 #pragma comment(lib, "comctl32.lib")
 
-const char* CLdapTreeBrowser::NONLEAF_FILTER = "(|(hasSubordinates=TRUE)(!(subordinateCount=0)))";
+const char* CLdapTreeBrowser::NONLEAF_FILTER = "(|(hasSubordinates=TRUE)(!(subordinateCount=0))(objectClass=container))";
 
 // CLdapTreeBrowser
 

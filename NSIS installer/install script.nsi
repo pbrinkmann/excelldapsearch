@@ -23,14 +23,14 @@ SetCompressor /SOLID lzma
 Name "Excel LDAP Search"
 
 ; Version #
-VIProductVersion "0.0.5.2"
+VIProductVersion "0.0.5.3"
 VIAddVersionKey /LANG=${LANG_ENGLISH} "ProductName" "Excel LDAP Search"
 VIAddVersionKey /LANG=${LANG_ENGLISH} "Comments" "An Excel add-in to perform LDAP searches"
 VIAddVersionKey /LANG=${LANG_ENGLISH} "FileDescription" "Excel LDAP Search installer"
-VIAddVersionKey /LANG=${LANG_ENGLISH} "FileVersion" "0.0.5.2"
+VIAddVersionKey /LANG=${LANG_ENGLISH} "FileVersion" "0.0.5.3"
 
 ; The file to write
-OutFile "ExcelLdapSearchInstall_0_52.exe"
+OutFile "ExcelLdapSearchInstall_0_53.exe"
 
 
 ; The default installation directory
@@ -174,6 +174,9 @@ fileInUseB:
     DetailPrint "User aborted uninstall"
     Abort 
 noFileInUseB:
+
+  ; unregister our dll
+  UnRegDLL $INSTDIR\LdapQuery.dll
   
   ;These will be locked if Excel is open and a query has been run
   Delete /REBOOTOK $INSTDIR\LdapQuery.dll
@@ -183,17 +186,12 @@ noFileInUseB:
   Delete /REBOOTOK $INSTDIR\msvcp71.dll
   Delete /REBOOTOK $INSTDIR\msvcr71.dll
   
-    
-  
   ; remove the Excel menu item
   ExecWait 'cscript "$INSTDIR\remove_excel_menuitem.vbs"'
   
   ; Remove registry keys
   DeleteRegKey HKLM "Software\Excel LDAP Search"
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Excel LDAP Search"
-
-  ; unregister our dll
-  UnRegDLL $INSTDIR\LdapQuery.dll
 
   ; manually delete all the files 
   Delete $INSTDIR\readme_images\column_offset.png

@@ -3,18 +3,21 @@
 -----[ Latest Release ] -----
 =============================
 
-Beta 0_52
-3/4/2008
+Beta 0_53
+3/07/2008
 --fixes
-[X] Problems occurred with the "open ldap config file" option under certain configurations
-https://sourceforge.net/tracker/?func=detail&atid=1038344&aid=1906791&group_id=216793
-
+[X] uninstaller deleted the DLL before unregistering it, leaving an orphaned (but harmless) registry entry
+[X] port setting in the ldap_params.ini file was being ignored (the default 389 was being used)
+[X] Search fails with "Operations Error" with Active Directory (tested with Windows 2003 server)
+  (X) display appropriate error with invalid basedn (ie, Referral received = probably AD mismatched basedn)
+[X] basedn picker doesn't work with AD - this is a bit ugly, but mostly seems to sort of work a little bit
 
 ==============================
 -----[ Remaining TODOs ] -----
 ==============================
 
 -- code
+[ ] basedn picker allowed ERROR: xxx messages to be selected and returned as the new basedn
 [ ] Make searches more effient by:
 	( ) Only requesting attributes that are required (right now ALL attributes are returned, but only certain ones are needed)
 	( ) For treeview searches, only request the DN or something, we don't actually need any attributes other than the name
@@ -31,6 +34,7 @@ https://sourceforge.net/tracker/?func=detail&atid=1038344&aid=1906791&group_id=2
 	
 -- install process
 [ ] Look at digitally signing the addin macro file (or find another way to avoid the "Enable Macros" annoyance)
+  ( ) if Excel (2003+ ?) is set to High Security mode, ELS won't work
 [ ] Automate the build steps (especially updating the version # in all the various locations)
 [ ] maybe install add-in in official location so it appears in the add-ins menu?
 
@@ -47,6 +51,14 @@ https://sourceforge.net/tracker/?func=detail&atid=1038344&aid=1906791&group_id=2
 ================================
 -----[ Previous Releases ] -----
 ================================
+
+
+Beta 0_52
+3/4/2008
+--fixes
+[X] Problems occurred with the "open ldap config file" option under certain configurations
+https://sourceforge.net/tracker/?func=detail&atid=1038344&aid=1906791&group_id=216793
+
 
 
 Beta 0_51

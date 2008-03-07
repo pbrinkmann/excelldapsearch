@@ -37,6 +37,17 @@ void CLdap::connect(const CConnectionParams& connParams)
 		throw CLdapException("Call to ldap_init failed, this is bad");
 	}
 
+	// Specify LDAP version 3 - this is needed for ActiveDirectory to work properly
+	int version = LDAP_VERSION3;
+	if(ldap_set_option( m_pLdap, LDAP_OPT_PROTOCOL_VERSION, &version ) != LDAP_SUCCESS) {
+		throw CLdapException("Unable to set LDAPv3");
+	}
+	
+	// Disable referral chasing - this was causing errors with ActiveDirectory
+	if( ldap_set_option(m_pLdap,LDAP_OPT_REFERRALS,LDAP_OPT_OFF) != LDAP_SUCCESS) {
+		throw CLdapException("Unable to disable referrals");
+	}
+
 	// authenticate to the directory
 	if ( (rc = ldap_simple_bind_s( m_pLdap, m_connParams.getAuthDN(), m_connParams.getAuthPW())) != LDAP_SUCCESS ) {
 
@@ -89,7 +100,14 @@ SearchResultsPtr CLdap::search(const CSearchParams& searchParams)
 	if ( (rc = ldap_search_s( m_pLdap, searchParams.getBaseDN(), scope,
 		searchParams.getFilter(), searchParams.getAttributes(), 0, &pLdapResult )) != LDAP_SUCCESS )
 	{
-		throw CLdapException(ldap_err2string(rc));
+		switch(rc) {
+			case LDAP_REFERRAL:
+				throw CLdapException("LDAP Referral received.  This is sometimes caused by Active Directory when given an invalid or not specific enough search basedn");
+			case LDAP_OPERATIONS_ERROR:
+				throw CLdapException("Operations error.  This is sometimes caused by Active Directory when attempting an anonymous search, try again with a valid binddn and bindpw in the ldap_params.ini file.");
+			default:
+				throw CLdapException(ldap_err2string(rc));
+		}	
 	}
 
 	SearchResultsPtr pResults(new CSearchResults);

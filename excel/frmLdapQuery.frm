@@ -86,7 +86,7 @@ Private Sub DoSearch(queryText, Target As Range)
         GoTo PEnd
     End If
     
-    If oLdap.Connect(oLdapConfig.ServerName, oLdapConfig.BindDN, oLdapConfig.BindPW) <> 1 Then
+    If oLdap.Connect(oLdapConfig.ServerName, oLdapConfig.ServerPort, oLdapConfig.BindDN, oLdapConfig.BindPW) <> 1 Then
         Target.Value = oLdap.ErrorString
         GoTo PEnd
     End If
@@ -244,7 +244,7 @@ endOfSelectLoop:
         GoTo PEnd
     End If
     
-    If oLdap.Connect(oLdapConfig.ServerName, oLdapConfig.BindDN, oLdapConfig.BindPW) <> 1 Then
+    If oLdap.Connect(oLdapConfig.ServerName, oLdapConfig.ServerPort, oLdapConfig.BindDN, oLdapConfig.BindPW) <> 1 Then
         lookupValues(1).Offset(0, lColOffset.Caption).Value = oLdap.ErrorString
         GoTo PEnd
     End If

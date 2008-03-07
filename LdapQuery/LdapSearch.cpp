@@ -28,7 +28,7 @@ using namespace std;
 // CLdapSearch
 
 
-STDMETHODIMP CLdapSearch::ConnectAnon(BSTR serverName, SHORT* connOK)
+STDMETHODIMP CLdapSearch::ConnectAnon(BSTR serverName, LONG serverPort, SHORT* connOK)
 {
 	*connOK = 1;
 	m_errorMsg.clear();
@@ -38,7 +38,7 @@ STDMETHODIMP CLdapSearch::ConnectAnon(BSTR serverName, SHORT* connOK)
 	CW2A szServerName( wstr );
 
 	try {
-		m_ldap.connect( CConnectionParams((char*)szServerName));
+		m_ldap.connect( CConnectionParams((char*)szServerName, serverPort));
 	} catch(CLdapException& e) {
 
 		m_errorMsg << "Connect to server \"" << szServerName << "\" failed\n";
@@ -50,7 +50,7 @@ STDMETHODIMP CLdapSearch::ConnectAnon(BSTR serverName, SHORT* connOK)
 	return S_OK;
 }
 
-STDMETHODIMP CLdapSearch::Connect(BSTR serverName, BSTR userName, BSTR userPassword, SHORT* connOK)
+STDMETHODIMP CLdapSearch::Connect(BSTR serverName, LONG serverPort, BSTR userName, BSTR userPassword, SHORT* connOK)
 {
 	*connOK = 1;
 	m_errorMsg.clear();
@@ -60,7 +60,7 @@ STDMETHODIMP CLdapSearch::Connect(BSTR serverName, BSTR userName, BSTR userPassw
 	CW2A szServerName( wstrServerName ), szUserName(wstrUserName), szUserPassword(wstrUserPassword);
 
 	try {
-		m_ldap.connect( CConnectionParams((char*)szServerName, (char*)szUserName, (char*)szUserPassword));
+		m_ldap.connect( CConnectionParams((char*)szServerName, serverPort, (char*)szUserName, (char*)szUserPassword));
 	} catch(CLdapException& e) {
 
 		m_errorMsg << "Connect to server \"" << szServerName << "\" failed\n";
