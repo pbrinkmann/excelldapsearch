@@ -9,11 +9,11 @@
 #include "Windows.h"
 
 void printLdapAttributes(CIniFile& config);
+void testUnicode();
 
 int _tmain(int argc, _TCHAR* argv[])
 {
 	CLdap ldap;
-
 
 	try {
 
@@ -106,3 +106,9 @@ void printLdapAttributes(CIniFile& config)
 
 
 }
+
+
+
+
+
+

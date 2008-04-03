@@ -28,19 +28,21 @@ Steps:
 
 5) Edit the readme.html file, change the version and make any other necessary changes
 
-6) Run the "copyfiles.bat" file in the "distrib" directory.  This'll prep it for uploading to the web server, as well as grab the latest "LdapQuery.dll" file and put it in the "distrib" directory.
+6) Edit the current_versions.txt file, change the first number to the Excel file version and the second to the DLL version
 
-7) Upload distrib\WEB directory to the webserver
+7) Run the "copyfiles.bat" file in the "distrib" directory.  This'll prep it for uploading to the web server, as well as grab the latest "LdapQuery.dll" file and put it in the "distrib" directory.
+
+8) Upload distrib\WEB directory to the webserver
 
 ++ INSTALLER ++
 
-8) Edit the installer script ("NSIS installer\install script.nsi"), change the versions and make any other necessary changes.  Be sure to include any new files in the delete section!
+9) Edit the installer script ("NSIS installer\install script.nsi"), change the versions and make any other necessary changes.  Be sure to include any new files in the delete section!
 
-9) Build the Nullsoft installer by opening the "NSIS installer" directory, right clicking the "install script.nsi" file and selecting "Compile NSIS Script".  If you don't have those options on the context menu, make sure you installed NSIS (prereq step B).  You should end up with a "excelldapsearchinstall_Y_XX.exe" file.
+10) Build the Nullsoft installer by opening the "NSIS installer" directory, right clicking the "install script.nsi" file and selecting "Compile NSIS Script".  If you don't have those options on the context menu, make sure you installed NSIS (prereq step B).  You should end up with a "excelldapsearchinstall_Y_XX.exe" file.
 
 ++ SOURCEFORGE ++
-10) Create a new release named beta_X_YY, add the two uploaded files (.zip and .exe), paste in the change notes and be sure to check the "preserve formatting" box.
+11) Create a new release named beta_X_YY, add the two uploaded files (.zip and .exe), paste in the change notes and be sure to check the "preserve formatting" box.
 
-11) Set the default download to the latest .exe
+12) Set the default download to the latest .exe
 
-12) News release
+13) News release

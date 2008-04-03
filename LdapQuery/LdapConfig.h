@@ -45,6 +45,7 @@ __interface ILdapConfig : IDispatch
 	[propget, id(6), helpstring("property BaseDN")] HRESULT BaseDN([out, retval] BSTR* pVal);
 	[propput, id(6), helpstring("property BaseDN")] HRESULT BaseDN([in] BSTR newVal);
 	[id(7), helpstring("method GetKnownAttributes")] HRESULT GetKnownAttributes([out,retval] IKnownAttributes** pKnownAttributes);
+	[propget, id(8), helpstring("property DLLVersion")] HRESULT DLLVersion([out, retval] LONG* pVal);
 };
 
 
@@ -100,5 +101,6 @@ public:
 	STDMETHOD(GetKnownAttributes)(IKnownAttributes** pKnownAttributes);
 
 
+	STDMETHOD(get_DLLVersion)(LONG* pVal);
 };
 

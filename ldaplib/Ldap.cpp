@@ -18,6 +18,7 @@
 
 #include "StdAfx.h"
 #include ".\ldaplib.h"
+#include "LdapStringConverter.h"
 
 
 #include "..\ldapsdk\include\ldap.h"
@@ -39,6 +40,8 @@ void CLdap::connect(const CConnectionParams& connParams)
 
 	// Specify LDAP version 3 - this is needed for ActiveDirectory to work properly
 	int version = LDAP_VERSION3;
+	CLdapStringConverter::s_ldapVersion = LDAP_VERSION3;
+
 	if(ldap_set_option( m_pLdap, LDAP_OPT_PROTOCOL_VERSION, &version ) != LDAP_SUCCESS) {
 		throw CLdapException("Unable to set LDAPv3");
 	}
@@ -97,8 +100,13 @@ SearchResultsPtr CLdap::search(const CSearchParams& searchParams)
 	}
 
 	// run the search
-	if ( (rc = ldap_search_s( m_pLdap, searchParams.getBaseDN(), scope,
-		searchParams.getFilter(), searchParams.getAttributes(), 0, &pLdapResult )) != LDAP_SUCCESS )
+	if ( (rc = ldap_search_s( m_pLdap, 
+		ANSI2LDAP(searchParams.getBaseDN()), 
+		scope,
+		ANSI2LDAP(searchParams.getFilter()), 
+		searchParams.getAttributes(),  // hmmm, this might not work on custom attributes?
+		0, 
+		&pLdapResult )) != LDAP_SUCCESS )
 	{
 		switch(rc) {
 			case LDAP_REFERRAL:
@@ -120,7 +128,7 @@ SearchResultsPtr CLdap::search(const CSearchParams& searchParams)
 		CEntry entry;
 
 		if ( (szDN = ldap_get_dn( m_pLdap, pLdapEntry )) != NULL ) {
-			entry.DN = szDN;
+			entry.DN = LDAP2ANSI(szDN);
 			ldap_memfree( szDN );
 		}
 
@@ -128,11 +136,11 @@ SearchResultsPtr CLdap::search(const CSearchParams& searchParams)
 				szAttribute != NULL; 
 				szAttribute = ldap_next_attribute( m_pLdap, pLdapEntry, pBer ) ) 
 		{
-			CAttribute attrib(szAttribute);
+			CAttribute attrib(LDAP2ANSI(szAttribute));
 
 			if ((pszVals = ldap_get_values( m_pLdap, pLdapEntry, szAttribute)) != NULL ) {
 				for ( int i = 0; pszVals[i] != NULL; i++ ) {
-					attrib.addValue(pszVals[i]);
+					attrib.addValue(LDAP2ANSI(pszVals[i]));
 				}
 				ldap_value_free( pszVals );
 			}
@@ -155,7 +163,7 @@ SearchResultsPtr CLdap::search(const CSearchParams& searchParams)
 
 char** util_explodeDN(const string& dn)
 {
-	return ldap_explode_dn(dn.c_str(), 0);
+	return ldap_explode_dn(ANSI2LDAP(dn.c_str()), 0);
 }
 
 void util_freeExplodedDNArray(char ** dnArray)

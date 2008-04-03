@@ -3,15 +3,14 @@
 -----[ Latest Release ] -----
 =============================
 
-Beta 0_53
-4/??/2008
+Beta 0_54
+4/3/2008
 --new stuff
 [X] Look at digitally signing the addin macro file (or find another way to avoid the "Enable Macros" annoyance)
-[ ] display version number and have it open a webpage that will display a message when there's a new version
-[ ] Detect if .ini file has been modified since last search and ask user to reload settings if it has
+[X] display version number and have it open a webpage that will display a message when there's a new version
  
 --fixes
-[ ] doesn't display non-US characters correctly
+[X] doesn't display non-US characters correctly
 
 ==============================
 -----[ Remaining TODOs ] -----
@@ -32,7 +31,7 @@ Beta 0_53
 		-I sorted did this by replacing the default values with an error messages, we'll see if this does anything useful
 [ ] Open the tree view to the current basedn
 [ ] Have option to save current basedn to the config file (maybe roll this in with the config file GUI idea)
-
+[ ] Detect if .ini file has been modified since last search and ask user to reload settings if it has
 	
 -- install process
 [ ] Automate the build steps (especially updating the version # in all the various locations)

@@ -18,7 +18,7 @@
 
 #pragma once
 
-
+#include "LdapStringConverter.h"
 #include "LdapException.h"
 #include "ConnectionParams.h"
 #include "SearchParams.h"

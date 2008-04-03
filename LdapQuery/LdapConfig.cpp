@@ -153,3 +153,19 @@ STDMETHODIMP CLdapConfig::GetKnownAttributes(IKnownAttributes** pKnownAttributes
 	
 	return S_OK;
 }
+
+STDMETHODIMP CLdapConfig::get_DLLVersion(LONG* pVal)
+{
+	char buf[2048];
+
+	GetFileVersionInfo("LdapQuery.dll",0,2048,&buf);
+	
+	VS_FIXEDFILEINFO fileInfo;
+
+	VerQueryValue(buf, "\\", &fileInfo,sizeof(fileInfo));
+
+	pVal = fileInfo.dwFileDateLS;
+
+
+	return S_OK;
+}

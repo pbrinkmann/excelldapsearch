@@ -4,9 +4,12 @@ rem Copies release version of LdapQuery.dll to here
 
 del web\index.html
 del web\TODO.txt
+del web\current_versions
 copy readme.html web\index.html
 @if ERRORLEVEL 1 GOTO kaboom
 copy TODO.txt web
+@if ERRORLEVEL 1 GOTO kaboom
+copy current_versions.txt web\current_versions
 @if ERRORLEVEL 1 GOTO kaboom
 
 del web\readme_images\*.*

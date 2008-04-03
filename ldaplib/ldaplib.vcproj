@@ -59,7 +59,7 @@
 			OutputDirectory="Release"
 			IntermediateDirectory="Release"
 			ConfigurationType="4"
-			CharacterSet="2">
+			CharacterSet="1">
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\ldapsdk\release\include"
@@ -105,6 +105,9 @@
 				RelativePath=".\Ldap.cpp">
 			</File>
 			<File
+				RelativePath=".\LdapStringConverter.cpp">
+			</File>
+			<File
 				RelativePath=".\stdafx.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -132,6 +135,9 @@
 			</File>
 			<File
 				RelativePath=".\Ldaplib.h">
+			</File>
+			<File
+				RelativePath=".\LdapStringConverter.h">
 			</File>
 			<File
 				RelativePath=".\SearchParams.h">
