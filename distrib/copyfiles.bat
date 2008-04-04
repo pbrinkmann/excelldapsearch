@@ -9,7 +9,7 @@ copy readme.html web\index.html
 @if ERRORLEVEL 1 GOTO kaboom
 copy TODO.txt web
 @if ERRORLEVEL 1 GOTO kaboom
-copy current_versions.txt web\current_versions
+copy current_version.txt web\current_version
 @if ERRORLEVEL 1 GOTO kaboom
 
 del web\readme_images\*.*

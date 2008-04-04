@@ -68,6 +68,8 @@ class ATL_NO_VTABLE CLdapConfig :
 
 	string getIniLocationFromRegistry(void);
 
+	string getInstallDir();
+
 public:
 	CLdapConfig()
 	{

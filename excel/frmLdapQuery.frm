@@ -32,6 +32,9 @@ Attribute VB_Exposed = False
 
 Option Explicit
 
+Private Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal hWnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
+
+
 ' $Id$
 
 '
@@ -457,6 +460,12 @@ Private Sub lblOpenConfigFile_Click()
     Shell oEnv("SYSTEMROOT") & "\notepad.exe """ & installDir & "\ldap_params.ini""", vbNormalFocus
 End Sub
 
+
+
+Private Sub lblVersion_Click()
+    ShellExecute 0, "open", "http://excelldapsearch.sourceforge.net/cgi-bin/version_check/?dll=" & DLLVersion, vbNullString, vbNullString, Empty
+End Sub
+
 Private Sub sbColOffset_SpinUp()
     lColOffset.Caption = lColOffset.Caption + 1
 End Sub
@@ -496,6 +505,11 @@ Private Sub UserForm_Initialize()
     ' load up the values from the config file
     '
     initAttributeNames
+    
+    '
+    ' set version string
+    '
+    lblVersion = "version 0." & DLLVersion  ' TODO: deal with 1.xx versions later
     
     '
     ' fill in the unique attributes

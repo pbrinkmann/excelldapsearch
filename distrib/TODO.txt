@@ -10,7 +10,7 @@ Beta 0_54
 [X] display version number and have it open a webpage that will display a message when there's a new version
  
 --fixes
-[X] doesn't display non-US characters correctly
+[X] doesn't display non-US characters correctly - converts communications with the directory server to/from UTF-8 now
 
 ==============================
 -----[ Remaining TODOs ] -----
@@ -32,6 +32,8 @@ Beta 0_54
 [ ] Open the tree view to the current basedn
 [ ] Have option to save current basedn to the config file (maybe roll this in with the config file GUI idea)
 [ ] Detect if .ini file has been modified since last search and ask user to reload settings if it has
+[ ] On the version_check cgi-bin file, display the changes from the user's current version by parsing the TODO.txt file or something
+[ ] Get the version_check cgi-bin file in SVN
 	
 -- install process
 [ ] Automate the build steps (especially updating the version # in all the various locations)

@@ -28,7 +28,7 @@ Steps:
 
 5) Edit the readme.html file, change the version and make any other necessary changes
 
-6) Edit the current_versions.txt file, change the first number to the Excel file version and the second to the DLL version
+6) Edit the current_version.txt file, enter the version
 
 7) Run the "copyfiles.bat" file in the "distrib" directory.  This'll prep it for uploading to the web server, as well as grab the latest "LdapQuery.dll" file and put it in the "distrib" directory.
 

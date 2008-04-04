@@ -21,7 +21,10 @@
 #include "stdafx.h"
 #include "LdapConfig.h"
 #include ".\ldapconfig.h"
+#include "version.h"
 
+#include <algorithm>
+#include <functional>
 
 // CLdapConfig
 
@@ -114,26 +117,31 @@ STDMETHODIMP CLdapConfig::put_BaseDN(BSTR newVal)
 	return S_FALSE; // S_OK
 }
 
-string CLdapConfig::getIniLocationFromRegistry(void)
+string CLdapConfig::getInstallDir()
 {
 	char lszValue[4096];
 	HKEY hKey;
 	LONG r;
 	DWORD dwType=REG_SZ;
 	DWORD dwSize=4096;
-	
+
 	r = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SOFTWARE\\Excel LDAP Search", 0L,  KEY_ALL_ACCESS, &hKey);
-	
+
 	if (r == ERROR_SUCCESS) {
 		r = RegQueryValueEx(hKey, "installDir", NULL, &dwType,(LPBYTE)&lszValue, &dwSize);
 	}
 	RegCloseKey(hKey);
 
 	if(r != ERROR_SUCCESS) { // punt and hope they installed in default location
-		return string("C:\\Program Files\\Excel LDAP Search\\ldap_params.ini");
+		return string("C:\\Program Files\\Excel LDAP Search");
 	} else {
-		return string(lszValue) + "\\ldap_params.ini";
+		return string(lszValue); 
 	}
+}
+
+string CLdapConfig::getIniLocationFromRegistry(void)
+{
+	return getInstallDir() + "\\ldap_params.ini";
 }
 
 STDMETHODIMP CLdapConfig::GetKnownAttributes(IKnownAttributes** pKnownAttributes)
@@ -156,16 +164,19 @@ STDMETHODIMP CLdapConfig::GetKnownAttributes(IKnownAttributes** pKnownAttributes
 
 STDMETHODIMP CLdapConfig::get_DLLVersion(LONG* pVal)
 {
-	char buf[2048];
+	version ver(getInstallDir() + "\\LdapQuery.dll");	
 
-	GetFileVersionInfo("LdapQuery.dll",0,2048,&buf);
+	string verStr = ver.get_product_version();
+
+	// damn, that's a messy way to strip out the '.' characters (yay STL):
+	verStr.erase(
+		remove_if(	verStr.begin(), 
+					verStr.end(), 
+					bind2nd(equal_to<char>(), '.')
+					),
+		verStr.end()); 
 	
-	VS_FIXEDFILEINFO fileInfo;
-
-	VerQueryValue(buf, "\\", &fileInfo,sizeof(fileInfo));
-
-	pVal = fileInfo.dwFileDateLS;
-
+	*pVal = atoi(verStr.c_str()); 
 
 	return S_OK;
 }

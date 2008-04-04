@@ -100,7 +100,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="TRUE"
-				AdditionalDependencies="nsldap32v50.lib"
+				AdditionalDependencies="nsldap32v50.lib version.lib"
 				OutputFile="$(OutDir)/LdapQuery.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\ldapsdk\lib"

@@ -27,6 +27,8 @@ Dim cKnownAttributes As Integer
 Dim arUniqueAttributes_() As String
 Dim cUniqueAttributes As Integer
 
+Dim DLLVersion_ As Integer
+
 Sub ShowQueryForm()
     frmLdapQuery.Show
 End Sub
@@ -56,6 +58,12 @@ Function arUniqueAttributes(i As Integer)
     arUniqueAttributes = arUniqueAttributes_(i)
 End Function
 
+Function DLLVersion()
+    DLLVersion = DLLVersion_
+End Function
+
+
+
 '
 ' Load the attributes from the config file.
 ' We'll also use this as an occasion to load the baseDN since we have an active config object
@@ -73,6 +81,7 @@ Sub initAttributeNames()
         MsgBox "Unable to load the ldap_params.ini file"
         Exit Sub
     End If
+
     
     Dim oKnownAttributes As Object
     Set oKnownAttributes = oLdapConfig.GetKnownAttributes()
@@ -111,6 +120,12 @@ Sub initAttributeNames()
     frmLdapQuery.lblBaseDN.Caption = oLdapConfig.BaseDN
     frmLdapQuery.lblBaseDN.ControlTipText = oLdapConfig.BaseDN
     
+    '
+    ' and grab the DLL version while we're doing things unlrelated to initializing attribute names,
+    ' as this method name would imply.
+    ' Maybe I should rename it some day?
+    '
+    DLLVersion_ = oLdapConfig.DLLVersion
 End Sub
 
 
