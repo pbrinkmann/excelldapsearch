@@ -22,27 +22,35 @@ Steps:
 
 3) Save a copy of the "MASTERCOPY.xls" document in the "distrib" directory as "ldapquery_addin.xla" with the filetype "Excel Add-in (97-2003)".  TIP: Beware that changing the filetype from .xls to .xla will change the current save-to directory (grrr), so it's easier to change the filetype to .xla FIRST, then pick the save-to directory
 
+4) Tag the code by creating a tag/branch under https://excelldapsearch.svn.sourceforge.net/svnroot/excelldapsearch/tags/release_0.XX.
+Make sure you DON'T switch the working copy over to the tag.
+
 ++ DOCS ++
 
-4) Edit the TODO.txt file, change the version and make any other necessary changes
+5) Edit the TODO.txt file, change the version and make any other necessary changes
 
-5) Edit the readme.html file, change the version and make any other necessary changes
+6) Edit the readme.html file, change the version and make any other necessary changes
 
-6) Edit the current_version.txt file, enter the version
+7) Edit the current_version.txt file, enter the version
 
-7) Run the "copyfiles.bat" file in the "distrib" directory.  This'll prep it for uploading to the web server, as well as grab the latest "LdapQuery.dll" file and put it in the "distrib" directory.
+8) Run the "copyfiles.bat" file in the "distrib" directory.  This'll prep it for uploading to the web server, as well as grab the latest "LdapQuery.dll" file and put it in the "distrib" directory.
 
-8) Upload distrib\WEB directory to the webserver
+9) Upload distrib\WEB directory to the webserver
+
+++ SOURCE ZIP ++
+
+10) Checkout the latest release tag to a directory and delete all the .SVN subdirs (easy way is to do a search in windows for .SVN and then
+just select all the results and delete).  Zip this up in a file called ExcelLdapSearch_src_0_XX.zip.
 
 ++ INSTALLER ++
 
-9) Edit the installer script ("NSIS installer\install script.nsi"), change the versions and make any other necessary changes.  Be sure to include any new files in the delete section!
+11) Edit the installer script ("NSIS installer\install script.nsi"), change the versions and make any other necessary changes.  Be sure to include any new files in the delete section!
 
-10) Build the Nullsoft installer by opening the "NSIS installer" directory, right clicking the "install script.nsi" file and selecting "Compile NSIS Script".  If you don't have those options on the context menu, make sure you installed NSIS (prereq step B).  You should end up with a "excelldapsearchinstall_Y_XX.exe" file.
+12) Build the Nullsoft installer by opening the "NSIS installer" directory, right clicking the "install script.nsi" file and selecting "Compile NSIS Script".  If you don't have those options on the context menu, make sure you installed NSIS (prereq step B).  You should end up with a "excelldapsearchinstall_Y_XX.exe" file.
 
 ++ SOURCEFORGE ++
-11) Create a new release named beta_X_YY, add the two uploaded files (.zip and .exe), paste in the change notes and be sure to check the "preserve formatting" box.
+13) Create a new release named beta_X_YY, add the two uploaded files (the source .zip and installer .exe), paste in the change notes and be sure to check the "preserve formatting" box.
 
-12) Set the default download to the latest .exe
+14) Set the default download to the latest .exe under the "create/edit download page" link.
 
-13) News release
+15) News release
