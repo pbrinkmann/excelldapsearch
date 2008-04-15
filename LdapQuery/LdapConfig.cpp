@@ -55,7 +55,7 @@ STDMETHODIMP CLdapConfig::put_ServerName(BSTR newVal)
 {
 	// TODO: Add your implementation code here
 
-	return S_FALSE; // S_OK
+	return E_NOTIMPL; // S_OK
 }
 
 STDMETHODIMP CLdapConfig::get_ServerPort(SHORT* pVal)
@@ -69,7 +69,7 @@ STDMETHODIMP CLdapConfig::put_ServerPort(SHORT newVal)
 {
 	// TODO: Add your implementation code here
 
-	return S_FALSE; // S_OK
+	return E_NOTIMPL; // S_OK
 }
 
 STDMETHODIMP CLdapConfig::get_BindDN(BSTR* pVal)
@@ -84,7 +84,7 @@ STDMETHODIMP CLdapConfig::put_BindDN(BSTR newVal)
 {
 	// TODO: Add your implementation code here
 
-	return S_FALSE; // S_OK
+	return E_NOTIMPL;
 }
 
 STDMETHODIMP CLdapConfig::get_BindPW(BSTR* pVal)
@@ -99,7 +99,7 @@ STDMETHODIMP CLdapConfig::put_BindPW(BSTR newVal)
 {
 	// TODO: Add your implementation code here
 
-	return S_FALSE; // S_OK
+	return E_NOTIMPL; 
 }
 
 STDMETHODIMP CLdapConfig::get_BaseDN(BSTR* pVal)
@@ -114,8 +114,24 @@ STDMETHODIMP CLdapConfig::put_BaseDN(BSTR newVal)
 {
 	// TODO: Add your implementation code here
 
-	return S_FALSE; // S_OK
+	return E_NOTIMPL;
 }
+
+STDMETHODIMP CLdapConfig::get_AttributeValueSeparator(BSTR* pVal)
+{
+	CStringW wstr(m_iniFile.GetValue("Search","attributevalueseparator","INVALID CONFIG FILE").c_str());
+	*pVal = SysAllocString(wstr);
+
+	return S_OK;
+}
+
+STDMETHODIMP CLdapConfig::put_AttributeValueSeparator(BSTR newVal)
+{
+	// TODO: Add your implementation code here
+
+	return E_NOTIMPL;
+}
+
 
 string CLdapConfig::getInstallDir()
 {
@@ -168,7 +184,7 @@ STDMETHODIMP CLdapConfig::get_DLLVersion(LONG* pVal)
 
 	string verStr = ver.get_product_version();
 
-	// damn, that's a messy way to strip out the '.' characters (yay STL):
+	// here's the STL equivalent of s/\.//g  (strips out all the periods)
 	verStr.erase(
 		remove_if(	verStr.begin(), 
 					verStr.end(), 
@@ -180,3 +196,5 @@ STDMETHODIMP CLdapConfig::get_DLLVersion(LONG* pVal)
 
 	return S_OK;
 }
+
+
