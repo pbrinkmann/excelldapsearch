@@ -16,14 +16,13 @@
 //  Place, Suite 330, Boston, MA 02111-1307 USA
 
 
-// CLdapSearchResults.cpp : Implementation of CCLdapSearchResults
+// LdapSearchResults.cpp : Implementation of CCLdapSearchResults
 
 #include "stdafx.h"
-#include "CLdapSearchResults.h"
-#include ".\cldapsearchresults.h"
+#include "LdapSearchResults.h"
 
 
-// CCLdapSearchResults
+// CLdapSearchResults
 
 
 

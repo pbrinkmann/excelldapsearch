@@ -16,7 +16,7 @@
 //  Place, Suite 330, Boston, MA 02111-1307 USA
 
 
-// CLdapSearchResults.h : Declaration of the CLdapSearchResults
+// LdapSearchResults.h : Declaration of the CLdapSearchResults
 
 #pragma once
 #include "resource.h"       // main symbols
