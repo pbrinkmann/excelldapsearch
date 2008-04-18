@@ -4,13 +4,13 @@
 ============================
 
 Beta 0_55
-4/??/2008
+4/18/2008
 --new stuff
-[ ] added separator for multiple valued attributes.  Can be set in config file (was using just a single space before)
-[ ] On the version_check cgi-bin file, display the changes from the user's current version by parsing the TODO.txt file or something
+[X] added separator for multiple valued attributes.  Can be set in config file (was using just a single space before)
+[X] On the version_check cgi-bin file, display the changes from the user's current version by parsing the TODO.txt file or something
 
 --fixes/other
-[ ] Get the version_check cgi-bin file in SVN
+
 
 =============================
 -----[ Remaining TODOs ]-----
@@ -49,21 +49,16 @@ Beta 0_55
 Beta 0_54
 4/3/2008
 --new stuff
-[X] Look at digitally signing the addin macro file (or find another way to avoid the "Enable Macros" annoyance)
+[X] Digitally sign the addin macro file to avoid the "Enable Macros" annoyance
 [X] display version number and have it open a webpage that will display a message when there's a new version
-[X] Include version information in
-	(X*) excel source/form - maybe have a ?   about box thingy with a link to homepage
-      -consider DLL version the ultimate version
-	(X) dll 
-	(X) install scripts/installer exe
  
---fixes
+--fixes/other
 [X] doesn't display non-US characters correctly - converts communications with the directory server to/from UTF-8 now
 
 
 Beta 0_53
 3/07/2008
---fixes
+--fixes/other
 [X] uninstaller deleted the DLL before unregistering it, leaving an orphaned (but harmless) registry entry
 [X] port setting in the ldap_params.ini file was being ignored (the default 389 was being used)
 [X] Search fails with "Operations Error" with Active Directory (tested with Windows 2003 server)
@@ -73,14 +68,14 @@ Beta 0_53
 
 Beta 0_52
 3/4/2008
---fixes
+--fixes/other
 [X] Problems occurred with the "open ldap config file" option under certain configurations
 https://sourceforge.net/tracker/?func=detail&atid=1038344&aid=1906791&group_id=216793
 
 
 Beta 0_51
 3/1/2008
---fixes
+--fixes/other
 [X] Memory corruption problems (memory for return value being freed as local object is removed from stack, and lack of AddReference() calls)
 
 
@@ -96,7 +91,7 @@ Let's call this release a Beta release :)
 [X] Open the GUI showing the last tab the user had open
 [X] GPL License in all source files
 
---fixes
+--fixes/other
 [X] Work around some of the the "Compile error: Can't find project or library" errors by handling unique attribute
 		detection in the .dll
 [X] If user installs to a different location without uninstalling first, the tools menu item still points to the old location
@@ -105,12 +100,12 @@ Let's call this release a Beta release :)
 
 Alpha 0_04a
 2/25/2008
---fixes
+--fixes/other
 [X] Wouldn't install unless files already existed (Whoops)
 
 Alpha 0_04
 2/23/2008
--- new stuff
+--new stuff
 [X] try converting to an Excel add-in instead of using the .xlt file type
 [X] Allow returning of the entry DN
 [X] Check for installing when any of the files are locked
@@ -120,19 +115,19 @@ Alpha 0_04
 [X] Implement using the rest of the config file, so users can decide which params to return
 [X] Make which attributes are available when searching for existing data a user configurable item
 
--- fixed stuff
+--fixes/other
 [X] Fix bug where "Method 'Connection' of object 'ILdapSearch' failed" popup happens after repeatedly searching
     with invalid searches  -- I haven't seen this in a while so I'm gonna call it fixed
 
     
 Alpha 0_03
 2/20/2008
--- new stuff
+--new stuff
 [X] Put up some flash videos demoing the program
 [X] Return LDAP search error messages from search COM object
 [X] Have Query Builder remember its last search, so if user wants to make tweaks they don't have to rebuild entire search
 
--- fixed stuff
+--fixes/other
 [X] Fix issue where givenname isn't returned (testing with U of Wash server, it was case sensitive)
 [X] Fix bug with "is not" in query builder
 [X] Fix bug with running AddToolsMenuItem Sub when not using the default install directory
@@ -140,6 +135,7 @@ Alpha 0_03
 
 Alpha 0_02
 02/18/2008
+--new stuff
 [X] Create an installer, instead of using the gawdawful vbs script
 [X] Create an uninstall process
 [X] Include contact information (e-mail in readme)
@@ -147,4 +143,6 @@ Alpha 0_02
 
 Alpha 0_01
 2/10/2008
+--new stuff
 [X] Release the damn thing to Sourceforge
+

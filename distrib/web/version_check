@@ -1,0 +1,122 @@
+#!/usr/bin/perl -w
+
+#
+# Takes one GET parameter - "dll" - which has the
+# version number of user's ELS .  Checks the
+# ../htdocs/current_version file to see if the user has
+# the latest version or not and displays an appropriate message.
+#
+
+use strict;
+
+use CGI qw(:standard);
+
+print CGI::header;
+print start_html("Excel LDAP Search Version Check");
+
+open(FIN,"../htdocs/current_version") 
+	or print h2("Doh, no current version file");
+my ($dll_latest) = <FIN>;
+close FIN;
+exit unless $dll_latest;
+
+if(param("dll")) {
+	my $dll = param("dll");
+	my $dll_color = $dll < $dll_latest ? "red" : "green";
+	print "Your Excel LDAP Version: ",
+		"<span style=\"color: $dll_color;font-weight: bold;\">",
+		"$dll</span>",
+		" latest: $dll_latest<br>";
+
+	if($dll < $dll_latest) {
+		print "<br>It looks like there's a newer version available.",
+			"<br>You can ",
+			"<a href=\"https://sourceforge.net/project/platformdownload.php?group_id=216793&sel_platform=6953\">download it from sourceforge.</a>",
+			"<br><br>Here's a list of issues that have been resolved and new features that your version does not have:<br><br>\n";
+		printFeatureDiffs($dll);
+	}
+} else {
+	print h2("dll GET param not specified");
+}
+
+
+
+#
+# Prints all the features that have been added in releases that are newer
+# than the user's current version.
+#
+sub printFeatureDiffs {
+	my $current_ver = shift;
+	
+	# This'll return a hash of version#(key) -> arrayref(value) to 
+	# array of features/fixes from that version
+	my %features_by_version = parseTODOFile();
+
+	print "<ul>\n";
+
+	foreach my $version (sort keys %features_by_version) {
+		next unless $version > $current_ver;	
+		my @features = @{$features_by_version{$version}};
+		foreach (@features) {
+		print "<li>$_<br>\n";
+		}
+	}
+
+	print "</ul>\n";
+}
+
+
+sub parseTODOFile {
+	my %features_by_version;
+
+	open(FIN,"../htdocs/TODO.txt") or print "<h1>Doh, no TODO.txt file</h1>\n";
+
+	my $curver = -1;
+	my $feature = "";
+	my $fixorfeature = "feature";
+
+	# read through the TODO.txt file, find Beta 0_XX to set the version,
+	# and [X] ...   to denote a feature
+	while(<FIN>) {
+		last if /^Alpha 0_/;
+		
+		if ( /^--new stuff/ ) {
+			$fixorfeature = "feature";
+		} elsif( /^--fixes/ ) {
+			$fixorfeature = "fix";
+		}
+
+		if ( /^Beta 0_(\d\d)/ ) {
+			$curver = $1;
+		} elsif( $feature ) {
+			# check for multiline feature
+			if( ! (/^\s*$/ || /^--/ || /^\[X\] / ) ) {
+				#print "ML\n";
+				$feature .= "<br>$_";
+			} else {
+				if (! exists $features_by_version{$curver}) {
+					$features_by_version{$curver} = [$feature];
+					#print "I$curver $feature<br>";
+				} else {
+					push(@{$features_by_version{$curver}},$feature);
+					#print "P$curver $feature<br>";
+				}
+				$feature = "";
+			}
+		}
+		
+		if ( /^\[X\] (.*)/) {
+			$feature = $1;	
+			if($fixorfeature eq "fix") {
+				$feature = "[FIXED] $feature";
+			}
+			#print "$curver $feature<br>";
+		}
+	}
+
+	close FIN;
+ 
+	return %features_by_version;
+}
+
+

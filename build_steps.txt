@@ -22,8 +22,7 @@ Steps:
 
 3) Save a copy of the "MASTERCOPY.xls" document in the "distrib" directory as "ldapquery_addin.xla" with the filetype "Excel Add-in (97-2003)".  TIP: Beware that changing the filetype from .xls to .xla will change the current save-to directory (grrr), so it's easier to change the filetype to .xla FIRST, then pick the save-to directory
 
-4) Tag the code by creating a tag/branch under https://excelldapsearch.svn.sourceforge.net/svnroot/excelldapsearch/tags/release_0.XX.
-Make sure you DON'T switch the working copy over to the tag.
+4) If you modified version_check on the sourceforge shell in /home/groups/e/ex/excelldapsearch/cgi-bin, FTP it to the distrib\web directory so the latest updates will be included in SVN
 
 ++ DOCS ++
 
@@ -33,24 +32,28 @@ Make sure you DON'T switch the working copy over to the tag.
 
 7) Edit the current_version.txt file, enter the version
 
-8) Run the "copyfiles.bat" file in the "distrib" directory.  This'll prep it for uploading to the web server, as well as grab the latest "LdapQuery.dll" file and put it in the "distrib" directory.
+++ FILE PREP AND UPLOAD ++
 
-9) Upload distrib\WEB directory to the webserver
+8) Tag the project files for this release by creating a tag/branch under https://excelldapsearch.svn.sourceforge.net/svnroot/excelldapsearch/tags/release_0.XX
+Make sure you DON'T switch the working copy over to the new tag!
 
-++ SOURCE ZIP ++
+9) Run the "copyfiles.bat" file in the "distrib" directory.  This'll prep it for uploading to the web server, as well as grab the latest "LdapQuery.dll" file and put it in the "distrib" directory.
 
-10) Checkout the latest release tag to a directory and delete all the .SVN subdirs (easy way is to do a search in windows for .SVN and then
+10) Upload distrib\WEB directory to the webserver
+
+11) Checkout the latest release tag to a directory and delete all the .SVN subdirs (easy way is to do a search in windows for .SVN and then
 just select all the results and delete).  Zip this up in a file called ExcelLdapSearch_src_0_XX.zip.
 
 ++ INSTALLER ++
 
-11) Edit the installer script ("NSIS installer\install script.nsi"), change the versions and make any other necessary changes.  Be sure to include any new files in the delete section!
+12) Edit the installer script ("NSIS installer\install script.nsi"), change the versions and make any other necessary changes.  Be sure to include any new files in the delete section!
 
-12) Build the Nullsoft installer by opening the "NSIS installer" directory, right clicking the "install script.nsi" file and selecting "Compile NSIS Script".  If you don't have those options on the context menu, make sure you installed NSIS (prereq step B).  You should end up with a "excelldapsearchinstall_Y_XX.exe" file.
+13) Build the Nullsoft installer by opening the "NSIS installer" directory, right clicking the "install script.nsi" file and selecting "Compile NSIS Script".  If you don't have those options on the context menu, make sure you installed NSIS (prereq step B).  You should end up with a "excelldapsearchinstall_Y_XX.exe" file.
 
 ++ SOURCEFORGE ++
-13) Create a new release named beta_X_YY, add the two uploaded files (the source .zip and installer .exe), paste in the change notes and be sure to check the "preserve formatting" box.
 
-14) Set the default download to the latest .exe under the "create/edit download page" link.
+14) Create a new release named beta_X_YY, add the two uploaded files (the source .zip and installer .exe), paste in the change notes and be sure to check the "preserve formatting" box.
 
-15) News release
+15) Set the default download to the latest .exe under the "create/edit download page" link.
+
+16) News release
