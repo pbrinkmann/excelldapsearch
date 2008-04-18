@@ -120,7 +120,7 @@ Private Sub DoSearch(queryText, Target As Range)
     Set Target = Target.Offset(1, 0)
    
     Dim oSearchResults
-    Set oSearchResults = oLdap.GetSearchResults()
+    Set oSearchResults = oLdap.GetSearchResults(AttributeValueSeparator)
    
     Dim oSearchResult
     Set oSearchResult = oSearchResults.GetFirstResult()
@@ -275,7 +275,7 @@ endOfSelectLoop:
         End If
         
         Dim oSearchResults
-        Set oSearchResults = oLdap.GetSearchResults()
+        Set oSearchResults = oLdap.GetSearchResults(AttributeValueSeparator)
 
 
         '

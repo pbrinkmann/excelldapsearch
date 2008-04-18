@@ -28,6 +28,8 @@ Dim arUniqueAttributes_() As String
 Dim cUniqueAttributes As Integer
 
 Dim DLLVersion_ As Integer
+Dim AttributeValueSeparator_ As String
+
 
 Sub ShowQueryForm()
     frmLdapQuery.Show
@@ -60,6 +62,10 @@ End Function
 
 Function DLLVersion()
     DLLVersion = DLLVersion_
+End Function
+
+Function AttributeValueSeparator()
+    AttributeValueSeparator = AttributeValueSeparator_
 End Function
 
 
@@ -115,17 +121,14 @@ Sub initAttributeNames()
     Next
     
     '
-    ' sneak in the baseDN thingy here
+    ' Initialize other config variables here
     '
+
     frmLdapQuery.lblBaseDN.Caption = oLdapConfig.BaseDN
     frmLdapQuery.lblBaseDN.ControlTipText = oLdapConfig.BaseDN
     
-    '
-    ' and grab the DLL version while we're doing things unlrelated to initializing attribute names,
-    ' as this method name would imply.
-    ' Maybe I should rename it some day?
-    '
     DLLVersion_ = oLdapConfig.DLLVersion
+    AttributeValueSeparator_ = oLdapConfig.AttributeValueSeparator
 End Sub
 
 
