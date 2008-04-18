@@ -59,12 +59,19 @@ class ATL_NO_VTABLE CLdapSearchResult :
 {
 	CEntry m_entry;
 	bool m_bValid;
+	string m_attributeValueSeparator;
+
 public:
 	CLdapSearchResult() : m_bValid(false)
 	{
 	}
 
-	void setEntry(const CEntry& entry) { m_entry = entry; m_bValid = true; }
+	void setEntry(const CEntry& entry, const string& attributeValueSeparator) 
+	{ 
+		m_entry = entry; 
+		m_attributeValueSeparator = attributeValueSeparator;
+		m_bValid = true;
+	}
 
 	DECLARE_PROTECT_FINAL_CONSTRUCT()
 

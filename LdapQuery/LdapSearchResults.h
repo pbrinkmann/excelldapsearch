@@ -56,13 +56,18 @@ class ATL_NO_VTABLE CLdapSearchResults :
 	public ILdapSearchResults
 {
 	CSearchResults m_searchResults;
+	string m_attributeValueSeparator;
 
 public:
 	CLdapSearchResults()
 	{
 	}
 
-	void setSearchResults(const CSearchResults& searchResults) { m_searchResults = searchResults; }
+	void setSearchResults(const CSearchResults& searchResults, const string& attributeValueSeparator) 
+	{ 
+		m_searchResults = searchResults; 
+		m_attributeValueSeparator = attributeValueSeparator;
+	}
 
 	DECLARE_PROTECT_FINAL_CONSTRUCT()
 

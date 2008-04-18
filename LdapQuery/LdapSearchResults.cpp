@@ -39,7 +39,7 @@ STDMETHODIMP CLdapSearchResults::GetFirstResult(ILdapSearchResult** searchResult
 
 	CSearchResults::ItemPtr pEntry = m_searchResults.getFirstItem();
 	if(pEntry.get() != NULL) {
-		pSearchResult->setEntry(*pEntry);
+		pSearchResult->setEntry(*pEntry, m_attributeValueSeparator);
 	}
 
 	*searchResult = pSearchResult;
@@ -60,7 +60,7 @@ STDMETHODIMP CLdapSearchResults::GetNextResult(ILdapSearchResult** searchResult)
 
 	CSearchResults::ItemPtr pEntry = m_searchResults.getNextItem();
 	if(pEntry.get() != NULL) {
-		pSearchResult->setEntry(*pEntry);
+		pSearchResult->setEntry(*pEntry, m_attributeValueSeparator);
 	}
 
 	*searchResult = pSearchResult;

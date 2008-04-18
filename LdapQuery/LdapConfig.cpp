@@ -45,7 +45,7 @@ STDMETHODIMP CLdapConfig::Load(SHORT* success)
 
 STDMETHODIMP CLdapConfig::get_ServerName(BSTR* pVal)
 {
-	CStringW wstr(m_iniFile.GetValue("Connection","server","INVALID CONFIG FILE").c_str());
+	CStringW wstr(m_iniFile.GetValue("Connection","server","INVALID CONFIG FILE: no server name").c_str());
 	*pVal = SysAllocString(wstr);
 
 	return S_OK;
@@ -74,7 +74,7 @@ STDMETHODIMP CLdapConfig::put_ServerPort(SHORT newVal)
 
 STDMETHODIMP CLdapConfig::get_BindDN(BSTR* pVal)
 {
-	CStringW wstr(m_iniFile.GetValue("Connection","binddn","INVALID CONFIG FILE").c_str());
+	CStringW wstr(m_iniFile.GetValue("Connection","binddn","INVALID CONFIG FILE: no bind dn").c_str());
 	*pVal = SysAllocString(wstr);
 
 	return S_OK;
@@ -89,7 +89,7 @@ STDMETHODIMP CLdapConfig::put_BindDN(BSTR newVal)
 
 STDMETHODIMP CLdapConfig::get_BindPW(BSTR* pVal)
 {
-	CStringW wstr(m_iniFile.GetValue("Connection","bindpw","INVALID CONFIG FILE").c_str());
+	CStringW wstr(m_iniFile.GetValue("Connection","bindpw","INVALID CONFIG FILE: no bind password").c_str());
 	*pVal = SysAllocString(wstr);
 
 	return S_OK;
@@ -104,7 +104,7 @@ STDMETHODIMP CLdapConfig::put_BindPW(BSTR newVal)
 
 STDMETHODIMP CLdapConfig::get_BaseDN(BSTR* pVal)
 {
-	CStringW wstr(m_iniFile.GetValue("Search","basedn","INVALID CONFIG FILE").c_str());
+	CStringW wstr(m_iniFile.GetValue("Search","basedn","INVALID CONFIG FILE: no basedn").c_str());
 	*pVal = SysAllocString(wstr);
 
 	return S_OK;
@@ -119,7 +119,7 @@ STDMETHODIMP CLdapConfig::put_BaseDN(BSTR newVal)
 
 STDMETHODIMP CLdapConfig::get_AttributeValueSeparator(BSTR* pVal)
 {
-	CStringW wstr(m_iniFile.GetValue("Search","attributevalueseparator","INVALID CONFIG FILE").c_str());
+	CStringW wstr(m_iniFile.GetValue("Search","attributevalueseparator","INVALID CONFIG FILE: no attrib value separator").c_str());
 	*pVal = SysAllocString(wstr);
 
 	return S_OK;

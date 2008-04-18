@@ -56,14 +56,19 @@ class ATL_NO_VTABLE CLdapAttribute :
 {
 	CAttribute m_attribute;
 	bool m_bValid;
+	string m_attributeValueSeparator;
 
 public:
 	CLdapAttribute() : m_bValid(false)
 	{
 	}
 
-	void setAttribute(const CAttribute& attribute) { m_attribute = attribute; m_bValid = true; }
-
+	void setAttribute(const CAttribute& attribute, const string& attributeValueSeparator) 
+	{ 
+		m_attribute = attribute; 
+		m_attributeValueSeparator = attributeValueSeparator;
+		m_bValid = true; 
+	}
 
 	DECLARE_PROTECT_FINAL_CONSTRUCT()
 

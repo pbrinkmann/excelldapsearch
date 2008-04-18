@@ -55,7 +55,7 @@ STDMETHODIMP CLdapSearchResult::GetFirstAttribute(ILdapAttribute** attribute)
 
 	CEntry::ItemPtr pAttribute = m_entry.getFirstItem();
 	if(pAttribute.get() != NULL) {
-		pLdapAttribute->setAttribute(*pAttribute);
+		pLdapAttribute->setAttribute(*pAttribute, m_attributeValueSeparator);
 	}
 
 	*attribute = pLdapAttribute;
@@ -76,7 +76,7 @@ STDMETHODIMP CLdapSearchResult::GetNextAttribute(ILdapAttribute** attribute)
 
 	CEntry::ItemPtr pAttribute = m_entry.getNextItem();
 	if(pAttribute.get() != NULL) {
-		pLdapAttribute->setAttribute(*pAttribute);
+		pLdapAttribute->setAttribute(*pAttribute, m_attributeValueSeparator);
 	}
 
 	*attribute = pLdapAttribute;
@@ -101,7 +101,7 @@ STDMETHODIMP CLdapSearchResult::GetAttributeByName(BSTR name, ILdapAttribute** a
 	CEntry::ItemPtr pAttribute = m_entry.getItemByName((char*)szName);
 
 	if(pAttribute.get() != NULL) {
-		pLdapAttribute->setAttribute(*pAttribute);
+		pLdapAttribute->setAttribute(*pAttribute, m_attributeValueSeparator);
 	}
 
 	*attribute = pLdapAttribute;

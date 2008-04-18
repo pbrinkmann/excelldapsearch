@@ -91,12 +91,13 @@ STDMETHODIMP CLdapSearch::Search(BSTR baseDN, BSTR filter, LONG* count)
 		return S_OK;
 	}
 
+	
 	*count = m_pResults->getItemCount();
 
 	return S_OK;
 }
 
-STDMETHODIMP CLdapSearch::GetSearchResults(ILdapSearchResults** searchResults)
+STDMETHODIMP CLdapSearch::GetSearchResults(BSTR attributeValueSeparator, ILdapSearchResults** searchResults)
 {
 	CComObject<CLdapSearchResults>* myObj;
 	CComObject<CLdapSearchResults>::CreateInstance(&myObj);
@@ -105,9 +106,12 @@ STDMETHODIMP CLdapSearch::GetSearchResults(ILdapSearchResults** searchResults)
 		return E_UNEXPECTED;
 	}
 
+	CStringW wstrAVS(attributeValueSeparator);
+	CW2A szAVS(wstrAVS);
+
 	myObj->AddRef();
 
-	myObj->setSearchResults(*m_pResults);
+	myObj->setSearchResults(*m_pResults, (char*)szAVS);
 	
 	*searchResults = myObj;
 

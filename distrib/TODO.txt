@@ -1,25 +1,20 @@
 
-=============================
------[ Latest Release ] -----
-=============================
+============================
+-----[ Latest Release ]-----
+============================
 
-Beta 0_54
-4/3/2008
+Beta 0_55
+4/??/2008
 --new stuff
-[X] Look at digitally signing the addin macro file (or find another way to avoid the "Enable Macros" annoyance)
-[X] display version number and have it open a webpage that will display a message when there's a new version
-[X] Include version information in
-	(X*) excel source/form - maybe have a ?   about box thingy with a link to homepage
-      -consider DLL version the ultimate version
-	(X) dll 
-	(X) install scripts/installer exe
- 
---fixes
-[X] doesn't display non-US characters correctly - converts communications with the directory server to/from UTF-8 now
+[ ] added separator for multiple valued attributes.  Can be set in config file (was using just a single space before)
+[ ] On the version_check cgi-bin file, display the changes from the user's current version by parsing the TODO.txt file or something
 
-==============================
------[ Remaining TODOs ] -----
-==============================
+--fixes/other
+[ ] Get the version_check cgi-bin file in SVN
+
+=============================
+-----[ Remaining TODOs ]-----
+=============================
 
 -- code
 [ ] auto resize columns on search
@@ -37,9 +32,7 @@ Beta 0_54
 [ ] Open the tree view to the current basedn
 [ ] Have option to save current basedn to the config file (maybe roll this in with the config file GUI idea)
 [ ] Detect if .ini file has been modified since last search and ask user to reload settings if it has
-[ ] On the version_check cgi-bin file, display the changes from the user's current version by parsing the TODO.txt file or something
-[ ] Get the version_check cgi-bin file in SVN
-	
+
 -- install process
 [ ] Automate the build steps (especially updating the version # in all the various locations)
 
@@ -49,9 +42,23 @@ Beta 0_54
 [ ] Get an icon for the project
 
 
-================================
------[ Previous Releases ] -----
-================================
+===============================
+-----[ Previous Releases ]-----
+===============================
+
+Beta 0_54
+4/3/2008
+--new stuff
+[X] Look at digitally signing the addin macro file (or find another way to avoid the "Enable Macros" annoyance)
+[X] display version number and have it open a webpage that will display a message when there's a new version
+[X] Include version information in
+	(X*) excel source/form - maybe have a ?   about box thingy with a link to homepage
+      -consider DLL version the ultimate version
+	(X) dll 
+	(X) install scripts/installer exe
+ 
+--fixes
+[X] doesn't display non-US characters correctly - converts communications with the directory server to/from UTF-8 now
 
 
 Beta 0_53
@@ -69,7 +76,6 @@ Beta 0_52
 --fixes
 [X] Problems occurred with the "open ldap config file" option under certain configurations
 https://sourceforge.net/tracker/?func=detail&atid=1038344&aid=1906791&group_id=216793
-
 
 
 Beta 0_51

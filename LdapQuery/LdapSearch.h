@@ -21,7 +21,7 @@
 #pragma once
 #include "resource.h"       // main symbols
 
-#include "CLdapSearchResults.h"
+#include "LdapSearchResults.h"
 
 #include "../ldaplib/ldaplib.h"
 
@@ -40,7 +40,7 @@ __interface ILdapSearch : IDispatch
 	[id(1), helpstring("method ConnectAnon")] HRESULT ConnectAnon([in] BSTR serverName, [in] LONG serverPort, [out,retval] SHORT* connOK);
 	[id(2), helpstring("method Connect")] HRESULT Connect([in] BSTR serverName, [in] LONG serverPort, [in] BSTR userName, [in] BSTR userPassword, [out,retval] SHORT* connOK);
 	[id(3), helpstring("method Search")] HRESULT Search([in] BSTR baseDN, [in] BSTR filter, [out,retval] LONG* count);
-	[id(4), helpstring("method GetSearchResults")] HRESULT GetSearchResults([out,retval] ILdapSearchResults** searchResults);
+	[id(4), helpstring("method GetSearchResults")] HRESULT GetSearchResults([in] BSTR attributeValueSeparator, [out,retval] ILdapSearchResults** searchResults);
 	[propget, id(5), helpstring("property ErrorString")] HRESULT ErrorString([out, retval] BSTR* pVal);
 };
 
@@ -86,7 +86,7 @@ public:
 	STDMETHOD(ConnectAnon)(BSTR serverName, LONG serverPort, SHORT* connOK);
 	STDMETHOD(Connect)(BSTR serverName, LONG serverPort, BSTR userName, BSTR userPassword, SHORT* connOK);
 	STDMETHOD(Search)(BSTR baseDN, BSTR filter, LONG* count);
-	STDMETHOD(GetSearchResults)(ILdapSearchResults** searchResults);
+	STDMETHOD(GetSearchResults)(BSTR attributeValueSeparator, ILdapSearchResults** searchResults);
 	STDMETHOD(get_ErrorString)(BSTR* pVal);
 };
 

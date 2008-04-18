@@ -37,9 +37,15 @@ STDMETHODIMP CLdapAttribute::get_Name(BSTR* pVal)
 STDMETHODIMP CLdapAttribute::get_Value(BSTR* pVal)
 {
 	string value;
+	bool firstTime = true;
 
 	for(CAttribute::ItemPtr i = m_attribute.getFirstItem(); i.get() != NULL; i = m_attribute.getNextItem()) {
-		value += *i;
+		if(firstTime) {
+			value = *i;
+			firstTime = false;
+		} else {
+			value += (m_attributeValueSeparator + *i);
+		}
 	}
 
 	CStringW wstr(value.c_str());

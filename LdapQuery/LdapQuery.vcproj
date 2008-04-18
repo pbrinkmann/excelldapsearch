@@ -156,9 +156,6 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
 			<File
-				RelativePath=".\CLdapSearchResults.cpp">
-			</File>
-			<File
 				RelativePath=".\iniFile.cpp">
 			</File>
 			<File
@@ -178,6 +175,9 @@
 			</File>
 			<File
 				RelativePath=".\LdapSearchResult.cpp">
+			</File>
+			<File
+				RelativePath=".\LdapSearchResults.cpp">
 			</File>
 			<File
 				RelativePath=".\LdapTreeBrowser.cpp">
@@ -203,9 +203,6 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
 			<File
-				RelativePath=".\CLdapSearchResults.h">
-			</File>
-			<File
 				RelativePath=".\iniFile.h">
 			</File>
 			<File
@@ -222,6 +219,9 @@
 			</File>
 			<File
 				RelativePath=".\LdapSearchResult.h">
+			</File>
+			<File
+				RelativePath=".\LdapSearchResults.h">
 			</File>
 			<File
 				RelativePath=".\LdapTreeBrowser.h">
@@ -256,5 +256,8 @@
 		</File>
 	</Files>
 	<Globals>
+		<Global
+			Name="RESOURCE_FILE"
+			Value="LdapQuery.rc"/>
 	</Globals>
 </VisualStudioProject>
