@@ -3,11 +3,12 @@
 -----[ Latest Release ]-----
 ============================
 
-Beta 0_55
-4/18/2008
+Beta 0_56
+4/??/2008
 --new stuff
-[X] added separator for multiple valued attributes.  Can be set in config file (was using just a single space before)
-[X] On the version_check cgi-bin file, display the changes from the user's current version by parsing the TODO.txt file or something
+[ ] auto resize columns on search
+[X] remember the previous search string between dialog sessions
+[ ] Detect if .ini file has been modified since last search and ask user to reload settings if it has
 
 --fixes/other
 
@@ -17,7 +18,6 @@ Beta 0_55
 =============================
 
 -- code
-[ ] auto resize columns on search
 [ ] basedn picker allowed ERROR: xxx messages to be selected and returned as the new basedn
 [ ] Make searches more effient by:
 	( ) Only requesting attributes that are required (right now ALL attributes are returned, but only certain ones are needed)
@@ -31,10 +31,10 @@ Beta 0_55
 		-I sorted did this by replacing the default values with an error messages, we'll see if this does anything useful
 [ ] Open the tree view to the current basedn
 [ ] Have option to save current basedn to the config file (maybe roll this in with the config file GUI idea)
-[ ] Detect if .ini file has been modified since last search and ask user to reload settings if it has
 
 -- install process
 [ ] Automate the build steps (especially updating the version # in all the various locations)
+[ ] Automate testing (maybe vs VPC A.D., local openLDAP, U of W public, and maybe the german server)
 
 -- documentation/other
 [ ] Add screenshots to sourceforge
@@ -45,6 +45,12 @@ Beta 0_55
 ===============================
 -----[ Previous Releases ]-----
 ===============================
+
+Beta 0_55
+4/18/2008
+--new stuff
+[X] added separator for multiple valued attributes.  Can be set in config file (was using just a single space before)
+[X] On the version_check cgi-bin file, display the changes from the user's current version by parsing the TODO.txt file or something
 
 Beta 0_54
 4/3/2008
