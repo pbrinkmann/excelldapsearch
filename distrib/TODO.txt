@@ -9,6 +9,8 @@ Beta 0_56
 [ ] auto resize columns on search
 [X] remember the previous search string between dialog sessions
 [ ] Detect if .ini file has been modified since last search and ask user to reload settings if it has
+[X] display message in installer reminding users to look under the Excel "Tools" menu to find ELS
+[ ] Add link to open readme/help file from main gui and installer
 
 --fixes/other
 

@@ -16,6 +16,9 @@
 ;--------------------------------
 
 !include "install_lib.nsh"
+!include nsDialogs.nsh
+
+XPStyle On
 
 SetCompressor /SOLID lzma
 
@@ -46,6 +49,8 @@ RequestExecutionLevel user
 ; license agreement
 LicenseData "..\distrib\license.txt"
 
+BrandingText "Excel LDAP Search Installer"
+
 ;--------------------------------
 
 ; Pages
@@ -53,6 +58,7 @@ LicenseData "..\distrib\license.txt"
 Page license
 Page directory
 Page instfiles
+Page custom completedMessagePage
 UninstPage uninstConfirm
 UninstPage instfiles
 
@@ -152,6 +158,24 @@ menuRegOK:
   WriteUninstaller "uninstall.exe"
   
 SectionEnd ; end the section
+
+;--------------------------------
+
+; Our custom finish page with a helpful message to the user about where to find ELS
+
+Function completedMessagePage
+
+	nsDialogs::Create /NOUNLOAD 1018
+	Pop $0
+
+	;${NSD_CreateLabel} 0 40u 75% 40u "* Type `hello there` above.$\n* Click the button.$\n* Check the checkbox.$\n* Hit the Back button."
+	${NSD_CreateLabel} 0 0 100% 75u "Excel LDAP Search has been added to the Excel menu as follows:$\n$\n* Tools menu (Excel 2003 and lower)$\nor$\n* Add Ins ribbon menu (Excel 2007)$\n$\n$\nIf you have multiple versions of Excel installed, only the latest will be updated.$\nSee the readme file for more info."
+	Pop $0
+
+	
+	nsDialogs::Show
+
+FunctionEnd
 
 ;--------------------------------
 
