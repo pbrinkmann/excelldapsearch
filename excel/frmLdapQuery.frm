@@ -79,6 +79,8 @@ Private Sub DoSearch(queryText, Target As Range)
 
     On Error GoTo DoSearchError
     
+    SetPreviousQueryString (queryText)
+    
     Dim oLdap, oLdapConfig
     
     Set oLdap = CreateObject("LdapQuery.LdapSearch")
