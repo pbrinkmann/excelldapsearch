@@ -48,6 +48,7 @@ __interface ILdapConfig : IDispatch
 	[propget, id(8), helpstring("property DLLVersion")] HRESULT DLLVersion([out, retval] LONG* pVal);
 	[propget, id(9), helpstring("property AttributeValueSeparator")] HRESULT AttributeValueSeparator([out, retval] BSTR* pVal);
 	[propput, id(9), helpstring("property AttributeValueSeparator")] HRESULT AttributeValueSeparator([in] BSTR newVal);
+	[propget, id(10), helpstring("property ConfigFileTimestamp")] HRESULT ConfigFileTimestamp([out, retval] DATE* pVal);
 };
 
 
@@ -108,5 +109,6 @@ public:
 	STDMETHOD(get_DLLVersion)(LONG* pVal);
 	STDMETHOD(get_AttributeValueSeparator)(BSTR* pVal);
 	STDMETHOD(put_AttributeValueSeparator)(BSTR newVal);
+	STDMETHOD(get_ConfigFileTimestamp)(DATE* pVal);
 };
 

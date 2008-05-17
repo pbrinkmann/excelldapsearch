@@ -21,8 +21,10 @@
 #include "stdafx.h"
 #include "LdapConfig.h"
 #include ".\ldapconfig.h"
-#include "version.h"
+//#include "version.h"
+#pragma message("c:\\source\\Excel LDAP Search\\LdapQuery\\LdapConfig.h(12) : warning XXXXX: REINCLUDE ME")
 
+#include <ATLComTime.h>
 #include <algorithm>
 #include <functional>
 
@@ -180,6 +182,12 @@ STDMETHODIMP CLdapConfig::GetKnownAttributes(IKnownAttributes** pKnownAttributes
 
 STDMETHODIMP CLdapConfig::get_DLLVersion(LONG* pVal)
 {
+#pragma message("warning : UNCOMMENT ME PLEASE");
+	*pVal = 1;
+	return S_OK;
+
+	/*
+
 	version ver(getInstallDir() + "\\LdapQuery.dll");	
 
 	string verStr = ver.get_product_version();
@@ -195,6 +203,39 @@ STDMETHODIMP CLdapConfig::get_DLLVersion(LONG* pVal)
 	*pVal = atoi(verStr.c_str()); 
 
 	return S_OK;
+	*/
 }
 
 
+
+STDMETHODIMP CLdapConfig::get_ConfigFileTimestamp(DATE* pVal)
+{
+	// TODO: Add your implementation code here
+	
+
+	HANDLE hFile;
+	FILETIME ftWrite;
+
+	if( (hFile = CreateFile(getIniLocationFromRegistry().c_str(), 
+							GENERIC_READ, 
+							FILE_SHARE_READ, 
+							NULL,
+							OPEN_EXISTING, 
+							0, 
+							NULL)
+		) != INVALID_HANDLE_VALUE)
+	{
+		if(SUCCEEDED(GetFileTime(hFile, NULL, NULL, &ftWrite)))
+		{
+			COleDateTime timestamp(ftWrite);
+
+			*pVal = timestamp;
+			CloseHandle(hFile);
+			return S_OK;
+		}
+	}
+
+	*pVal = 0;
+	CloseHandle(hFile);
+	return E_UNEXPECTED;
+}

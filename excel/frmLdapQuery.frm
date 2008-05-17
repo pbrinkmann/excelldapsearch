@@ -34,6 +34,7 @@ Option Explicit
 
 Private Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal hWnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
 
+Dim LastQueryTime
 
 ' $Id$
 
@@ -182,6 +183,14 @@ endOfSelectLoop:
     End If
     
     '
+    ' See if the config file has changed since the last query and if we should exit
+    '
+    If CheckConfigFileModified = True Then
+        Exit Sub
+    End If
+    
+    
+    '
     ' See if the user needs a confirmation
     '
     If cbPromptOnOverwrite.Value = True Then
@@ -224,7 +233,12 @@ endOfSelectLoop:
     End If
     
     
-    
+    '
+    ' See if the config file has been modified since our last query
+    '
+    If CheckConfigFileModified = True Then
+        Exit Sub
+    End If
     
     Dim Item
     
@@ -568,9 +582,31 @@ Private Sub UserForm_Initialize()
         End If
         
     End If
-        
-        
     
 End Sub
 
+'
+' Returns true if the config file has been modified since the last call to this function,
+' AND if the user wants to reload the settings
+'
+Function CheckConfigFileModified()
+
+    CheckConfigFileModified = False
+
+    Dim oLdapConfig
+    Set oLdapConfig = CreateObject("LdapQuery.LdapConfig")
+    If IsEmpty(LastQueryTime) Then ' first time through, no existing timestamp
+        LastQueryTime = oLdapConfig.ConfigFileTimestamp
+        'MsgBox ("config file modified on " & LastQueryTime)
+    Else
+        If LastQueryTime <> oLdapConfig.ConfigFileTimestamp Then
+            If MsgBox("The config file has been modified since the settings were loaded, cancel query and reload?", vbYesNo) = vbYes Then
+                frmLdapQuery.Hide
+                Unload frmLdapQuery
+                frmLdapQuery.Show
+               CheckConfigFileModified = True
+            End If
+        End If
+    End If
+End Function
 
