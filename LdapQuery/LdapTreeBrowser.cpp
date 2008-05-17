@@ -113,7 +113,7 @@ void CLdapTreeBrowser::buildInitialTree()
 
 		try {
 			m_ldap.search(searchParams);
-		} catch(CLdapException& e) {
+		} catch(CLdapException& /* e */) {
 			searchError = true;
 		}
 
