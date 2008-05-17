@@ -43,18 +43,20 @@ Make sure you DON'T switch the working copy over to the new tag!
 version_check goes in the cgi-bin directory instead of htdocs.
 
 11) Checkout the latest release tag to a directory and delete all the .SVN subdirs (easy way is to do a search in windows for .SVN and then
-just select all the results and delete).  Zip this up in a file called ExcelLdapSearch_src_0_XX.zip.
+just select all the results and delete).  
+
+12) TEST THE CHECKEDOUT VERSION to see if it compiles.  This should catch missing files that haven't been checked in.  If the build succeeds, do a "clean solution" and then zip this up in a file called ExcelLdapSearch_src_0_XX.zip
 
 ++ INSTALLER ++
 
-12) Edit the installer script ("NSIS installer\install script.nsi"), change the versions and make any other necessary changes.  Be sure to include any new files in the delete section!
+13) Edit the installer script ("NSIS installer\install script.nsi"), change the versions and make any other necessary changes.  Be sure to include any new files in the delete section!
 
-13) Build the Nullsoft installer by opening the "NSIS installer" directory, right clicking the "install script.nsi" file and selecting "Compile NSIS Script".  If you don't have those options on the context menu, make sure you installed NSIS (prereq step B).  You should end up with a "excelldapsearchinstall_Y_XX.exe" file.
+14) Build the Nullsoft installer by opening the "NSIS installer" directory, right clicking the "install script.nsi" file and selecting "Compile NSIS Script".  If you don't have those options on the context menu, make sure you installed NSIS (prereq step B).  You should end up with a "excelldapsearchinstall_Y_XX.exe" file.
 
 ++ SOURCEFORGE ++
 
-14) Create a new release named beta_X_YY, add the two uploaded files (the source .zip and installer .exe), paste in the change notes and be sure to check the "preserve formatting" box.
+15) Create a new release named beta_X_YY, add the two uploaded files (the source .zip and installer .exe), paste in the change notes and be sure to check the "preserve formatting" box.
 
-15) Set the default download to the latest .exe under the "create/edit download page" link.
+16) Set the default download to the latest .exe under the "create/edit download page" link.
 
-16) News release
+17) News release

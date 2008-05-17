@@ -30,6 +30,9 @@ Dim cUniqueAttributes As Integer
 Dim DLLVersion_ As Integer
 Dim AttributeValueSeparator_ As String
 
+Dim PreviousQueryString_ As String
+'''''''''''''''''''''''''''''''''''
+
 
 Sub ShowQueryForm()
     frmLdapQuery.Show
@@ -68,7 +71,13 @@ Function AttributeValueSeparator()
     AttributeValueSeparator = AttributeValueSeparator_
 End Function
 
+Function PreviousQueryString()
+    PreviousQueryString = PreviousQueryString_
+End Function
 
+Sub SetPreviousQueryString(queryString As String)
+    PreviousQueryString_ = queryString
+End Sub
 
 '
 ' Load the attributes from the config file.
@@ -129,6 +138,9 @@ Sub initAttributeNames()
     
     DLLVersion_ = oLdapConfig.DLLVersion
     AttributeValueSeparator_ = oLdapConfig.AttributeValueSeparator
+    
+    frmLdapQuery.tbQuery.Text = PreviousQueryString
+    
 End Sub
 
 
@@ -222,3 +234,21 @@ Function WriteRegValue(RegKey As String, regValue, RegType As String)
     On Error GoTo 0
 End Function
 
+' Reads the installation directory from the registry, or returns the default dir if
+' a problem occurrs
+Function GetInstallDir()
+    ' the easiest way to get the install dir is with the scripting shell
+    Dim oWSH
+    Set oWSH = CreateObject("WScript.Shell")
+    Dim installDir
+    
+    On Error Resume Next
+    Err.Clear
+    GetInstallDir = oWSH.RegRead("HKLM\SOFTWARE\Excel LDAP Search\installDir")
+    
+    ' fall back to the default location
+    If Err <> 0 Then
+        GetInstallDir = "C:\program files\excel ldap search"
+    End If
+    
+End Function

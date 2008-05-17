@@ -456,27 +456,18 @@ End Sub
 
 Private Sub lblOpenConfigFile_Click()
     
-    ' the easiest way to get the install dir is with the scripting shell
     Dim oWSH
-    Set oWSH = CreateObject("WScript.Shell")
-    Dim installDir
-    
-    On Error Resume Next
-    Err.Clear
-    installDir = oWSH.RegRead("HKLM\SOFTWARE\Excel LDAP Search\installDir")
-    
-    ' fall back to the default location
-    If Err <> 0 Then
-        installDir = "C:\program files\excel ldap search"
-    End If
-    
     Dim oEnv
+    
+    Set oWSH = CreateObject("WScript.Shell")
     Set oEnv = oWSH.Environment("process")
     
-    Shell oEnv("SYSTEMROOT") & "\notepad.exe """ & installDir & "\ldap_params.ini""", vbNormalFocus
+    Shell oEnv("SYSTEMROOT") & "\notepad.exe """ & GetInstallDir() & "\ldap_params.ini""", vbNormalFocus
 End Sub
 
-
+Private Sub lblViewReadme_Click()
+    ShellExecute 0, "open", GetInstallDir() & "\readme.html", vbNullString, vbNullString, Empty
+End Sub
 
 Private Sub lblVersion_Click()
     ShellExecute 0, "open", "http://excelldapsearch.sourceforge.net/cgi-bin/version_check/?dll=" & DLLVersion, vbNullString, vbNullString, Empty
