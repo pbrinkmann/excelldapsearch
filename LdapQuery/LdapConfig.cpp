@@ -209,10 +209,7 @@ STDMETHODIMP CLdapConfig::get_DLLVersion(LONG* pVal)
 
 
 STDMETHODIMP CLdapConfig::get_ConfigFileTimestamp(DATE* pVal)
-{
-	// TODO: Add your implementation code here
-	
-
+{	
 	HANDLE hFile;
 	FILETIME ftWrite;
 
@@ -223,19 +220,24 @@ STDMETHODIMP CLdapConfig::get_ConfigFileTimestamp(DATE* pVal)
 							OPEN_EXISTING, 
 							0, 
 							NULL)
-		) != INVALID_HANDLE_VALUE)
+		) == INVALID_HANDLE_VALUE)
 	{
-		if(SUCCEEDED(GetFileTime(hFile, NULL, NULL, &ftWrite)))
-		{
-			COleDateTime timestamp(ftWrite);
-
-			*pVal = timestamp;
-			CloseHandle(hFile);
-			return S_OK;
-		}
+		*pVal = 0;
+		return E_UNEXPECTED;
 	}
 
-	*pVal = 0;
+	if(FAILED(GetFileTime(hFile, NULL, NULL, &ftWrite)))
+	{
+		*pVal = 0;
+		CloseHandle(hFile);
+		return E_UNEXPECTED;
+	}
+
+
+	COleDateTime timestamp(ftWrite);
+
+	*pVal = timestamp;
 	CloseHandle(hFile);
-	return E_UNEXPECTED;
+	return S_OK;
+
 }
