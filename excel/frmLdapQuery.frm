@@ -35,6 +35,29 @@ Option Explicit
 Private Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal hWnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
 
 Dim LastQueryTime
+Dim PBLastPercent
+
+
+' percent given as  0 -> 100
+Private Sub SetProgressBarPercent(stageDescription As String, percent As Integer)
+    ' to prevent unnecessary drawing, only update when the percent changes
+    If IsEmpty(PBLastPercent) Then
+        PBLastPercent = -100
+    End If
+    If percent = PBLastPercent Then
+        Exit Sub
+    End If
+    PBLastPercent = percent
+    
+    PBFrame.caption = stageDescription
+    PBLabel.Width = PBFrame.Width * (percent / 100#)
+    If PBLabel.Width = PBFrame.Width Then
+        PBLabel.Width = PBLabel.Width - 4
+    End If
+    PBLabel.caption = percent & "%"
+
+End Sub
+
 
 ' $Id$
 
@@ -83,6 +106,12 @@ Private Sub DoSearch(queryText, Target As Range)
     SetPreviousQueryString (queryText)
     
     Dim oLdap, oLdapConfig
+  
+    
+    SetProgressBarPercent "Loading Config", 0
+    DoEvents
+    
+
     
     Set oLdap = CreateObject("LdapQuery.LdapSearch")
     Set oLdapConfig = CreateObject("LdapQuery.LdapConfig")
@@ -92,19 +121,28 @@ Private Sub DoSearch(queryText, Target As Range)
         GoTo PEnd
     End If
     
+    SetProgressBarPercent "Connecting to LDAP Server", 5
+    DoEvents
+    
     If oLdap.Connect(oLdapConfig.ServerName, oLdapConfig.ServerPort, oLdapConfig.BindDN, oLdapConfig.BindPW) <> 1 Then
         Target.Value = oLdap.ErrorString
         GoTo PEnd
     End If
     
-    Dim c
-    c = oLdap.Search(frmLdapQuery.lblBaseDN.Caption, queryText)
-    If c = -1 Then
+    SetProgressBarPercent "Performing Search", 10
+    DoEvents
+    
+    Dim cSearchResults
+    cSearchResults = oLdap.Search(frmLdapQuery.lblBaseDN.caption, queryText)
+    If cSearchResults = -1 Then
         Target.Value = oLdap.ErrorString
         GoTo PEnd
     End If
     
-    Target.Value = "search found " & c & " entries"
+    SetProgressBarPercent "Displaying Results", 25
+    DoEvents
+    
+    Target.Value = "search found " & cSearchResults & " entries"
     Set Target = Target.Offset(1, 0)
     
     '
@@ -128,11 +166,18 @@ Private Sub DoSearch(queryText, Target As Range)
     Dim oSearchResult
     Set oSearchResult = oSearchResults.GetFirstResult()
    
+    i = 1
+    
     Do While oSearchResult.IsValid() = 1
         DisplaySearchResult oSearchResult, Target, lbQueryAttributes
         Set Target = Target.Offset(1, 0)
         Set oSearchResult = oSearchResults.GetNextResult()
+        SetProgressBarPercent "Displaying Results", (25 + 75 * i / cSearchResults)
+        DoEvents
+        i = i + 1
     Loop
+    
+    SetProgressBarPercent "Done!", 100
    
 PEnd:
 
@@ -201,6 +246,7 @@ endOfSelectLoop:
     
     
     ActiveSheet.Cells.Clear
+    PBFrame.Visible = True
     DoSearch tbQuery.Value, ActiveSheet.Range("A1")
 End Sub
 
@@ -259,12 +305,12 @@ endOfSelectLoop:
     Set oLdapConfig = CreateObject("LdapQuery.LdapConfig")
     
     If oLdapConfig.Load <> 1 Then
-        lookupValues(1).Offset(0, lColOffset.Caption).Value = "Unable to load the ldap_params.ini file"
+        lookupValues(1).Offset(0, lColOffset.caption).Value = "Unable to load the ldap_params.ini file"
         GoTo PEnd
     End If
     
     If oLdap.Connect(oLdapConfig.ServerName, oLdapConfig.ServerPort, oLdapConfig.BindDN, oLdapConfig.BindPW) <> 1 Then
-        lookupValues(1).Offset(0, lColOffset.Caption).Value = oLdap.ErrorString
+        lookupValues(1).Offset(0, lColOffset.caption).Value = oLdap.ErrorString
         GoTo PEnd
     End If
     
@@ -280,11 +326,11 @@ endOfSelectLoop:
     
         ' set the target for the lookup results
         Dim Target
-        Set Target = Item.Offset(0, lColOffset.Caption)
+        Set Target = Item.Offset(0, lColOffset.caption)
         
         ' run the search
         Dim c
-        c = oLdap.Search(frmLdapQuery.lblBaseDN.Caption, "(" & searchAttribute & "=" & Item.Value & ")")
+        c = oLdap.Search(frmLdapQuery.lblBaseDN.caption, "(" & searchAttribute & "=" & Item.Value & ")")
         If c = -1 Then
             Target.Value = oLdap.ErrorString
             GoTo PEnd
@@ -383,7 +429,7 @@ Sub AddToolsMenuItem()
     ' Set the properties for the new control
     '
     With CmdBarMenuItem
-        .Caption = "Run LDAP Query"
+        .caption = "Run LDAP Query"
         '.OnAction = "'" & GetInstallDir() & "\macro_template.xlt'!ShowQueryForm"
         .OnAction = "'" & GetInstallDir() & "\ldapquery_addin.xla'!ShowQueryForm"
         .Tag = LdapQueryFormTag
@@ -447,7 +493,7 @@ Private Sub lblBaseDN_Click()
     frmBaseDNChooser.Show
     
     If (frmBaseDNChooser.GetSelectedDN <> "") Then
-        lblBaseDN.Caption = frmBaseDNChooser.GetSelectedDN
+        lblBaseDN.caption = frmBaseDNChooser.GetSelectedDN
         lblBaseDN.ControlTipText = frmBaseDNChooser.GetSelectedDN
         
     End If
@@ -474,14 +520,14 @@ Private Sub lblVersion_Click()
 End Sub
 
 Private Sub sbColOffset_SpinUp()
-    lColOffset.Caption = lColOffset.Caption + 1
+    lColOffset.caption = lColOffset.caption + 1
 End Sub
 
 Private Sub sbColOffset_SpinDown()
-    lColOffset.Caption = lColOffset.Caption - 1
+    lColOffset.caption = lColOffset.caption - 1
     
-    If lColOffset.Caption < 1 Then
-        lColOffset.Caption = 1
+    If lColOffset.caption < 1 Then
+        lColOffset.caption = 1
     End If
         
 End Sub
@@ -550,8 +596,8 @@ Private Sub UserForm_Initialize()
     frmBlankSheetQuery.Left = 18
     frmExistingDataQuery.Top = 42
     frmExistingDataQuery.Left = 18
-    tsQueryType.Tabs(0).Caption = "Add LDAP data to existing rows"
-    tsQueryType.Tabs(1).Caption = "Add LDAP entires to a blank sheet"
+    tsQueryType.Tabs(0).caption = "Add LDAP data to existing rows"
+    tsQueryType.Tabs(1).caption = "Add LDAP entires to a blank sheet"
    
     Dim LastTabOpen As Integer
     
@@ -600,4 +646,6 @@ Function CheckConfigFileModified()
         End If
     End If
 End Function
+
+
 
