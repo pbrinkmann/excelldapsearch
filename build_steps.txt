@@ -16,7 +16,7 @@ Steps:
 
 ++ CODE ++
 
-1) Compile the visual studio project, you should end up with an LdapQuery.dll that needs to be registered on the target system (regsvr32 LdapQuery.dll).  IMPORTANT: Make sure you update the LdapQuery version info AND recompile afterwards.
+1) Compile the visual studio project, you should end up with an LdapQuery.dll that needs to be registered on the target system (regsvr32 LdapQuery.dll).  IMPORTANT: Make sure you update the LdapQuery project version info (in the version resource) AND recompile afterwards.
 
 2) To prepare the Excel macro file, the "MASTERCOPY.xls" in the "excel" dir contains the master copy of the Excel VB code.  Open it up, export to the same directory the two forms ("frmLdapQuery" and "frmQueryBuilder") and the module ("ldapQueryFormMacros").  Exporting these will update the .frx, .frm, and .bas files.  This isn't strictly necessary anymore, but it does put the code in an easily diff-able text format.
 
@@ -32,26 +32,26 @@ Steps:
 
 7) Edit the current_version file, enter the version
 
-++ FILE PREP AND UPLOAD ++
+++ INSTALLER ++
 
 8) Run the "copyfiles.bat" file in the "distrib" directory.  This'll prep it for uploading to the web server, as well as grab the latest "LdapQuery.dll" file and put it in the "distrib" directory.
 
-9) Tag the project files for this release by creating a tag/branch under https://excelldapsearch.svn.sourceforge.net/svnroot/excelldapsearch/tags/release_0.XX
+9) Edit the installer script ("NSIS installer\install script.nsi"), change the versions and make any other necessary changes.  Be sure to include any new files in the delete section!
+
+10) Build the Nullsoft installer by opening the "NSIS installer" directory, right clicking the "install script.nsi" file and selecting "Compile NSIS Script".  If you don't have those options on the context menu, make sure you installed NSIS (prereq step B).  You should end up with a "excelldapsearchinstall_Y_XX.exe" file.
+
+++ FILE PREP AND UPLOAD ++
+
+11) Make sure everything's committed, then tag the project files for this release by creating a tag/branch under https://excelldapsearch.svn.sourceforge.net/svnroot/excelldapsearch/tags/release_0.XX
 Make sure you DON'T switch the working copy over to the new tag!
 
-10) Upload distrib\WEB directory to the webserver. All files except version_check go in /home/groups/e/ex/excelldapsearch/htdocs.  
+12) Upload distrib\WEB directory to the webserver. All files except version_check go in /home/groups/e/ex/excelldapsearch/htdocs.  
 version_check goes in the cgi-bin directory instead of htdocs.
 
-11) Checkout the latest release tag to a directory and delete all the .SVN subdirs (easy way is to do a search in windows for .SVN and then
+13) Checkout the latest release tag to a directory and delete all the .SVN subdirs (easy way is to do a search in windows for .SVN and then
 just select all the results and delete).  
 
-12) TEST THE CHECKEDOUT VERSION to see if it compiles.  This should catch missing files that haven't been checked in.  If the build succeeds, do a "clean solution" and then zip this up in a file called ExcelLdapSearch_src_0_XX.zip
-
-++ INSTALLER ++
-
-13) Edit the installer script ("NSIS installer\install script.nsi"), change the versions and make any other necessary changes.  Be sure to include any new files in the delete section!
-
-14) Build the Nullsoft installer by opening the "NSIS installer" directory, right clicking the "install script.nsi" file and selecting "Compile NSIS Script".  If you don't have those options on the context menu, make sure you installed NSIS (prereq step B).  You should end up with a "excelldapsearchinstall_Y_XX.exe" file.
+14) TEST THE CHECKEDOUT VERSION to see if it compiles.  This should catch missing files that haven't been checked in.  If the build succeeds, do a "clean solution" and then zip this up in a file called ExcelLdapSearch_src_0_XX.zip
 
 ++ SOURCEFORGE ++
 

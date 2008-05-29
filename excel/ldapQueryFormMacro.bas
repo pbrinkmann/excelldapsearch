@@ -38,9 +38,11 @@ Sub ShowQueryForm()
     '
     ' load up the values from the config file
     '
-    If initAttributeNames = True Then
-        frmLdapQuery.Show
+    If initAttributeNames <> True Then
+        Exit Sub
     End If
+    
+    frmLdapQuery.Show
 End Sub
 
 Sub AddToolsMenuItem()
@@ -149,12 +151,13 @@ Function initAttributeNames()
     '
     ' Initialize other config variables here
     '
-
-    frmLdapQuery.lblBaseDN.caption = oLdapConfig.BaseDN
-    frmLdapQuery.lblBaseDN.ControlTipText = oLdapConfig.BaseDN
-    
     DLLVersion_ = oLdapConfig.DLLVersion
     AttributeValueSeparator_ = oLdapConfig.AttributeValueSeparator
+
+    ' beware that this is the first use of frmLdapQuery and causes its Initialize
+    ' sub to be called  I think?  hmmm it was causing problems if DLLVersion_ wasn't set beforehand
+    frmLdapQuery.lblBaseDN.caption = oLdapConfig.BaseDN
+    frmLdapQuery.lblBaseDN.ControlTipText = oLdapConfig.BaseDN
     
     frmLdapQuery.tbQuery.Text = PreviousQueryString
     
