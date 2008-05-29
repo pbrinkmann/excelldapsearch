@@ -539,13 +539,8 @@ End Sub
 
 Private Sub lblOpenConfigFile_Click()
     
-    Dim oWSH
-    Dim oEnv
+    openConfigFile
     
-    Set oWSH = CreateObject("WScript.Shell")
-    Set oEnv = oWSH.Environment("process")
-    
-    Shell oEnv("SYSTEMROOT") & "\notepad.exe """ & GetInstallDir() & "\ldap_params.ini""", vbNormalFocus
 End Sub
 
 Private Sub lblViewReadme_Click()
@@ -590,11 +585,6 @@ End Sub
 Private Sub UserForm_Initialize()
     
     reDataRange.Value = Selection.Address
-    
-    '
-    ' load up the values from the config file
-    '
-    initAttributeNames
     
     '
     ' set version string
@@ -662,6 +652,7 @@ Private Sub UserForm_Initialize()
         End If
         
     End If
+
     
 End Sub
 

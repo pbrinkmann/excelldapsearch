@@ -35,7 +35,12 @@ Dim PreviousQueryString_ As String
 
 
 Sub ShowQueryForm()
-    frmLdapQuery.Show
+    '
+    ' load up the values from the config file
+    '
+    If initAttributeNames = True Then
+        frmLdapQuery.Show
+    End If
 End Sub
 
 Sub AddToolsMenuItem()
@@ -83,7 +88,9 @@ End Sub
 ' Load the attributes from the config file.
 ' We'll also use this as an occasion to load the baseDN since we have an active config object
 '
-Sub initAttributeNames()
+' returns True/False to indicate if everything loaded OK or not
+'
+Function initAttributeNames()
    
     '
     ' Get the KnownAttributes object from the config file
@@ -93,8 +100,9 @@ Sub initAttributeNames()
     Set oLdapConfig = CreateObject("LdapQuery.LdapConfig")
 
     If oLdapConfig.Load <> 1 Then
-        MsgBox "Unable to load the ldap_params.ini file"
-        Exit Sub
+        MsgBox "Unable to load the ldap_params.ini file. Check for it in the install dir or reinstall."
+        initAttributeNames = False
+        Exit Function
     End If
 
     
@@ -102,14 +110,23 @@ Sub initAttributeNames()
     Set oKnownAttributes = oLdapConfig.GetKnownAttributes()
     
     '
-    ' Resize the attribute arrays now that we know the needed lengths
+    ' Do some error checking and resize the attribute arrays now that we know the needed lengths
     '
     cKnownAttributes = oKnownAttributes.Count
     cUniqueAttributes = oKnownAttributes.UniqueCount
     
+    If cKnownAttributes < 1 Then
+        MsgBox "You need to define at least one LDAP attribute in your ldap_params.ini file. Opening file...", vbCritical
+        openConfigFile
+        initAttributeNames = False
+        Exit Function
+    End If
+    
     If cUniqueAttributes < 1 Then
-        MsgBox "You need to mark at least one attribute as unique (using '*') in your ldap_params.ini file", vbCritical
-        Exit Sub
+        MsgBox "You need to mark at least one attribute as unique (using '*') in your ldap_params.ini file. Opening file...", vbCritical
+        openConfigFile
+        initAttributeNames = False
+        Exit Function
     End If
     
     ReDim arHumanAttributes_(1 To cKnownAttributes)
@@ -133,7 +150,7 @@ Sub initAttributeNames()
     ' Initialize other config variables here
     '
 
-    frmLdapQuery.lblBaseDN.Caption = oLdapConfig.BaseDN
+    frmLdapQuery.lblBaseDN.caption = oLdapConfig.BaseDN
     frmLdapQuery.lblBaseDN.ControlTipText = oLdapConfig.BaseDN
     
     DLLVersion_ = oLdapConfig.DLLVersion
@@ -141,7 +158,9 @@ Sub initAttributeNames()
     
     frmLdapQuery.tbQuery.Text = PreviousQueryString
     
-End Sub
+    initAttributeNames = True
+    
+End Function
 
 
 '
@@ -252,3 +271,15 @@ Function GetInstallDir()
     End If
     
 End Function
+
+Sub openConfigFile()
+
+    Dim oWSH
+    Dim oEnv
+    
+    Set oWSH = CreateObject("WScript.Shell")
+    Set oEnv = oWSH.Environment("process")
+    
+    Shell oEnv("SYSTEMROOT") & "\notepad.exe """ & GetInstallDir() & "\ldap_params.ini""", vbNormalFocus
+End Sub
+
