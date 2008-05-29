@@ -37,24 +37,42 @@ Private Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (B
 Dim LastQueryTime
 Dim PBLastPercent
 
+Dim PBBlankSearch As Integer
+Dim PBAddSearch As Integer
+
+
+
 
 ' percent given as  0 -> 100
-Private Sub SetProgressBarPercent(stageDescription As String, percent As Integer)
+' please use "Done" as the last stage description to guarantee the bar will refresh
+Private Sub SetProgressBarPercent(stageDescription As String, percent As Integer, whichProgressBar As Integer)
+
+    Dim progressFrame
+    Dim progressLabel
+    
+    If whichProgressBar = PBBlankSearch Then
+        Set progressFrame = frmPBBlankSearch
+        Set progressLabel = lblPBBlankSearch
+    Else
+        Set progressFrame = frmPBAddSearch
+        Set progressLabel = lblPBAddSearch
+    End If
+    
     ' to prevent unnecessary drawing, only update when the percent changes
     If IsEmpty(PBLastPercent) Then
         PBLastPercent = -100
     End If
-    If percent = PBLastPercent Then
+    If percent = PBLastPercent And stageDescription <> "Done" Then
         Exit Sub
     End If
     PBLastPercent = percent
     
-    PBFrame.caption = stageDescription
-    PBLabel.Width = PBFrame.Width * (percent / 100#)
-    If PBLabel.Width = PBFrame.Width Then
-        PBLabel.Width = PBLabel.Width - 4
+    progressFrame.caption = stageDescription
+    progressLabel.Width = progressFrame.Width * (percent / 100#)
+    If progressLabel.Width = progressFrame.Width Then
+        progressLabel.Width = progressLabel.Width - 4
     End If
-    PBLabel.caption = percent & "%"
+    progressLabel.caption = percent & "%"
 
 End Sub
 
@@ -108,7 +126,7 @@ Private Sub DoSearch(queryText, Target As Range)
     Dim oLdap, oLdapConfig
   
     
-    SetProgressBarPercent "Loading Config", 0
+    SetProgressBarPercent "Loading Config", 0, PBBlankSearch
     DoEvents
     
 
@@ -121,7 +139,7 @@ Private Sub DoSearch(queryText, Target As Range)
         GoTo PEnd
     End If
     
-    SetProgressBarPercent "Connecting to LDAP Server", 5
+    SetProgressBarPercent "Connecting to LDAP Server", 5, PBBlankSearch
     DoEvents
     
     If oLdap.Connect(oLdapConfig.ServerName, oLdapConfig.ServerPort, oLdapConfig.BindDN, oLdapConfig.BindPW) <> 1 Then
@@ -129,7 +147,7 @@ Private Sub DoSearch(queryText, Target As Range)
         GoTo PEnd
     End If
     
-    SetProgressBarPercent "Performing Search", 10
+    SetProgressBarPercent "Performing Search", 10, PBBlankSearch
     DoEvents
     
     Dim cSearchResults
@@ -139,7 +157,7 @@ Private Sub DoSearch(queryText, Target As Range)
         GoTo PEnd
     End If
     
-    SetProgressBarPercent "Displaying Results", 25
+    SetProgressBarPercent "Displaying Results", 25, PBBlankSearch
     DoEvents
     
     Target.Value = "search found " & cSearchResults & " entries"
@@ -172,12 +190,12 @@ Private Sub DoSearch(queryText, Target As Range)
         DisplaySearchResult oSearchResult, Target, lbQueryAttributes
         Set Target = Target.Offset(1, 0)
         Set oSearchResult = oSearchResults.GetNextResult()
-        SetProgressBarPercent "Displaying Results", (25 + 75 * i / cSearchResults)
+        SetProgressBarPercent "Displaying Results", (25 + 75 * i / cSearchResults), PBBlankSearch
         DoEvents
         i = i + 1
     Loop
     
-    SetProgressBarPercent "Done!", 100
+    SetProgressBarPercent "Done", 100, PBBlankSearch
    
 PEnd:
 
@@ -246,7 +264,7 @@ endOfSelectLoop:
     
     
     ActiveSheet.Cells.Clear
-    PBFrame.Visible = True
+    frmPBBlankSearch.Visible = True
     DoSearch tbQuery.Value, ActiveSheet.Range("A1")
 End Sub
 
@@ -300,6 +318,10 @@ endOfSelectLoop:
     Dim searchAttribute
     searchAttribute = humanToLdapAttribute(cbSearchAttribute.Value)
     
+    frmPBAddSearch.Visible = True
+    SetProgressBarPercent "Loading Config", 5, PBAddSearch
+    DoEvents
+    
     Dim oLdap, oLdapConfig
     Set oLdap = CreateObject("LdapQuery.LdapSearch")
     Set oLdapConfig = CreateObject("LdapQuery.LdapConfig")
@@ -309,6 +331,9 @@ endOfSelectLoop:
         GoTo PEnd
     End If
     
+    SetProgressBarPercent "Connecting to LDAP Server", 10, PBAddSearch
+    DoEvents
+    
     If oLdap.Connect(oLdapConfig.ServerName, oLdapConfig.ServerPort, oLdapConfig.BindDN, oLdapConfig.BindPW) <> 1 Then
         lookupValues(1).Offset(0, lColOffset.caption).Value = oLdap.ErrorString
         GoTo PEnd
@@ -317,7 +342,12 @@ endOfSelectLoop:
     '
     ' loop through each row item we need to look up
     '
+    i = 0
+    
     For Each Item In lookupValues
+        i = i + 1
+        SetProgressBarPercent "Updating Rows", (10 + 90 * i / lookupValues.Count), PBAddSearch
+        DoEvents
         
         ' skip blank items
         If Item.Value = "" Then
@@ -376,6 +406,9 @@ ItemLoopEnd:
   
    
 PEnd:
+
+    SetProgressBarPercent "Done", 100, PBAddSearch
+    DoEvents
 
     Exit Sub
 
@@ -488,6 +521,10 @@ End Sub
 
 
 
+Private Sub frmExistingDataQuery_Click()
+
+End Sub
+
 Private Sub lblBaseDN_Click()
     Unload frmBaseDNChooser ' reset it
     frmBaseDNChooser.Show
@@ -563,6 +600,12 @@ Private Sub UserForm_Initialize()
     ' set version string
     '
     lblVersion = "version 0." & DLLVersion  ' TODO: deal with 1.xx versions later
+    
+    '
+    ' set some constants
+    '
+    PBBlankSearch = 1
+    PBAddSearch = 2
     
     '
     ' fill in the unique attributes
