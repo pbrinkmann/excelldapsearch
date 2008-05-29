@@ -4,7 +4,7 @@
 ============================
 
 Beta 0_56
-5/??/2008
+5/28/2008
 --new stuff
 [X] remember the previous search string between dialog sessions
 [X] Detect if .ini file has been modified since last search and ask user to reload settings if it has
@@ -13,21 +13,20 @@ Beta 0_56
 [X] Progress bar on long searches (it's hard to tell if anything is happening w/offscreen updates)
 
 --fixes/other
-[ ] If no attributes are marked with a * in the .ini file, bad things happen.  Fix by adding dummy entry
-[ ] If Excel isn't on the computer, the ELS installation dies horribly near the end and the installer leaves 
-files and registry entries with no uninstaller
-[ ] Installer said it installed to Excel 2003 on laptop, where 2007 is installed...
-		Maybe because 2003 was the last version I ran?  2003 seems to have taken over the .xls extension
+[X] If no attributes are marked with a * in the .ini file, bad things happen.  
+
+
 
 =============================
 -----[ Remaining TODOs ]-----
 =============================
 
 -- code
-[ ] basedn picker allowed ERROR: xxx messages to be selected and returned as the new basedn
+[ ] PUT THE VERSION REPORTING CODE BACK (I had to remove it because I lost the version.h file)
 [ ] Make searches more effient by:
 	( ) Only requesting attributes that are required (right now ALL attributes are returned, but only certain ones are needed)
 	( ) For treeview searches, only request the DN or something, we don't actually need any attributes other than the name
+[ ] basedn picker allows ERROR: xxx messages to be selected and returned as the new basedn
 [ ] Add an option for search results to appear with a single selected cell as the top/left corner
 [ ] Provide a GUI to edit the config file
 [ ] Detect multiple versions of Excel installed on the computer and remind user they can manually install to the other versions
@@ -38,11 +37,14 @@ files and registry entries with no uninstaller
 [ ] Open the tree view to the current basedn
 [ ] Have option to save current basedn to the config file (maybe roll this in with the config file GUI idea)
 
+
 -- install process
 [ ] Automate the build steps (especially updating the version # in all the various locations)
 [ ] Automate testing (maybe vs VPC A.D., local openLDAP, U of W public, and maybe the german server)
 [ ] Handle the .ini file more gracefully during install - merge in new/changed items instead of just throwing away the existing file
-
+[ ] Installer said it installed to Excel 2003 on laptop, where 2007 is installed...  Err, this seems to be because 2003 has taken over the .xls extension.  wtf?
+[ ] If Excel isn't on the computer, the ELS installation dies horribly near the end and the installer leaves files and registry entries with no uninstaller.  But why are you trying to install this without Excel?
+		
 -- documentation/other
 [ ] Add screenshots to sourceforge
 [ ] Test on Windows Vista

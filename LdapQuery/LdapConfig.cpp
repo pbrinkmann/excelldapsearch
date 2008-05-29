@@ -182,8 +182,8 @@ STDMETHODIMP CLdapConfig::GetKnownAttributes(IKnownAttributes** pKnownAttributes
 
 STDMETHODIMP CLdapConfig::get_DLLVersion(LONG* pVal)
 {
-#pragma message("warning : UNCOMMENT ME PLEASE");
-	*pVal = 1;
+#pragma message("warning : PLEASE ADD THE BELOW CODE BACK IN ONCE YOU FIND THE VERSION.H FILE");
+	*pVal = 56;
 	return S_OK;
 
 	/*
