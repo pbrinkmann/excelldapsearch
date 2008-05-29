@@ -121,6 +121,11 @@ Private Sub DoSearch(queryText, Target As Range)
 
     On Error GoTo DoSearchError
     
+    '
+    ' Don't let the user start another search while this one's running
+    '
+    DisableControlsForSearch
+    
     SetPreviousQueryString (queryText)
     
     Dim oLdap, oLdapConfig
@@ -199,13 +204,15 @@ Private Sub DoSearch(queryText, Target As Range)
    
 PEnd:
 
+    EnableControlsAfterSearch
     Exit Sub
     
 DoSearchError:
 
     MsgBox "An error occurred: " & Err.Description & " at " & Err.Source, vbExclamation
     Err.Clear
-
+    EnableControlsAfterSearch
+    
 End Sub
 
 
@@ -265,7 +272,9 @@ endOfSelectLoop:
     
     ActiveSheet.Cells.Clear
     frmPBBlankSearch.Visible = True
+
     DoSearch tbQuery.Value, ActiveSheet.Range("A1")
+
 End Sub
 
 Private Sub bnRowLookup_Click()
@@ -304,6 +313,11 @@ endOfSelectLoop:
         Exit Sub
     End If
     
+    '
+    ' Don't let the user start another search while this one's running
+    '
+    DisableControlsForSearch
+    
     Dim Item
     
     '
@@ -328,7 +342,9 @@ endOfSelectLoop:
     
     If oLdapConfig.Load <> 1 Then
         lookupValues(1).Offset(0, lColOffset.caption).Value = "Unable to load the ldap_params.ini file"
-        GoTo PEnd
+        Err.Description = "Unable to load the ldap_params.ini file"
+        Err.Source = "ldap_params.ini file"
+        GoTo RowLookupClickError
     End If
     
     SetProgressBarPercent "Connecting to LDAP Server", 10, PBAddSearch
@@ -336,7 +352,9 @@ endOfSelectLoop:
     
     If oLdap.Connect(oLdapConfig.ServerName, oLdapConfig.ServerPort, oLdapConfig.BindDN, oLdapConfig.BindPW) <> 1 Then
         lookupValues(1).Offset(0, lColOffset.caption).Value = oLdap.ErrorString
-        GoTo PEnd
+        Err.Description = oLdap.ErrorString
+        Err.Source = "LDAP connect call"
+        GoTo RowLookupClickError
     End If
     
     '
@@ -363,7 +381,9 @@ endOfSelectLoop:
         c = oLdap.Search(frmLdapQuery.lblBaseDN.caption, "(" & searchAttribute & "=" & Item.Value & ")")
         If c = -1 Then
             Target.Value = oLdap.ErrorString
-            GoTo PEnd
+            Err.Description = oLdap.ErrorString
+            Err.Source = "LDAP search call"
+            GoTo RowLookupClickError
         End If
         
         Dim oSearchResults
@@ -407,6 +427,7 @@ ItemLoopEnd:
    
 PEnd:
 
+    EnableControlsAfterSearch
     SetProgressBarPercent "Done", 100, PBAddSearch
     DoEvents
 
@@ -416,6 +437,7 @@ RowLookupClickError:
 
     MsgBox "An error occurred: " & Err.Description & " from " & Err.Source, vbExclamation
     Err.Clear
+    EnableControlsAfterSearch
 
 End Sub
 
@@ -681,5 +703,15 @@ Function CheckConfigFileModified()
     End If
 End Function
 
+Private Sub DisableControlsForSearch()
+    bnRunQuery.Enabled = False
+    bnRowLookup.Enabled = False
+    tsQueryType.Enabled = False
+End Sub
 
+Private Sub EnableControlsAfterSearch()
+    bnRunQuery.Enabled = True
+    bnRowLookup.Enabled = True
+    tsQueryType.Enabled = True
+End Sub
 
