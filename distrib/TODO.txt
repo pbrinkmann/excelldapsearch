@@ -23,6 +23,7 @@ Beta 0_56
 
 -- code
 [ ] PUT THE VERSION REPORTING CODE BACK (I had to remove it because I lost the version.h file)
+[ ] REFACTOR THIS MESS.  Pull things out into user classes or modules.  It's gettting too hard to location stuff in the source
 [ ] Make searches more effient by:
 	( ) Only requesting attributes that are required (right now ALL attributes are returned, but only certain ones are needed)
 	( ) For treeview searches, only request the DN or something, we don't actually need any attributes other than the name
