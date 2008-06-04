@@ -652,7 +652,7 @@ Private Sub UserForm_Initialize()
     frmExistingDataQuery.Top = 42
     frmExistingDataQuery.Left = 18
     tsQueryType.Tabs(0).caption = "Add LDAP data to existing rows"
-    tsQueryType.Tabs(1).caption = "Add LDAP entires to a blank sheet"
+    tsQueryType.Tabs(1).caption = "Add LDAP entries to a blank sheet"
    
     Dim LastTabOpen As Integer
     
