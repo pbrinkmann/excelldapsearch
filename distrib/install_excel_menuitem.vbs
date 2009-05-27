@@ -98,6 +98,8 @@ Function AddToolsMenuItem()
 			excelVersion = "Excel 2007"
 		Case 11
 			excelVersion = "Excel 2003"
+		Case "11.0"
+			excelVersion = "Excel 2003"
 		Case 10
 			excelVersion = "Excel XP/2002"
 		Case 9
@@ -113,14 +115,17 @@ Function AddToolsMenuItem()
 			end if
 		Case 5
 			MsgBox "Eeek, you have a really old version of Excel.  Please upgrade to Excel 97 or later", vbError, "Unsupported Excel Version"
-			errMsg  "ERROR: Excel version is too old"
+			errMsg = "ERROR: Excel version is too old"
 			AddToolsMenuItem = False
 			exit Function
 		Case Else
-			MsgBox "Your Excel version was not detected, or is unknown.  Sorry :(", vbError, "Unsupported Excel Version"
-			errMsg  "ERROR: Excel version is unknown"
-			AddToolsMenuItem = False
-			exit Function		
+			excelVersion = "Version Unknown"
+			MsgBox "Your Excel version was reported as """ & excel.Version & """, which is an unrecognized version", vbError, "Unsupported Excel Version"
+			if MsgBox("Do you with to try and continue with this install?", vbYesNo, "Unkown Excel Version") = vbNo then
+				errMsg = "User aborted install due to unknown Excel version"
+				AddToolsMenuItem = False
+				exit Function
+			end if
 	end select
 
 
