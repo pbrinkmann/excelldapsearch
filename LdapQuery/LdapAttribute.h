@@ -44,7 +44,7 @@ __interface ILdapAttribute : IDispatch
 
 [
 	coclass,
-	threading("apartment"),
+	threading(apartment),
 	vi_progid("LdapQuery.LdapAttribute"),
 	progid("LdapQuery.LdapAttribute.1"),
 	version(1.0),

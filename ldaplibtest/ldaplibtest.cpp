@@ -22,7 +22,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		if( ! config.ReadFile() ) {
 			cout << "ERROR READING CONFIG FILE. hit enter to exit";
 			getchar();
-			
+			exit(1);
 		}
 
 		//printLdapAttributes(config);

@@ -50,7 +50,7 @@ __interface ILdapSearch : IDispatch
 
 [
 	coclass,
-	threading("apartment"),
+	threading(apartment),
 	vi_progid("LdapQuery.LdapSearch"),
 	progid("LdapQuery.LdapSearch.1"),
 	version(1.0),

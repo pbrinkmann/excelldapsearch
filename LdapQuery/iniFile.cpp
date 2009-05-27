@@ -45,66 +45,66 @@ CIniFile::CIniFile( string const iniPath)
 
 bool CIniFile::ReadFile()
 {
-  // Normally you would use ifstream, but the SGI CC compiler has
-  // a few bugs with ifstream. So ... fstream used.
-  fstream f;
-  string   line;
-  string   keyname, valuename, value;
-  string::size_type pLeft, pRight;
+	// Normally you would use ifstream, but the SGI CC compiler has
+	// a few bugs with ifstream. So ... fstream used.
+	fstream f;
+	string   line;
+	string   keyname, valuename, value;
+	string::size_type pLeft, pRight;
 
-  f.open( path.c_str(), ios::in);
-  if ( f.fail())
-    return false;
-  
-  while( getline( f, line)) {
-    // To be compatible with Win32, check for existence of '\r'.
-    // Win32 files have the '\r' and Unix files don't at the end of a line.
-    // Note that the '\r' will be written to INI files from
-    // Unix so that the created INI file can be read under Win32
-    // without change.
-    if ( line[line.length() - 1] == '\r')
-      line = line.substr( 0, line.length() - 1);
-    
-    if ( line.length()) {
-      // Check that the user hasn't openned a binary file by checking the first
-      // character of each line!
-      if ( !isprint( line[0])) {
-	printf( "Failing on char %d\n", line[0]);
+	f.open( path.c_str(), ios::in);
+	if ( f.fail())
+		return false;
+
+	while( getline( f, line)) {
+		if ( line.length() ) {
+			// To be compatible with Win32, check for existence of '\r'.
+			// Win32 files have the '\r' and Unix files don't at the end of a line.
+			// Note that the '\r' will be written to INI files from
+			// Unix so that the created INI file can be read under Win32
+			// without change.
+			if ( line[line.length() - 1] == '\r')
+				line = line.substr( 0, line.length() - 1);
+
+			// Check that the user hasn't opened a binary file by checking the first
+			// character of each line!
+			if ( !isprint( line[0])) {
+				printf( "Failing on char %d\n", line[0]);
+				f.close();
+				return false;
+			}
+			if (( pLeft = line.find_first_of(";#[=")) != string::npos) {
+				switch ( line[pLeft]) {
+					case '[':
+						if ((pRight = line.find_last_of("]")) != string::npos &&
+							pRight > pLeft) {
+								keyname = line.substr( pLeft + 1, pRight - pLeft - 1);
+								AddKeyName( keyname);
+						}
+						break;
+
+					case '=':
+						valuename = line.substr( 0, pLeft);
+						value = line.substr( pLeft + 1);
+						SetValue( keyname, valuename, value);
+						break;
+
+					case ';':
+					case '#':
+						if ( !names.size())
+							HeaderComment( line.substr( pLeft + 1));
+						else
+							KeyComment( keyname, line.substr( pLeft + 1));
+						break;
+				} // end switch
+			} // end if not a comment
+		} // end if line has a length
+	} // end while
+
 	f.close();
+	if ( names.size())
+		return true;
 	return false;
-      }
-      if (( pLeft = line.find_first_of(";#[=")) != string::npos) {
-	switch ( line[pLeft]) {
-	case '[':
-	  if ((pRight = line.find_last_of("]")) != string::npos &&
-	      pRight > pLeft) {
-	    keyname = line.substr( pLeft + 1, pRight - pLeft - 1);
-	    AddKeyName( keyname);
-	  }
-	  break;
-	  
-	case '=':
-	  valuename = line.substr( 0, pLeft);
-	  value = line.substr( pLeft + 1);
-	  SetValue( keyname, valuename, value);
-	  break;
-	  
-	case ';':
-	case '#':
-	  if ( !names.size())
-	    HeaderComment( line.substr( pLeft + 1));
-	  else
-	    KeyComment( keyname, line.substr( pLeft + 1));
-	  break;
-	}
-      }
-    }
-  }
-
-  f.close();
-  if ( names.size())
-    return true;
-  return false;
 }
 
 bool CIniFile::WriteFile()
