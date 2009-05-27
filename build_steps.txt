@@ -9,7 +9,7 @@ and extract to "ldapsdk" directory.
 
 B) Download and install the NSIS installer from http://nsis.sourceforge.net/Download
 
-C) Visual Studio 2003
+C) Visual Studio 2005
 
 ------------------------------------------------------------------------------------------------------------------
 Steps:
@@ -42,8 +42,7 @@ Steps:
 
 ++ FILE PREP AND UPLOAD ++
 
-11) Make sure everything's committed, then tag the project files for this release by creating a tag/branch under https://excelldapsearch.svn.sourceforge.net/svnroot/excelldapsearch/tags/release_0.XX
-Make sure you DON'T switch the working copy over to the new tag!
+11) Make sure everything's committed, then tag the project files for this release by creating a tag/branch under https://excelldapsearch.svn.sourceforge.net/svnroot/excelldapsearch/tags/release_0.XX .Make sure you DON'T switch the working copy over to the new tag!
 
 12) Upload distrib\WEB directory to the webserver. All files except version_check go in /home/groups/e/ex/excelldapsearch/htdocs.  
 version_check goes in the cgi-bin directory instead of htdocs.

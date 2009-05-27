@@ -49,7 +49,7 @@ __interface IKnownAttributes : IDispatch
 
 [
 	coclass,
-	threading("apartment"),
+	threading(apartment),
 	vi_progid("LdapQuery.KnownAttributes"),
 	progid("LdapQuery.KnownAttributes.1"),
 	version(1.0),

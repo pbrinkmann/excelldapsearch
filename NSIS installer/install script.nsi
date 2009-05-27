@@ -26,14 +26,14 @@ SetCompressor /SOLID lzma
 Name "Excel LDAP Search"
 
 ; Version #
-VIProductVersion "0.0.5.6"
+VIProductVersion "0.0.5.7"
 VIAddVersionKey /LANG=${LANG_ENGLISH} "ProductName" "Excel LDAP Search"
 VIAddVersionKey /LANG=${LANG_ENGLISH} "Comments" "An Excel add-in to perform LDAP searches"
 VIAddVersionKey /LANG=${LANG_ENGLISH} "FileDescription" "Excel LDAP Search installer"
 VIAddVersionKey /LANG=${LANG_ENGLISH} "FileVersion" "0.0.5.5"
 
 ; The file to write
-OutFile "ExcelLdapSearchInstall_0_56.exe"
+OutFile "ExcelLdapSearchInstall_0_57.exe"
 
 
 ; The default installation directory
@@ -44,7 +44,7 @@ InstallDir "$PROGRAMFILES\Excel LDAP Search"
 InstallDirRegKey HKLM "Software\Excel LDAP Search" "installDir"
 
 ; Request application privileges for Windows Vista
-RequestExecutionLevel user
+RequestExecutionLevel admin
 
 ; license agreement
 LicenseData "..\distrib\license.txt"
@@ -207,8 +207,9 @@ noFileInUseB:
   Delete /REBOOTOK $INSTDIR\macro_template.xlt	; left in for legacy purposes
   Delete /REBOOTOK $INSTDIR\ldapquery_addin.xla
   Delete /REBOOTOK $INSTDIR\nsldap32v50.dll
-  Delete /REBOOTOK $INSTDIR\msvcp71.dll
-  Delete /REBOOTOK $INSTDIR\msvcr71.dll
+  Delete /REBOOTOK $INSTDIR\msvcm80.dll
+  Delete /REBOOTOK $INSTDIR\msvcp80.dll
+  Delete /REBOOTOK $INSTDIR\msvcr80.dll
   
   ; remove the Excel menu item
   ExecWait 'cscript "$INSTDIR\remove_excel_menuitem.vbs"'
@@ -232,8 +233,9 @@ noFileInUseB:
   Delete $INSTDIR\ldap_params.ini
   Delete $INSTDIR\license.txt
   Delete $INSTDIR\COPYING
-  Delete $INSTDIR\msvcp71.dll
-  Delete $INSTDIR\msvcr71.dll
+  Delete $INSTDIR\msvcm80.dll
+  Delete $INSTDIR\msvcp80.dll
+  Delete $INSTDIR\msvcr80.dll
   Delete $INSTDIR\readme.html
   Delete $INSTDIR\TODO.txt
   Delete $INSTDIR\uninstall.exe

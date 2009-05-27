@@ -5,7 +5,7 @@
 
 #include "../ldaplib/ldaplib.h"
 
-#include "iniFile.h"
+#include "../LdapQuery/iniFile.h"
 #include "Windows.h"
 
 void printLdapAttributes(CIniFile& config);

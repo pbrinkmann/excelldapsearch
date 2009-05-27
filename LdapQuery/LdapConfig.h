@@ -57,7 +57,7 @@ __interface ILdapConfig : IDispatch
 
 [
 	coclass,
-	threading("apartment"),
+	threading(apartment),
 	vi_progid("LdapQuery.LdapConfig"),
 	progid("LdapQuery.LdapConfig.1"),
 	version(1.0),

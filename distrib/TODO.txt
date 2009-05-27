@@ -3,18 +3,17 @@
 -----[ Latest Release ]-----
 ============================
 
-Beta 0_56
+Beta 0_57
 5/28/2008
 --new stuff
-[X] remember the previous search string between dialog sessions
-[X] Detect if .ini file has been modified since last search and ask user to reload settings if it has
-[X] display message in installer reminding users to look under the Excel "Tools" menu to find ELS
-[X] Add link to open readme/help file from main gui and/or installer
-[X] Progress bar on long searches (it's hard to tell if anything is happening w/offscreen updates)
+[ ] Installs in Vista as non-administrator
+[ ] Easy way to find entries that are missing an attributes
+[ ] Searching continues on if errors are encountered
+[ ] Add data to existing row option can now provide column headers
 
 --fixes/other
-[X] If no attributes are marked with a * in the .ini file, bad things happen.  
-
+[ ] Better detection of Excel 2003 and ability to continue install with unknown versions
+[ ] Fixed "Out of Memory" error
 
 
 =============================
@@ -34,7 +33,7 @@ Beta 0_56
 [ ] Experiment with making tree browser item operations asynchronous - fire up a search thread that posts messages back
 		as it find the items
 [ ] get some sort of INI file missing error instead of trying to use default values if there's no INI file or it's invalid
-		-I sorted did this by replacing the default values with an error messages, we'll see if this does anything useful
+		-I sorta did this by replacing the default values with an error messages, we'll see if this does anything useful
 [ ] Open the tree view to the current basedn
 [ ] Have option to save current basedn to the config file (maybe roll this in with the config file GUI idea)
 
@@ -55,6 +54,18 @@ Beta 0_56
 ===============================
 -----[ Previous Releases ]-----
 ===============================
+
+Beta 0_56
+5/28/2008
+--new stuff
+[X] remember the previous search string between dialog sessions
+[X] Detect if .ini file has been modified since last search and ask user to reload settings if it has
+[X] display message in installer reminding users to look under the Excel "Tools" menu to find ELS
+[X] Add link to open readme/help file from main gui and/or installer
+[X] Progress bar on long searches (it's hard to tell if anything is happening w/offscreen updates)
+
+--fixes/other
+[X] If no attributes are marked with a * in the .ini file, bad things happen.  
 
 Beta 0_55
 4/18/2008

@@ -21,8 +21,7 @@
 #include "stdafx.h"
 #include "LdapConfig.h"
 #include ".\ldapconfig.h"
-//#include "version.h"
-#pragma message("c:\\source\\Excel LDAP Search\\LdapQuery\\LdapConfig.h(12) : warning XXXXX: REINCLUDE ME")
+#include "VersionInfo.h"
 
 #include <ATLComTime.h>
 #include <algorithm>
@@ -143,7 +142,7 @@ string CLdapConfig::getInstallDir()
 	DWORD dwType=REG_SZ;
 	DWORD dwSize=4096;
 
-	r = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SOFTWARE\\Excel LDAP Search", 0L,  KEY_ALL_ACCESS, &hKey);
+	r = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SOFTWARE\\Excel LDAP Search", 0L,  KEY_QUERY_VALUE, &hKey);
 
 	if (r == ERROR_SUCCESS) {
 		r = RegQueryValueEx(hKey, "installDir", NULL, &dwType,(LPBYTE)&lszValue, &dwSize);
@@ -152,9 +151,9 @@ string CLdapConfig::getInstallDir()
 
 	if(r != ERROR_SUCCESS) { // punt and hope they installed in default location
 		return string("C:\\Program Files\\Excel LDAP Search");
-	} else {
-		return string(lszValue); 
 	}
+	
+	return string(lszValue); 
 }
 
 string CLdapConfig::getIniLocationFromRegistry(void)
@@ -182,13 +181,7 @@ STDMETHODIMP CLdapConfig::GetKnownAttributes(IKnownAttributes** pKnownAttributes
 
 STDMETHODIMP CLdapConfig::get_DLLVersion(LONG* pVal)
 {
-#pragma message("warning : PLEASE ADD THE BELOW CODE BACK IN ONCE YOU FIND THE VERSION.H FILE");
-	*pVal = 56;
-	return S_OK;
-
-	/*
-
-	version ver(getInstallDir() + "\\LdapQuery.dll");	
+	VersionInfo ver(getInstallDir() + "\\LdapQuery.dll");	
 
 	string verStr = ver.get_product_version();
 
@@ -203,7 +196,6 @@ STDMETHODIMP CLdapConfig::get_DLLVersion(LONG* pVal)
 	*pVal = atoi(verStr.c_str()); 
 
 	return S_OK;
-	*/
 }
 
 

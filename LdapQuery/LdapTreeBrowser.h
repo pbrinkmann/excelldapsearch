@@ -60,7 +60,7 @@ __interface ILdapTreeBrowser : public IDispatch
 // CLdapTreeBrowser
 [
 	coclass,
-	threading("apartment"),
+	threading(apartment),
 	vi_progid("LdapQuery.LdapTreeBrowser"),
 	progid("LdapQuery.LdapTreeBrowser.1"),
 	version(1.0),

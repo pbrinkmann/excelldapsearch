@@ -238,7 +238,7 @@ bool CIniFile::SetValueI( string const keyname, string const valuename, int cons
 {
   char svalue[MAX_VALUEDATA];
 
-  sprintf( svalue, "%d", value);
+  sprintf_s( svalue, sizeof(svalue), "%d", value);
   return SetValue( keyname, valuename, svalue);
 }
 
@@ -246,7 +246,7 @@ bool CIniFile::SetValueF( string const keyname, string const valuename, double c
 {
   char svalue[MAX_VALUEDATA];
 
-  sprintf( svalue, "%f", value);
+  sprintf_s( svalue, sizeof(svalue), "%f", value);
   return SetValue( keyname, valuename, svalue);
 }
 
@@ -285,7 +285,7 @@ int CIniFile::GetValueI(string const keyname, string const valuename, int const 
 {
   char svalue[MAX_VALUEDATA];
 
-  sprintf( svalue, "%d", defValue);
+  sprintf_s( svalue, sizeof(svalue), "%d", defValue);
   return atoi( GetValue( keyname, valuename, svalue).c_str()); 
 }
 
@@ -293,7 +293,7 @@ double CIniFile::GetValueF(string const keyname, string const valuename, double 
 {
   char svalue[MAX_VALUEDATA];
 
-  sprintf( svalue, "%f", defValue);
+  sprintf_s( svalue, sizeof(svalue), "%f", defValue);
   return atof( GetValue( keyname, valuename, svalue).c_str()); 
 }
 
