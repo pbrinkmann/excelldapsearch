@@ -156,7 +156,7 @@ Function initAttributeNames()
 
     ' beware that this is the first use of frmLdapQuery and causes its Initialize
     ' sub to be called  I think?  hmmm it was causing problems if DLLVersion_ wasn't set beforehand
-    frmLdapQuery.lblBaseDN.caption = oLdapConfig.BaseDN
+    frmLdapQuery.lblBaseDN.Caption = oLdapConfig.BaseDN
     frmLdapQuery.lblBaseDN.ControlTipText = oLdapConfig.BaseDN
     
     frmLdapQuery.tbQuery.Text = PreviousQueryString
@@ -235,6 +235,16 @@ Function ReadRegValue(RegKey As String, ByRef regValue)
     
     On Error GoTo 0
 End Function
+
+'
+' Tries to read a reg key, uses specified default value if the key
+' doesn't exist or an error occurred
+'
+Sub ReadRegValueWithDefault(RegKey As String, ByRef regValue, defaultValue)
+    If Not ReadRegValue(RegKey, regValue) Then
+        regValue = defaultValue
+    End If
+End Sub
 
 ' Takes three arguements - the key name, the value of the key,
 ' and the type of key (ex, "REG_SZ", "REG_DWORD", "REG_BIN",...)

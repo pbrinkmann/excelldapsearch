@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frmLdapQuery 
-   Caption         =   "Ldap Query"
-   ClientHeight    =   6600
+   Caption         =   "Ldap Search"
+   ClientHeight    =   7050
    ClientLeft      =   45
    ClientTop       =   435
-   ClientWidth     =   6885
+   ClientWidth     =   15630
    OleObjectBlob   =   "frmLdapQuery.frx":0000
    StartUpPosition =   1  'CenterOwner
 End
@@ -58,6 +58,8 @@ Private Sub SetProgressBarPercent(stageDescription As String, percent As Integer
         Set progressLabel = lblPBAddSearch
     End If
     
+    progressLabel.Visible = True
+    
     ' to prevent unnecessary drawing, only update when the percent changes
     If IsEmpty(PBLastPercent) Then
         PBLastPercent = -100
@@ -67,12 +69,12 @@ Private Sub SetProgressBarPercent(stageDescription As String, percent As Integer
     End If
     PBLastPercent = percent
     
-    progressFrame.caption = stageDescription
+    progressFrame.Caption = stageDescription
     progressLabel.Width = progressFrame.Width * (percent / 100#)
     If progressLabel.Width = progressFrame.Width Then
         progressLabel.Width = progressLabel.Width - 4
     End If
-    progressLabel.caption = percent & "%"
+    progressLabel.Caption = percent & "%"
 
 End Sub
 
@@ -86,7 +88,7 @@ End Sub
 '
 Private Sub DisplaySearchResult(oSearchResult, Target, lbReturnAttributes)
     Dim cAttributes
-    Dim i
+    Dim i As Integer
     Dim oAttribute
     
     cAttributes = 0
@@ -100,10 +102,9 @@ Private Sub DisplaySearchResult(oSearchResult, Target, lbReturnAttributes)
             If lbReturnAttributes.List(i) = "LDAP DN" Then
                 Target.Offset(0, cAttributes).Value = oSearchResult.DN
             Else
-                ' TODO: calling humanToLdapAttribute each time here is not optimal
-                ' the index (i) should be the same as the attribute arrays so we should just directly index ldapAttributes
-                ' ...  I think ...
-                Set oAttribute = oSearchResult.GetAttributeByName(humanToLdapAttribute(lbReturnAttributes.List(i)))
+                ' The lbReturnAttributes list should be in the same order as the attribute names,
+                ' so using the same index (i) here should work
+                Set oAttribute = oSearchResult.GetAttributeByName(arLdapAttributes(i + 1))
                 If oAttribute.IsValid Then
                     Target.Offset(0, cAttributes).Value = oAttribute.Value
                 Else
@@ -134,7 +135,6 @@ Private Sub DoSearch(queryText, Target As Range)
     SetProgressBarPercent "Loading Config", 0, PBBlankSearch
     DoEvents
     
-
     
     Set oLdap = CreateObject("LdapQuery.LdapSearch")
     Set oLdapConfig = CreateObject("LdapQuery.LdapConfig")
@@ -156,7 +156,7 @@ Private Sub DoSearch(queryText, Target As Range)
     DoEvents
     
     Dim cSearchResults
-    cSearchResults = oLdap.Search(frmLdapQuery.lblBaseDN.caption, queryText)
+    cSearchResults = oLdap.Search(frmLdapQuery.lblBaseDN.Caption, queryText)
     If cSearchResults = -1 Then
         Target.Value = oLdap.ErrorString
         GoTo PEnd
@@ -169,7 +169,7 @@ Private Sub DoSearch(queryText, Target As Range)
     Set Target = Target.Offset(1, 0)
     
     '
-    ' print out the header columns for out returned attributes
+    ' print out the header columns for our returned attributes
     '
     Dim cHeaderColumn
     Dim i
@@ -213,12 +213,6 @@ DoSearchError:
     Err.Clear
     EnableControlsAfterSearch
     
-End Sub
-
-
-Private Sub bnClose_Click()
-    frmLdapQuery.Hide
-    Unload frmLdapQuery
 End Sub
 
 
@@ -341,7 +335,7 @@ endOfSelectLoop:
     Set oLdapConfig = CreateObject("LdapQuery.LdapConfig")
     
     If oLdapConfig.Load <> 1 Then
-        lookupValues(1).Offset(0, lColOffset.caption).Value = "Unable to load the ldap_params.ini file"
+        lookupValues(1).Offset(0, lColOffset.Caption).Value = "Unable to load the ldap_params.ini file"
         Err.Description = "Unable to load the ldap_params.ini file"
         Err.Source = "ldap_params.ini file"
         GoTo RowLookupClickError
@@ -351,7 +345,7 @@ endOfSelectLoop:
     DoEvents
     
     If oLdap.Connect(oLdapConfig.ServerName, oLdapConfig.ServerPort, oLdapConfig.BindDN, oLdapConfig.BindPW) <> 1 Then
-        lookupValues(1).Offset(0, lColOffset.caption).Value = oLdap.ErrorString
+        lookupValues(1).Offset(0, lColOffset.Caption).Value = oLdap.ErrorString
         Err.Description = oLdap.ErrorString
         Err.Source = "LDAP connect call"
         GoTo RowLookupClickError
@@ -374,11 +368,11 @@ endOfSelectLoop:
     
         ' set the target for the lookup results
         Dim Target
-        Set Target = Item.Offset(0, lColOffset.caption)
+        Set Target = Item.Offset(0, lColOffset.Caption)
         
         ' run the search
         Dim c
-        c = oLdap.Search(frmLdapQuery.lblBaseDN.caption, "(" & searchAttribute & "=" & Item.Value & ")")
+        c = oLdap.Search(frmLdapQuery.lblBaseDN.Caption, "(" & searchAttribute & "=" & Item.Value & ")")
         If c = -1 Then
             Target.Value = oLdap.ErrorString
             Err.Description = oLdap.ErrorString
@@ -484,7 +478,7 @@ Sub AddToolsMenuItem()
     ' Set the properties for the new control
     '
     With CmdBarMenuItem
-        .caption = "Run LDAP Query"
+        .Caption = "Run LDAP Query"
         '.OnAction = "'" & GetInstallDir() & "\macro_template.xlt'!ShowQueryForm"
         .OnAction = "'" & GetInstallDir() & "\ldapquery_addin.xla'!ShowQueryForm"
         .Tag = LdapQueryFormTag
@@ -521,12 +515,25 @@ End Function
 
 
 
-
-
-
-Private Sub Frame2_Click()
-
+Private Sub cbDisplayLdapAttributeNames_Change()
+    Dim regValue As Integer
+    
+    If cbDisplayLdapAttributeNames.Value = True Then
+        regValue = 1
+    Else
+        regValue = 0
+    End If
+    
+    WriteRegValue "displayLdapAttributeNames", regValue, "REG_DWORD"
+    
+    '
+    ' Refresh lists with new setting
+    '
+    PopulateLdapAttributeLists
+    
 End Sub
+
+
 
 Private Sub cbPromptOnOverwrite_Change()
     Dim regValue As Integer
@@ -542,17 +549,12 @@ End Sub
 
 
 
-
-Private Sub frmExistingDataQuery_Click()
-
-End Sub
-
 Private Sub lblBaseDN_Click()
     Unload frmBaseDNChooser ' reset it
     frmBaseDNChooser.Show
     
     If (frmBaseDNChooser.GetSelectedDN <> "") Then
-        lblBaseDN.caption = frmBaseDNChooser.GetSelectedDN
+        lblBaseDN.Caption = frmBaseDNChooser.GetSelectedDN
         lblBaseDN.ControlTipText = frmBaseDNChooser.GetSelectedDN
         
     End If
@@ -573,39 +575,56 @@ Private Sub lblVersion_Click()
     ShellExecute 0, "open", "http://excelldapsearch.sourceforge.net/cgi-bin/version_check/?dll=" & DLLVersion, vbNullString, vbNullString, Empty
 End Sub
 
+
 Private Sub sbColOffset_SpinUp()
-    lColOffset.caption = lColOffset.caption + 1
+    lColOffset.Caption = lColOffset.Caption + 1
 End Sub
 
 Private Sub sbColOffset_SpinDown()
-    lColOffset.caption = lColOffset.caption - 1
+    lColOffset.Caption = lColOffset.Caption - 1
     
-    If lColOffset.caption < 1 Then
-        lColOffset.caption = 1
+    If lColOffset.Caption < 1 Then
+        lColOffset.Caption = 1
     End If
         
 End Sub
+
+
 
 Private Sub tsQueryType_Change()
     
     WriteRegValue "lastTabOpen", tsQueryType.Value, "REG_DWORD"
     
+    frmBlankSheetQuery.Visible = False
+    frmBlankSheetQuery.Enabled = False
+    frmExistingDataQuery.Visible = False
+    frmExistingDataQuery.Enabled = False
+    frmMisc.Visible = False
+    frmMisc.Enabled = False
+    
     If tsQueryType.Value = 0 Then
         frmExistingDataQuery.Visible = True
         frmExistingDataQuery.Enabled = True
-        frmBlankSheetQuery.Visible = False
-        frmBlankSheetQuery.Enabled = False
-    Else
-        frmExistingDataQuery.Visible = False
-        frmExistingDataQuery.Enabled = False
+    ElseIf tsQueryType.Value = 1 Then
         frmBlankSheetQuery.Visible = True
         frmBlankSheetQuery.Enabled = True
+    Else
+        frmMisc.Visible = True
+        frmMisc.Enabled = True
     End If
         
 End Sub
 
 Private Sub UserForm_Initialize()
     
+    '
+    ' Size all the window/components
+    '
+    SetDimensions
+    
+    '
+    ' Start our selection range off with what the user has selected
+    '
     reDataRange.Value = Selection.Address
     
     '
@@ -632,27 +651,18 @@ Private Sub UserForm_Initialize()
     cbSearchAttribute.Value = LdapToHumanAttribute(arUniqueAttributes(1))
     
     '
-    ' fill in the searchable attributes
+    ' fill in the searchable/returnable attributes
     '
-    
-    For i = 1 To NumAttributes()
-        lbReturnAttributes.AddItem arHumanAttributes(i)
-        lbQueryAttributes.AddItem arHumanAttributes(i)
-    Next
-    
-    lbReturnAttributes.AddItem "LDAP DN"
-    lbQueryAttributes.AddItem "LDAP DN"
-    
+    PopulateLdapAttributeLists
     
     '
-    ' position the tab pages and set the active page
+    ' Configure the tabs
     '
-    frmBlankSheetQuery.Top = 42
-    frmBlankSheetQuery.Left = 18
-    frmExistingDataQuery.Top = 42
-    frmExistingDataQuery.Left = 18
-    tsQueryType.Tabs(0).caption = "Add LDAP data to existing rows"
-    tsQueryType.Tabs(1).caption = "Add LDAP entries to a blank sheet"
+    SetDimensions
+    
+    tsQueryType.Tabs(0).Caption = "Add LDAP data to existing rows"
+    tsQueryType.Tabs(1).Caption = "Add LDAP entries to a blank sheet"
+    tsQueryType.Tabs(2).Caption = "Miscellaneous"
    
     Dim LastTabOpen As Integer
     
@@ -663,18 +673,24 @@ Private Sub UserForm_Initialize()
     End If
     
     '
-    ' Set the overwrite checkbox value from the registry
+    ' Set option checkbox values from the registry
     '
-    Dim promptOrNot
-    If ReadRegValue("promptOnOverwrite", promptOrNot) Then
-        If promptOrNot = 1 Then
-            cbPromptOnOverwrite.Value = True
-        Else
-            cbPromptOnOverwrite.Value = False
-        End If
-        
+    Dim regVal
+    ReadRegValueWithDefault "promptOnOverwrite", regVal, 1
+    
+    If regVal = 1 Then
+        cbPromptOnOverwrite.Value = True
+    Else
+        cbPromptOnOverwrite.Value = False
     End If
 
+    ReadRegValueWithDefault "displayLdapAttributeNames", regVal, 0
+     If regVal = 1 Then
+        cbDisplayLdapAttributeNames.Value = True
+    Else
+        cbDisplayLdapAttributeNames.Value = False
+    End If
+    
     
 End Sub
 
@@ -715,3 +731,73 @@ Private Sub EnableControlsAfterSearch()
     tsQueryType.Enabled = True
 End Sub
 
+Private Sub SetDimensions()
+    '
+    ' Main Window
+    '
+    frmLdapQuery.Width = 350
+    frmLdapQuery.Height = 318
+    
+    '
+    ' Tab Container
+    '
+    tsQueryType.Left = 12
+    tsQueryType.Top = 24
+    tsQueryType.Width = 322
+    tsQueryType.Height = 270
+    
+    '
+    ' Inidividual tab pages
+    '
+    Dim tabPageLeft As Integer
+    Dim tabPageTop As Integer
+    Dim tabPageWidth As Integer
+    Dim tabPageHeight As Integer
+    tabPageTop = 42
+    tabPageLeft = 18
+    tabPageWidth = 309
+    tabPageHeight = 246
+    
+    frmBlankSheetQuery.Top = tabPageTop
+    frmBlankSheetQuery.Left = tabPageLeft
+    frmBlankSheetQuery.Width = tabPageWidth
+    frmBlankSheetQuery.Height = tabPageHeight
+    
+    frmExistingDataQuery.Top = tabPageTop
+    frmExistingDataQuery.Width = tabPageWidth
+    frmExistingDataQuery.Height = tabPageHeight
+    frmExistingDataQuery.Left = tabPageLeft
+    
+    frmMisc.Top = tabPageTop
+    frmMisc.Left = tabPageLeft
+    frmMisc.Width = tabPageWidth
+    frmMisc.Height = tabPageHeight
+End Sub
+
+'
+' Populates the ldap attribute lists that are used for selecting which
+' attributes to search on or return from a search
+'
+Sub PopulateLdapAttributeLists()
+    
+    lbReturnAttributes.Clear
+    lbQueryAttributes.Clear
+    
+    Dim showLdapAttributeNames As Integer
+    ReadRegValueWithDefault "displayLdapAttributeNames", showLdapAttributeNames, 0
+
+    Dim i As Integer
+    Dim ldapAttributeNameAppend As String
+    For i = 1 To NumAttributes()
+        If showLdapAttributeNames = 1 Then
+            ldapAttributeNameAppend = "  [" & arLdapAttributes(i) & "]"
+        Else
+            ldapAttributeNameAppend = ""
+        End If
+        lbReturnAttributes.AddItem arHumanAttributes(i) & ldapAttributeNameAppend
+        lbQueryAttributes.AddItem arHumanAttributes(i) & ldapAttributeNameAppend
+    Next
+    
+    lbReturnAttributes.AddItem "LDAP DN"
+    lbQueryAttributes.AddItem "LDAP DN"
+End Sub
