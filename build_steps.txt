@@ -9,7 +9,9 @@ and extract to "ldapsdk" directory.
 
 B) Download and install the NSIS installer from http://nsis.sourceforge.net/Download
 
-C) Visual Studio 2005
+C) Grab the NSIS Access Control plugin http://nsis.sourceforge.net/AccessControl_plug-in
+
+D) Visual Studio 2005 for compiling DLLs
 
 ------------------------------------------------------------------------------------------------------------------
 Steps:

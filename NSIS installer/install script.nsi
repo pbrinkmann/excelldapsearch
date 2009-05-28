@@ -93,6 +93,11 @@ noFileInUse:
   WriteRegStr HKLM "Software\Excel LDAP Search" "installDir" $INSTDIR
   
   ;
+  ; Allow all users (Builtin/Users) write access to this area in the registry
+  ;
+  AccessControl::GrantOnRegKey HKLM "Software\Excel LDAP Search" "(BU)" "FullAccess"
+
+  ;
   ; see if there's an existing "ldap_params.ini" file and rename it if there is
   ;
   IfFileExists "$INSTDIR\ldap_params.ini" 0 ldapParamsRenameEnd
