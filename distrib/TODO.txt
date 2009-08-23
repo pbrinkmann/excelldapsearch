@@ -6,19 +6,26 @@
 Beta 0_57
 5/28/2008
 --new stuff
-[ ] Installs in Vista as non-administrator
-[ ] Easy way to find entries that are missing an attributes
-[ ] Searching continues on if errors are encountered
-[ ] Add data to existing row option can now provide column headers
+[X] Installs (and runs) in Vista as non-administrator
+
 
 --fixes/other
-[ ] Better detection of Excel 2003 and ability to continue install with unknown versions
-[ ] Fixed "Out of Memory" error
-
+[X] Better detection of Excel 2003 and ability to continue install with unknown versions
+[X] Minor UI tweaks
 
 =============================
 -----[ Remaining TODOs ]-----
 =============================
+
+--functional
+[ ] Easy way to find entries that are missing an attribute
+[ ] Searching continues on if errors are encountered (?)
+[ ] Add data to existing row option can now provide column headers
+[ ] Improved UI
+[ ] Ability to save queries
+[ ] Fixed "Out of Memory" error
+[ ] Redo intro video(s) with voice(?) and a faster pace
+
 
 -- code
 [ ] PUT THE VERSION REPORTING CODE BACK (I had to remove it because I lost the version.h file)
