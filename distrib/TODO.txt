@@ -4,7 +4,7 @@
 ============================
 
 Beta 0_57
-5/28/2008
+8/23/2009
 --new stuff
 [X] Installs (and runs) in Vista as non-administrator
 

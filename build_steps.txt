@@ -47,7 +47,7 @@ Steps:
 11) Make sure everything's committed, then tag the project files for this release by creating a tag/branch under https://excelldapsearch.svn.sourceforge.net/svnroot/excelldapsearch/tags/release_0.XX .Make sure you DON'T switch the working copy over to the new tag!
 
 12) Upload distrib\WEB directory to the webserver. All files except version_check go in /home/groups/e/ex/excelldapsearch/htdocs.  
-version_check goes in the cgi-bin directory instead of htdocs.
+version_check goes in the cgi-bin directory instead of htdocs. See https://sourceforge.net/apps/trac/sourceforge/wiki/Project%20web
 
 13) Checkout the latest release tag to a directory to see if it compiles.  You might have to copy in the ldapsdk dir.  This should catch missing files that haven't been checked in.  If the build succeeds, delete this checked out version.
 
