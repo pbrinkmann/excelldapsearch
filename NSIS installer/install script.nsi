@@ -215,6 +215,8 @@ noFileInUseB:
   Delete /REBOOTOK $INSTDIR\msvcm90.dll
   Delete /REBOOTOK $INSTDIR\msvcp90.dll
   Delete /REBOOTOK $INSTDIR\msvcr90.dll
+  Delete /REBOOTOK $INSTDIR\msvcp71.dll
+  Delete /REBOOTOK $INSTDIR\msvcr71.dll
   
   ; remove the Excel menu item
   ExecWait 'cscript "$INSTDIR\remove_excel_menuitem.vbs"'

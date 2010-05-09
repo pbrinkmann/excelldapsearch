@@ -93,12 +93,12 @@ Function AddToolsMenuItem()
 	'
 	Dim excelVersion
 	
-	Select Case excel.Version
+	Select Case Int(excel.Version)
 		Case 12
 			excelVersion = "Excel 2007"
 		Case 11
 			excelVersion = "Excel 2003"
-		Case "11.0"
+		Case 11
 			excelVersion = "Excel 2003"
 		Case 10
 			excelVersion = "Excel XP/2002"

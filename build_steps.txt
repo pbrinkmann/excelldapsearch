@@ -11,7 +11,7 @@ B) Download and install the NSIS installer from http://nsis.sourceforge.net/Down
 
 C) Grab the NSIS Access Control plugin http://nsis.sourceforge.net/AccessControl_plug-in
 
-D) Visual Studio 2005 for compiling DLLs
+D) Visual Studio 2008 for compiling DLLs
 
 ------------------------------------------------------------------------------------------------------------------
 Steps:
