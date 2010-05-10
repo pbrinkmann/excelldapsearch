@@ -118,7 +118,7 @@ backupLoopEnd:
   ;
   ; grab the files in the "distrib" directory
   ;
-  File /r /x .svn /x install_script.vbs /x web /x copyfiles.bat /x current_version.txt ..\distrib\*
+  File /r /x .svn /x web /x copyfiles.bat /x current_version.txt ..\distrib\*
   
   IfErrors 0 afterFileErrors
 	MessageBox MB_OK "File errors ohmy"

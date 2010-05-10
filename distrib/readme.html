@@ -45,7 +45,7 @@
     
   <h2>Version 0.58<br>
   </h2>
-  5/16/2009<br>
+  5/16/2010<br>
   <br>
   <b><a href="https://sourceforge.net/project/platformdownload.php?group_id=216793&sel_platform=6953">download</a></b> | <a href="TODO.txt">change log</a> | 
   <a href="https://sourceforge.net/projects/excelldapsearch/">Sourceforge home</a> 
@@ -55,7 +55,18 @@
   
 </div>
 <p>&nbsp;</p>
-<h3>Overview</h3>
+<h3>Contents</h3>
+<ul>
+<li><a href="#overview">Overview</a>
+<li><a href="#requirements">Requirements</a>
+<li><a href="#installation">Installation Instructions</a>
+<li><a href="#multi-installation">Installation On Multiple Versions of Excel</a>
+<li><a href="#known-issues">Known Issues</a>
+<li><a href="#uninstall">Uninstalling</a>
+<li><a href="#usage">Usage Basics</a>
+</ul>
+
+<a name="overview"><h3>Overview</h3></a>
 <p>
 <div class="imageright">
 	 <img src="readme_images/per_row_results.png">
@@ -81,44 +92,63 @@
  </div>
 <div class="spacer">&nbsp;</div>
    
-<h3>Requirements</h3>
-<p>I've tested querying OpenLDAP and Active Directory with the following:<br>
+<a name="requirements"><h3>Requirements</h3></a>
+
+<b>Windows Versions (both 32-bit and 64-bit should work)</b>
 <ul>
-<li>Windows XP/Vista
-	<ul>
-	<li>Excel 2003</li>
-	<li>Excel 2007</li>
-	</ul>
-<li>Windows 2000</li>
-	<ul>
-	<li>Excel 2000</li>
-	</ul>
+<li>Windows 2000
+<li>XP
+<li>Vista *
+<li>7 *
 </ul>
-It uses the <a href="http://www.mozilla.org/directory/csdk-docs/">Mozilla 
-  LDAP SDK</a> so it should work with any LDAP-v3 compliant directory server, 
-  and Excel 2000 (97?) to 2007.
+
+<p>
+<b>* - </b>Note that with Vista and 7, you'll be unable to edit the config file when opened from ELS.
+You'll need to edit the config file w/administrative privileges (it's in the install dir)
+</p>
+
+<b>Office Versions (I've only tested on English versions)</b>
+<ul>
+<li>?97?
+<li>2000
+<li>XP (untested)
+<li>2003
+<li>2007	
+</ul>
+
+
+
+<p>It uses the <a href="http://www.mozilla.org/directory/csdk-docs/">Mozilla 
+  LDAP SDK</a> so it should work with any LDAP-v3 compliant directory server.
   <b>If ELS doesn't work with your directory server, please 
   <a href="https://sourceforge.net/tracker/?func=add&group_id=216793&atid=1038344">
   click here to submit a bug report online</a>.</b> It takes all of 30 seconds, 
   and you can help out the next person who'd encounter the same problem as you.
 </p>
   
-  <h3>Installation Instructions</h3>
+<a name="installation"><h3>Installation Instructions</h3></a>
 Make sure all instances of Excel are closed.
 <p> Run the <em>excelldapsearchinstall_x_y.exe</em> file. This will copy the necessary 
   files, and register everything with the system. It also opens up the config 
   file where you can specify your connection parameters. </p>
+  
+<a name="multi-installation"><h3>Installing on Multiple Versions of Excel</h3></a>
 <p>If you have multiple versions of Excel installed, only the latest will have 
-  the Tools menu item registered. To manually enable it in an older version, use 
-  that version to open the &quot;ldapquery_addin.xla&quot; document in the directory 
-  where Excel LDAP Search was installed. Press ALT-F11 to enter the macro editor and
-  select the &quot;ldapquery_addin.xla&quot; project from the project explorer (if the project explorer 
-  isn't displayed, look under the &quot;View&quot; menu).  Expand the &quot;Modules&quot; item and doubleclick
-  &quot;ldapQueryFormMacro&quot;.  Look for the &quot;Sub AddToolsMenuItem()&quot; line, click anywhere on it
-  with the mouse, then from the menu bar select "Run->Run Sub/User Form" or click the toolbar button with the play icon.</p>
+  the Tools menu item registered. To manually enable it in an older version:
+  
+  <ul>
+  <li>Open the &quot;ldapquery_addin.xla&quot; document in the ELS install directory with the older version of Excel 
+  <li>Press ALT-F11 to enter the macro editor
+  <li>Select the &quot;ldapquery_addin.xla&quot; project from the project explorer (if the project explorer 
+  isn't displayed, look under the &quot;View&quot; menu).
+  <li>Expand the &quot;Modules&quot; item and doubleclick
+  &quot;ldapQueryFormMacro&quot;.
+  <li>Look for the &quot;Sub AddToolsMenuItem()&quot; line, click anywhere on it
+  with the mouse (or select AddToolsMenuItem from the Declarations dropdown on the top/right)
+  <li>Then from the menu bar select "Run->Run Sub/User Form" or click the toolbar button with the play icon.</p>
+ </ul>
  
- 
- <h3>Known Issues</h3>
+ <a name="known-issues"><h3>Known Issues</h3></a>
  On some systems, the error message <b>"Compile error: Can't find project or library"</b> will be displayed.
  This indicates Excel is referencing a module that doesn't exist.  The solution is to start the macro editor by pressing ALT-F11, then
  open the "Tools" menu and select "References...".  If the "References..." item is greyed out, reset the project first by
@@ -127,7 +157,7 @@ Make sure all instances of Excel are closed.
  in Microsoft <a href="http://support.microsoft.com/kb/q208218/">KB208218</a>.
 
  
- <h3>Uninstall Instructions</h3>
+ <a name="uninstall"><h3>Uninstall Instructions</h3></a>
 Make sure all instances of Excel are closed<br>
 <p> Remove via Control Panel->Add/Remove Programs. </p>
 <p>If you manually added the Tools &quot;Run LDAP Search&quot; menu item to more 
@@ -142,7 +172,7 @@ Excel 2007 users - since there is no "Tools" menu in 2007, this ends up showing 
 "Add Ins" ribbon bar thingy, but seems to work just fine.
 </p>
 
-<ul><li>Adding LDAP Data to Existing Excel Data</li></ul>
+<a name="usage>"><ul><li>Adding LDAP Data to Existing Excel Data</li></ul></a>
 <p>The default option is to &quot;Add LDAP data to existing rows&quot; which requires 
   a column of data where each row has an item that uniquely identfies a user (ex., 
   a column of user IDs or e-mail addresses). If you want to get more information 

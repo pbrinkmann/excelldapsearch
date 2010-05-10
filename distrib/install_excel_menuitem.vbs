@@ -13,9 +13,9 @@ Dim installDir	' installation directory
 
 
 '
-' Fetch the installation directory from the registry
+' Fetch the installation directory from the registry (sets global installDir var)
 '
-r = SetInstallDir()
+r = GetInstallDir()
 
 if not r then
 	MsgBox errMsg, vbCritical, "Excel LDAP Query Install Failed"
@@ -42,7 +42,7 @@ Wscript.Quit(0)  ' successfull completion
 '
 
 
-Function SetInstallDir()
+Function GetInstallDir()
 	Dim WshShell
 	Set WshShell = WScript.CreateObject("WScript.Shell")
 	
@@ -85,8 +85,6 @@ Function AddToolsMenuItem()
 		AddToolsMenuItem = False
 		exit Function
 	End If
-	
-	On Error GoTo 0
 	
 	'
 	' get the Excel version, and make sure it's a valid one.
@@ -132,43 +130,61 @@ Function AddToolsMenuItem()
     Dim LdapQueryFormTag
     LdapQueryFormTag = "LdapQueryShowFormMenuItem"
     
-    Dim CmdBar
-    Dim CmdBarMenu
-    Dim CmdBarMenuItem
+    Dim commandBar
+	Dim toolsMenu
+	Dim ldapMenuItem
     
     '
     ' Point to the Worksheet Menu Bar
     '
-    Set CmdBar = excel.Application.CommandBars("Worksheet Menu Bar")
+    Set commandBar = excel.Application.CommandBars("Worksheet Menu Bar")
     
+	If Err.Number Then
+        MsgBox "Unable to find the ""Worksheet Menu Bar""" _
+        & vbCr & "Is this a non-English version of Excel?" _
+        & vbCr & vbCr & "Please contact the Excel LDAP Search author for help" _
+        & vbCr & "http://excelldapsearch.sourceforge.net", vbCritical
+        AddToolsMenuItem = False
+		exit Function
+    End If
+	
     '
     ' Point to the Tools menu on the menu bar
     '
-    Set CmdBarMenu = CmdBar.Controls("Tools")
+    Set toolsMenu = commandBar.Controls("Tools")
+	
+	If Err.Number <> 0 Then
+        MsgBox "Unable to find the ""Tools"" menu item" _
+        & vbCr & "Is this a non-English version of Excel?" _
+        & vbCr & vbCr & "Please contact the Excel LDAP Search author for help" _
+        & vbCr & "http://excelldapsearch.sourceforge.net", vbCritical
+        AddToolsMenuItem = False
+		exit Function
+    End If
+	
     
+	' no more manual error checking
+    On Error GoTo 0
+	
     '
     ' See if we already have an item in there, and nuke it if it's there
     '
-
-	Dim toolsMenu
-	Dim ldapMenuItem
-	set toolsMenu = excel.Application.CommandBars("Tools")
 	set ldapMenuItem = toolsMenu.FindControl(,,"LdapQueryShowFormMenuItem")
 
 	if not ldapMenuItem is Nothing then
 		ldapMenuItem.delete
+		Set ldapMenuItem = Nothing
 	end if
-
-    
+		
     '
     ' Add a new menu item to the Tools menu
     '
-    Set CmdBarMenuItem = CmdBarMenu.Controls.Add
+    Set ldapMenuItem = toolsMenu.Controls.Add
     
     '
     ' Set the properties for the new control
     '
-    With CmdBarMenuItem
+    With ldapMenuItem
         .Caption = "Run LDAP Search"
         .OnAction = "'" & installDir & "\ldapquery_addin.xla'!ShowQueryForm"
         .Tag = LdapQueryFormTag

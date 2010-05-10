@@ -448,20 +448,39 @@ Sub AddToolsMenuItem()
     Dim CmdBarMenu As CommandBarControl
     Dim CmdBarMenuItem As CommandBarControl
     
+    On Error Resume Next
+    Err.Clear
+    
     '
     ' Point to the Worksheet Menu Bar
     '
     Set CmdBar = Application.CommandBars("Worksheet Menu Bar")
+    
+    If Err.Number <> 0 Then
+        MsgBox "Unable to find the ""Worksheet Menu Bar""" _
+        & vbCr & "Is this a non-English version of Excel?" _
+        & vbCr & vbCr & "Please contact the Excel LDAP Search author for help" _
+        & vbCr & "http://excelldapsearch.sourceforge.net", vbCritical
+        Exit Sub
+    End If
     
     '
     ' Point to the Tools menu on the menu bar
     '
     Set CmdBarMenu = CmdBar.Controls("Tools")
     
+    If Err.Number <> 0 Then
+        MsgBox "Unable to find the ""Tools"" menu item" _
+        & vbCr & "Is this a non-English version of Excel?" _
+        & vbCr & vbCr & "Please contact the Excel LDAP Search author for help" _
+        & vbCr & "http://excelldapsearch.sourceforge.net", vbCritical
+        Exit Sub
+    End If
+    
     '
     ' See if we already have an item in there, and exit if we do
     '
-    On Error Resume Next
+    
     Dim CmdCtrl As CommandBarControl
     For Each CmdCtrl In Application.CommandBars.FindControls(Tag:=LdapQueryFormTag)
         If Not CmdCtrl Is Nothing Then ' for some reason, we always get one iteration through the foreach with a "nothing" object
@@ -469,6 +488,8 @@ Sub AddToolsMenuItem()
         End If
     Next CmdCtrl
     
+    On Error GoTo 0 ' resume next needs to remain for the above loop, for some long ago forgotten reason
+        
     '
     ' Add a new menu item to the Tools menu
     '
@@ -484,7 +505,6 @@ Sub AddToolsMenuItem()
         .Tag = LdapQueryFormTag
     End With
     
-
 End Sub
 
 Private Function GetInstallDir()

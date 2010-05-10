@@ -38,7 +38,7 @@ Sub ShowQueryForm()
     '
     ' load up the values from the config file
     '
-    If initAttributeNames <> True Then
+    If initAttributeNames() <> True Then
         Exit Sub
     End If
     
@@ -46,6 +46,13 @@ Sub ShowQueryForm()
 End Sub
 
 Sub AddToolsMenuItem()
+    '
+    ' load up the values from the config file
+    '
+    If initAttributeNames() <> True Then
+        Exit Sub
+    End If
+    
     frmLdapQuery.AddToolsMenuItem
 End Sub
 

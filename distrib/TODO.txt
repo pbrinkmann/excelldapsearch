@@ -9,6 +9,7 @@ Beta 0_58
 
 --fixes/other
 [X] Attempt to fix problems with 0_57 not installing on everyone's system
+[X] Fix "Run-time error '9': Subscript out of range" error when trying to add menu item using the "AddMenuItem" macro
 
 
 =============================
