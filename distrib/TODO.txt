@@ -4,11 +4,12 @@
 ============================
 
 Beta 0_58
-8/23/2009
+05/16/2010
 --new stuff
+[X] (from pulled 0_57 version) Should install in Vista/7
 
 --fixes/other
-[X] Attempt to fix problems with 0_57 not installing on everyone's system
+[X] Fix problem with 0_57 where menu item wouldn't appear
 [X] Fix "Run-time error '9': Subscript out of range" error when trying to add menu item using the "AddMenuItem" macro
 
 

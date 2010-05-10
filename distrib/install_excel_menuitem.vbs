@@ -56,7 +56,7 @@ Function GetInstallDir()
 	
 	if Err <> 0 Then
 		errMsg = "ERROR: Failed to read the installation directory from the registry"
-		SetInstallDir = false
+		GetInstallDir = false
 		exit Function
 	End If
 	
@@ -64,7 +64,7 @@ Function GetInstallDir()
 	
 	installDir = regValue
 	
-	SetInstallDir = true
+	GetInstallDir = true
 
 End Function
 
@@ -140,10 +140,10 @@ Function AddToolsMenuItem()
     Set commandBar = excel.Application.CommandBars("Worksheet Menu Bar")
     
 	If Err.Number Then
-        MsgBox "Unable to find the ""Worksheet Menu Bar""" _
+        errMsg = "Unable to find the ""Worksheet Menu Bar""" _
         & vbCr & "Is this a non-English version of Excel?" _
         & vbCr & vbCr & "Please contact the Excel LDAP Search author for help" _
-        & vbCr & "http://excelldapsearch.sourceforge.net", vbCritical
+        & vbCr & "http://excelldapsearch.sourceforge.net"
         AddToolsMenuItem = False
 		exit Function
     End If
@@ -154,10 +154,10 @@ Function AddToolsMenuItem()
     Set toolsMenu = commandBar.Controls("Tools")
 	
 	If Err.Number <> 0 Then
-        MsgBox "Unable to find the ""Tools"" menu item" _
+        errMsg =  "Unable to find the ""Tools"" menu item" _
         & vbCr & "Is this a non-English version of Excel?" _
         & vbCr & vbCr & "Please contact the Excel LDAP Search author for help" _
-        & vbCr & "http://excelldapsearch.sourceforge.net", vbCritical
+        & vbCr & "http://excelldapsearch.sourceforge.net"
         AddToolsMenuItem = False
 		exit Function
     End If
@@ -169,7 +169,7 @@ Function AddToolsMenuItem()
     '
     ' See if we already have an item in there, and nuke it if it's there
     '
-	set ldapMenuItem = toolsMenu.FindControl(,,"LdapQueryShowFormMenuItem")
+	set ldapMenuItem = commandBar.FindControl(,,"LdapQueryShowFormMenuItem")
 
 	if not ldapMenuItem is Nothing then
 		ldapMenuItem.delete
