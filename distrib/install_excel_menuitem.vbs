@@ -163,18 +163,30 @@ Function AddToolsMenuItem()
     End If
 	
     
-	' no more manual error checking
-    On Error GoTo 0
-	
     '
     ' See if we already have an item in there, and nuke it if it's there
     '
-	set ldapMenuItem = commandBar.FindControl(,,"LdapQueryShowFormMenuItem")
+    Dim toolsCmdBar ' (how/why is this different than the toolsMenu control?)
+    Set toolsCmdBar = excel.Application.CommandBars("Tools")
+
+   	If Err.Number <> 0 Then
+        errMsg =  "Unable to find the ""Tools"" command bar" _
+        & vbCr & "Is this a non-English version of Excel?" _
+        & vbCr & vbCr & "Please contact the Excel LDAP Search author for help" _
+        & vbCr & "http://excelldapsearch.sourceforge.net"
+        AddToolsMenuItem = False
+		exit Function
+    End If
+	
+	set ldapMenuItem = toolsCmdBar.FindControl(,,"LdapQueryShowFormMenuItem")
 
 	if not ldapMenuItem is Nothing then
 		ldapMenuItem.delete
 		Set ldapMenuItem = Nothing
 	end if
+		
+	' no more manual error checking
+    On Error GoTo 0
 		
     '
     ' Add a new menu item to the Tools menu
