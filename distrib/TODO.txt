@@ -9,7 +9,7 @@ Beta 0_58
 [X] (from pulled 0_57 version) Should install in Vista/7
 
 --fixes/other
-[X] Fix problem with 0_57 where menu item wouldn't appear
+[X] Added more error checking when installing menu item
 [X] Fix "Run-time error '9': Subscript out of range" error when trying to add menu item using the "AddMenuItem" macro
 
 
@@ -25,7 +25,7 @@ Beta 0_58
 [ ] Ability to save queries
 [ ] Fixed "Out of Memory" error
 [ ] Redo intro video(s) with voice(?) and a faster pace
-
+[ ] Move config file to proper %USER% location so it can be edited on Vista/7
 
 -- code
 [ ] REFACTOR THIS MESS.  Pull things out into user classes or modules.  It's gettting too hard to location stuff in the source
@@ -52,7 +52,6 @@ Beta 0_58
 [ ] If Excel isn't on the computer, the ELS installation dies horribly near the end and the installer leaves files and registry entries with no uninstaller.  But why are you trying to install this without Excel?
 		
 -- documentation/other
-[ ] Test on Windows Vista
 [ ] Get an icon for the project
 
 
