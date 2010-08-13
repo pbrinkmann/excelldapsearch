@@ -241,6 +241,7 @@ noFileInUseB:
   Delete $INSTDIR\license.txt
   Delete $INSTDIR\COPYING
   Delete $INSTDIR\readme.html
+  Delete $INSTDIR\jquery.corner.js
   Delete $INSTDIR\TODO.txt
   Delete $INSTDIR\uninstall.exe
     

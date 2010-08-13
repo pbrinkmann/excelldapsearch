@@ -7,6 +7,8 @@ del web\TODO.txt
 del web\current_versions
 copy readme.html web\index.html
 @if ERRORLEVEL 1 GOTO kaboom
+copy jquery.corner.js web\
+@if ERRORLEVEL 1 GOTO kaboom
 copy TODO.txt web
 @if ERRORLEVEL 1 GOTO kaboom
 copy current_version.txt web\current_version

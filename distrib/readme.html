@@ -35,6 +35,13 @@
 .spacer {
 	clear: both;
 }
+
+h3 {
+	background-color: skyblue;
+	padding: .5em;
+	padding-left: 2em;
+	color: white;
+}
 -->
 </style>
 </head>
@@ -163,7 +170,9 @@ Make sure all instances of Excel are closed<br>
 <p>If you manually added the Tools &quot;Run LDAP Search&quot; menu item to more 
   than one version of Excel, you can remove it by clicking &quot;Tools-&gt;Customize...&quot;, 
   then opening the Tools menu again and dragging the menu item off.</p>
-<h3>Usage</h3>
+
+  
+<a name="usage"><h3>Usage</h3></a>
 <p>After install, fire up Excel and take a peek under the &quot;Tools&quot; menu. 
   There should be a &quot;Run LDAP Search&quot; menu item now. Click that to bring 
   up the search GUI. </p>
@@ -172,7 +181,7 @@ Excel 2007 users - since there is no "Tools" menu in 2007, this ends up showing 
 "Add Ins" ribbon bar thingy, but seems to work just fine.
 </p>
 
-<a name="usage>"><ul><li>Adding LDAP Data to Existing Excel Data</li></ul></a>
+<ul><li>Adding LDAP Data to Existing Excel Data</li></ul>
 <p>The default option is to &quot;Add LDAP data to existing rows&quot; which requires 
   a column of data where each row has an item that uniquely identfies a user (ex., 
   a column of user IDs or e-mail addresses). If you want to get more information 
@@ -201,5 +210,12 @@ Excel 2007 users - since there is no "Tools" menu in 2007, this ends up showing 
 <p>Select which attribute(s) you want returned and click the search button:</p>
 <p><img src="readme_images/return_attributes_freeform.png" width="235" height="104"></p>
 <p>&nbsp;</p>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="jquery.corner.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("h3").corner();
+	});
+</script>
 </body>
 </html>
