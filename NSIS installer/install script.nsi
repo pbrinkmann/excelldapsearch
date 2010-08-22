@@ -26,14 +26,14 @@ SetCompressor /SOLID lzma
 Name "Excel LDAP Search"
 
 ; Version #
-VIProductVersion "0.0.5.8"
+VIProductVersion "0.0.5.9"
 VIAddVersionKey /LANG=${LANG_ENGLISH} "ProductName" "Excel LDAP Search"
 VIAddVersionKey /LANG=${LANG_ENGLISH} "Comments" "An Excel add-in to perform LDAP searches"
 VIAddVersionKey /LANG=${LANG_ENGLISH} "FileDescription" "Excel LDAP Search installer"
-VIAddVersionKey /LANG=${LANG_ENGLISH} "FileVersion" "0.0.5.8"
+VIAddVersionKey /LANG=${LANG_ENGLISH} "FileVersion" "0.0.5.9"
 
 ; The file to write
-OutFile "ExcelLdapSearchInstall_0_58.exe"
+OutFile "ExcelLdapSearchInstall_0_59.exe"
 
 
 ; The default installation directory

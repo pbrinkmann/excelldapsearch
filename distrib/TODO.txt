@@ -3,14 +3,10 @@
 -----[ Latest Release ]-----
 ============================
 
-Beta 0_58
-05/16/2010
---new stuff
-[X] (from pulled 0_57 version) Should install in Vista/7
-
+Beta 0_59
+8/21/2010
 --fixes/other
-[X] Added more error checking when installing menu item
-[X] Fix "Run-time error '9': Subscript out of range" error when trying to add menu item using the "AddMenuItem" macro
+[X] Installs on non-English versions of Excel
 
 
 =============================
@@ -58,6 +54,15 @@ Beta 0_58
 ===============================
 -----[ Previous Releases ]-----
 ===============================
+
+Beta 0_58
+05/16/2010
+--new stuff
+[X] (from pulled 0_57 version) Should install in Vista/7
+
+--fixes/other
+[X] Added more error checking when installing menu item
+[X] Fix "Run-time error '9': Subscript out of range" error when trying to add menu item using the "AddMenuItem" macro
 
 Beta 0_57
 8/23/2009

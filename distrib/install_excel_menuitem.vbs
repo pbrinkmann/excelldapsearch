@@ -55,9 +55,19 @@ Function GetInstallDir()
 	regValue = WshShell.RegRead(regKey)
 	
 	if Err <> 0 Then
-		errMsg = "ERROR: Failed to read the installation directory from the registry"
-		GetInstallDir = false
-		exit Function
+	
+		'let's check for 32bit installer on 64 bits
+		Err.Clear
+		
+		regKey = "HKLM\SOFTWARE\Wow6432Node\Excel LDAP Search\installDir"
+		regValue = WshShell.RegRead(regKey)
+		
+		if Err <> 0 Then
+		
+			errMsg = "ERROR: Failed to read the installation directory from the registry"
+			GetInstallDir = false
+			exit Function
+		End If
 	End If
 	
 	On Error Goto 0
@@ -85,6 +95,9 @@ Function AddToolsMenuItem()
 		AddToolsMenuItem = False
 		exit Function
 	End If
+	
+	' no more manual error checking
+    On Error GoTo 0
 	
 	'
 	' get the Excel version, and make sure it's a valid one.
@@ -130,16 +143,16 @@ Function AddToolsMenuItem()
     Dim LdapQueryFormTag
     LdapQueryFormTag = "LdapQueryShowFormMenuItem"
     
-    Dim commandBar
+    Dim worksheetMenuBar
 	Dim toolsMenu
 	Dim ldapMenuItem
     
     '
-    ' Point to the Worksheet Menu Bar
+    ' Point to the Worksheet Menu Bar.
     '
-    Set commandBar = excel.Application.CommandBars("Worksheet Menu Bar")
-    
-	If Err.Number Then
+    Set worksheetMenuBar = GetWorksheetMenuBar(excel)
+
+	If worksheetMenuBar is Nothing Then
         errMsg = "Unable to find the ""Worksheet Menu Bar""" _
         & vbCr & "Is this a non-English version of Excel?" _
         & vbCr & vbCr & "Please contact the Excel LDAP Search author for help" _
@@ -151,9 +164,9 @@ Function AddToolsMenuItem()
     '
     ' Point to the Tools menu on the menu bar
     '
-    Set toolsMenu = commandBar.Controls("Tools")
-	
-	If Err.Number <> 0 Then
+    Set toolsMenu = worksheetMenuBar.Controls("Tools")
+
+	If toolsMenu Is Nothing Then
         errMsg =  "Unable to find the ""Tools"" menu item" _
         & vbCr & "Is this a non-English version of Excel?" _
         & vbCr & vbCr & "Please contact the Excel LDAP Search author for help" _
@@ -161,15 +174,15 @@ Function AddToolsMenuItem()
         AddToolsMenuItem = False
 		exit Function
     End If
-	
+
     
     '
     ' See if we already have an item in there, and nuke it if it's there
     '
     Dim toolsCmdBar ' (how/why is this different than the toolsMenu control?)
-    Set toolsCmdBar = excel.Application.CommandBars("Tools")
+    Set toolsCmdBar =  GetToolsCommandBar(excel)
 
-   	If Err.Number <> 0 Then
+   	If toolsCmdBar Is Nothing Then
         errMsg =  "Unable to find the ""Tools"" command bar" _
         & vbCr & "Is this a non-English version of Excel?" _
         & vbCr & vbCr & "Please contact the Excel LDAP Search author for help" _
@@ -184,9 +197,7 @@ Function AddToolsMenuItem()
 		ldapMenuItem.delete
 		Set ldapMenuItem = Nothing
 	end if
-		
-	' no more manual error checking
-    On Error GoTo 0
+
 		
     '
     ' Add a new menu item to the Tools menu
@@ -216,4 +227,44 @@ Function AddToolsMenuItem()
 
 End Function
 
+' We need to iterate through all the items
+' and check the "Name" property as opposed to doing a direct lookup - CommandBars("NAME") -
+' to work properly with international versions
+Function GetWorksheetMenuBar(excel)
+	For Each cmdBar In excel.Application.CommandBars
+		If cmdBar.Name = "Worksheet Menu Bar" Then
+			Set GetWorksheetMenuBar = cmdBar
+			Exit Function 
+		End If
+	Next
+	
+	Set GetWorksheetMenuBar = Nothing
+End Function
 
+Function GetToolsMenu(worksheetMenuBar)
+	On Error Resume Next
+	Err.Clear
+	
+	Set GetToolsMenu = worksheetMenuBar.Controls("Tools")
+	
+	If Err.Number Then
+		Set GetToolsMenu = Nothing
+	End If
+	
+	On Error Goto 0
+	
+End Function
+
+Function GetToolsCommandBar(excel)
+	On Error Resume Next
+	Err.Clear
+	
+	Set GetToolsCommandBar =  excel.Application.CommandBars("Tools")
+	
+	If Err.Number Then
+		Set GetToolsCommandBar = Nothing
+	End If
+	
+	On Error Goto 0
+	
+End Function
