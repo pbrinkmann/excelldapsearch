@@ -1,4 +1,4 @@
-
+Option Explicit
 
 '
 ' Removes the Excel "Run LDAP Search" menu item

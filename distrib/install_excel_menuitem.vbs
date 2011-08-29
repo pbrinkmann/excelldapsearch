@@ -1,4 +1,4 @@
-
+Option Explicit
 
 '
 ' Installs the Excel "LDAP Search" menu item
@@ -107,8 +107,6 @@ Function AddToolsMenuItem()
 	Select Case Int(excel.Version)
 		Case 12
 			excelVersion = "Excel 2007"
-		Case 11
-			excelVersion = "Excel 2003"
 		Case 11
 			excelVersion = "Excel 2003"
 		Case 10
@@ -231,6 +229,8 @@ End Function
 ' and check the "Name" property as opposed to doing a direct lookup - CommandBars("NAME") -
 ' to work properly with international versions
 Function GetWorksheetMenuBar(excel)
+	Dim cmdBar
+	
 	For Each cmdBar In excel.Application.CommandBars
 		If cmdBar.Name = "Worksheet Menu Bar" Then
 			Set GetWorksheetMenuBar = cmdBar
