@@ -103,8 +103,11 @@ Function AddToolsMenuItem()
 	' get the Excel version, and make sure it's a valid one.
 	'
 	Dim excelVersion
+	excelVersion = CInt(excel.Version)
 	
-	Select Case Int(excel.Version)
+	Select Case excelVersion
+		Case 14
+			excelVersion = "Excel 2010"
 		Case 12
 			excelVersion = "Excel 2007"
 		Case 11
@@ -115,7 +118,7 @@ Function AddToolsMenuItem()
 			excelVersion = "Excel 2000"
 		Case 8
 			excelVersion = "Excel 97"
-		Case 13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30 ' that's a lot of future versions (why doesn't 13 To 100 work?)
+		Case 15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30 ' that's a lot of future versions (why doesn't 13 To 100 work?)
 			excelVersion = "Version " & excel.Version
 			if MsgBox("It appears you have a new version of Excel(" & excelVersion & ") that hasn't been tested." & vbCr & "Do you with to continue with this install?", vbYesNo, "Unkown Excel Version") = vbNo then
 				errMsg = "User aborted install due to unknown Excel version"
@@ -129,7 +132,7 @@ Function AddToolsMenuItem()
 			exit Function
 		Case Else
 			excelVersion = "Version Unknown"
-			MsgBox "Your Excel version was reported as """ & excel.Version & """, which is an unrecognized version", vbError, "Unsupported Excel Version"
+			MsgBox "Your Excel version was reported as """ & excel.Version & """ (" & excelVersion & "), which is an unrecognized version", vbError, "Unsupported Excel Version"
 			if MsgBox("Do you with to try and continue with this install?", vbYesNo, "Unkown Excel Version") = vbNo then
 				errMsg = "User aborted install due to unknown Excel version"
 				AddToolsMenuItem = False
